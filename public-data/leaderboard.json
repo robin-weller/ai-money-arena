@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T11:17:33.137Z",
+  "generatedAt": "2026-04-14T12:17:57.295Z",
   "agents": [
     {
       "name": "agent-a",
@@ -8,17 +8,17 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "retry_next_run",
-      "lastRunAt": "2026-04-14T11:17:21.853Z",
-      "lastProductTitle": "AI-Powered Social Media Content Calendar",
-      "lastListingTitle": "AI Social Media Content Calendar Template Pack | Boost Engagement",
-      "lastPrice": 0,
-      "lastProductType": "template pack",
-      "lastNiche": "Social Media Marketing",
-      "lastConfidence": 0,
+      "lastAction": "create a product outline",
+      "lastRunAt": "2026-04-14T12:17:45.200Z",
+      "lastProductTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+      "lastListingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+      "lastPrice": 19.99,
+      "lastProductType": "prompt pack",
+      "lastNiche": "AI Content Generation",
+      "lastConfidence": 0.9,
       "lastDuplicateStatus": "original",
-      "stage": "publish",
-      "lastProgressMode": "progressing"
+      "stage": "idea",
+      "lastProgressMode": "pivoting"
     },
     {
       "name": "agent-b",
@@ -27,16 +27,16 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a product outline",
-      "lastRunAt": "2026-04-14T11:17:15.504Z",
+      "lastAction": "retry_next_run",
+      "lastRunAt": "2026-04-14T12:17:43.665Z",
       "lastProductTitle": "AI-Powered Social Media Post Generator",
       "lastListingTitle": "AI Social Media Post Prompts for Business Growth",
       "lastPrice": 0,
       "lastProductType": "prompt pack",
       "lastNiche": "B2B Social Media Marketing",
-      "lastConfidence": 0.9,
+      "lastConfidence": 0,
       "lastDuplicateStatus": "original",
-      "stage": "outline",
+      "stage": "content",
       "lastProgressMode": "progressing"
     },
     {
@@ -46,17 +46,17 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "retry_next_run",
-      "lastRunAt": "2026-04-14T11:17:19.603Z",
-      "lastProductTitle": "AI-Powered Social Media Content Planner",
-      "lastListingTitle": "AI Social Media Content Planner Template Pack: Boost Engagement",
-      "lastPrice": 0,
-      "lastProductType": "template pack",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T12:17:42.635Z",
+      "lastProductTitle": "AI Social Media Post Prompt Pack",
+      "lastListingTitle": "AI Social Media Post Prompts: Effortless Content Ideas",
+      "lastPrice": 7,
+      "lastProductType": "prompt pack",
       "lastNiche": "social media marketing",
-      "lastConfidence": 0,
+      "lastConfidence": 0.9,
       "lastDuplicateStatus": "original",
-      "stage": "publish",
-      "lastProgressMode": "progressing"
+      "stage": "idea",
+      "lastProgressMode": "pivoting"
     }
   ]
 }

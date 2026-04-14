@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-04-14T12:17:45.200Z",
+  "agent": "agent-a",
+  "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+  "productType": "prompt pack",
+  "niche": "AI Content Generation",
+  "targetBuyer": "Social Media Managers & Content Creators",
+  "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+  "shortDescription": "Unlock effortless social media content creation with our AI prompt pack. Generate engaging posts in minutes for any platform.",
+  "priceSuggestion": "competitive",
+  "price": 19.99,
+  "description": "Struggling to consistently create engaging social media content? This AI-Powered Social Media Post Generator Prompt Pack is your solution. Designed for social media managers and content creators, this pack provides a curated collection of effective prompts to harness the power of AI for generating high-quality posts across various platforms. Save time, overcome writer's block, and boost your social media presence with AI-driven creativity.",
+  "bullets": [
+    "Generate diverse post types (engagement, promotional, educational, etc.)",
+    "Adapt prompts for different social media platforms (Instagram, Facebook, Twitter, LinkedIn)",
+    "Experiment with various tones and styles (humorous, professional, informative)",
+    "Overcome writer's block with ready-to-use, effective AI prompts",
+    "Save hours on content ideation and drafting",
+    "Ideal for social media managers, freelancers, and small businesses"
+  ],
+  "publishInstructions": "To publish, create a PDF document containing the structured prompts. Ensure clear headings for each prompt category and type. Add a brief introduction explaining how to use the prompts effectively with popular AI models.",
+  "fileContent": "{\n  \"outline\": [\n    {\n      \"section\": \"Introduction\",\n      \"content\": \"Welcome to the AI-Powered Social Media Post Generator Prompt Pack. This guide provides effective prompts to generate diverse and engaging social media content using AI models like GPT-3/4.\"\n    },\n    {\n      \"section\": \"How to Use These Prompts\",\n      \"content\": \"For best results, provide context about your brand, target audience, and desired outcome. Experiment with prompt variations.\"\n    },\n    {\n      \"section\": \"Prompt Categories\",\n      \"subsections\": [\n        {\n          \"title\": \"Engagement Prompts\",\n          \"description\": \"Designed to spark conversations and encourage audience interaction.\",\n          \"prompts\": [\n            \"Generate a thought-provoking question about [industry topic] for LinkedIn.\",\n            \"Create an engaging poll for Instagram Stories related to [product/service].\",\n            \"Draft a 'caption this' post for Facebook using the image of [describe image].\",\n            \"Write a fun Twitter thread starter about [common pain point].\"\n          ]\n        },\n        {\n          \"title\": \"Promotional Prompts\",\n          \"description\": \"Focuses on highlighting products, services, or special offers.\",\n          \"prompts\": [\n            \"Craft a persuasive Instagram caption announcing a [discount]% off sale on [product].\",\n            \"Write a short, attention-grabbing ad copy for Facebook promoting our new [service].\",\n            \"Develop a LinkedIn post highlighting the benefits of our [product feature].\",\n            \"Create a teaser tweet for an upcoming [event/launch].\"\n          ]\n        },\n        {\n          \"title\": \"Educational/Informative Prompts\",\n          \"description\": \"Aims to provide value and establish expertise.\",\n          \"prompts\": [\n            \"Generate a quick tip about [skill/topic] for Twitter.\",\n            \"Write a concise explanation of [complex concept] for a Facebook post.\",\n            \"Develop an Instagram carousel post outline on '[how-to] for [target audience]'.\",\n            \"Create a LinkedIn article idea about industry trends in [niche].\"\n          ]\n        }\n      ]\n    },\n    {\n      \"section\": \"Tone and Style Variations\",\n      \"content\": \"Modify prompts to achieve specific tones: humorous, professional, urgent, empathetic, inspirational.\"\n    },\n    {\n      \"section\": \"Platform-Specific Optimization Tips\",\n      \"content\": \"Consider character limits, hashtag usage, and optimal content formats for each platform.\"\n    }\n  ]\n}",
+  "confidence": 0.9,
+  "action": "create a product outline",
+  "reason": "Pivoting from template pack to prompt pack for AI-Powered Social Media Content, as this is a more direct application of AI capabilities for content generation."
+}
