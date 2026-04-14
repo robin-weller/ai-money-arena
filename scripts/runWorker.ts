@@ -25,17 +25,17 @@ function defaultCompletedFields() {
 }
 
 const FALLBACK_INVALID_MODEL_OUTPUT = {
-  action: "none",
-  status: "blocked_waiting_for_human",
-  reason: "Invalid model output",
+  action: "retry_next_run",
+  status: "completed",
+  reason: "Model failed to produce valid output, will retry next cycle",
   task: null,
   ...defaultCompletedFields()
 } as const;
 
 const FALLBACK_RUNTIME_FAILURE = {
-  action: "none",
-  status: "blocked_waiting_for_human",
-  reason: "Runtime failure",
+  action: "retry_next_run",
+  status: "completed",
+  reason: "Runtime failure, will retry next cycle",
   task: null,
   ...defaultCompletedFields()
 } as const;
@@ -290,7 +290,7 @@ function sanitizeDecision(decision: any): WorkerDecision {
 
   return {
     action: trimString(decision?.action || "none", 280) || "none",
-    status: decision?.status === "blocked_waiting_for_human" ? "blocked_waiting_for_human" : "completed",
+    status: decision?.status === "blocked_waiting_for_human" && task ? "blocked_waiting_for_human" : "completed",
     reason: trimString(decision?.reason || "", 500) || "Invalid model output",
     task,
     productTitle: trimString(decision?.productTitle || "", 200),
@@ -302,6 +302,50 @@ function sanitizeDecision(decision: any): WorkerDecision {
     priceSuggestion: trimString(decision?.priceSuggestion || "", 80),
     fileContent: trimString(decision?.fileContent || "", 5000),
     confidence: Math.max(0, Math.min(1, Number(decision?.confidence || 0)))
+  };
+}
+
+function isUsableCompletedDecision(decision: WorkerDecision): boolean {
+  return Boolean(
+    decision &&
+      decision.status === "completed" &&
+      trimString(decision.action || "", 280) !== "none" &&
+      trimString(decision.productTitle || "", 200) &&
+      trimString(decision.listingTitle || "", 220)
+  );
+}
+
+function validateDecision(
+  decision: WorkerDecision,
+  expectedStage: "idea" | "outline" | "content" | "listing"
+): { isValid: boolean; issues: string[]; stage: "idea" | "outline" | "content" | "listing" } {
+  const issues: string[] = [];
+  const normalizedStage = normalizeStage(expectedStage);
+
+  if (!decision || typeof decision !== "object") {
+    issues.push("decision_missing");
+  } else {
+    if (!trimString(decision.productTitle || "", 200)) {
+      issues.push("missing_product_title");
+    }
+    if (!trimString(decision.listingTitle || "", 220)) {
+      issues.push("missing_listing_title");
+    }
+    if (trimString(decision.action || "", 280) === "none") {
+      issues.push("action_none");
+    }
+    if (normalizedStage !== expectedStage) {
+      issues.push("invalid_stage");
+    }
+    if (decision.status === "blocked_waiting_for_human" && !decision.task) {
+      issues.push("blocked_without_task");
+    }
+  }
+
+  return {
+    isValid: issues.length === 0,
+    issues,
+    stage: normalizedStage
   };
 }
 
@@ -530,7 +574,7 @@ function writeLog(agentName: string, payload: unknown): void {
 }
 
 function saveOutput(agentName: string, now: string, finalDecision: WorkerDecision): string {
-  if (finalDecision.status !== "completed") {
+  if (!isUsableCompletedDecision(finalDecision)) {
     return "";
   }
 
@@ -564,9 +608,10 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
   const latestTask = finalDecision.status === "blocked_waiting_for_human" && finalDecision.task ? finalDecision.task : null;
   const outputPath = saveOutput(agentState.name, now, finalDecision);
+  const hasUsableOutput = isUsableCompletedDecision(finalDecision);
   const previousNiches = Array.isArray(agentState.uniqueNichesTried) ? [...agentState.uniqueNichesTried] : [];
   const nextUniqueNiches =
-    finalDecision.status === "completed" && finalDecision.niche && !previousNiches.includes(finalDecision.niche)
+    hasUsableOutput && finalDecision.niche && !previousNiches.includes(finalDecision.niche)
       ? [...previousNiches, finalDecision.niche]
       : previousNiches;
 
@@ -574,15 +619,15 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     ...agentState,
     lastAction: finalDecision.action,
     lastReason: finalDecision.reason,
-    lastProductTitle: finalDecision.status === "completed" ? finalDecision.productTitle : "",
-    lastProductType: finalDecision.status === "completed" ? finalDecision.productType : "",
-    lastNiche: finalDecision.status === "completed" ? finalDecision.niche : "",
-    lastTargetBuyer: finalDecision.status === "completed" ? finalDecision.targetBuyer : "",
-    lastListingTitle: finalDecision.status === "completed" ? finalDecision.listingTitle : "",
-    lastOutputPath: outputPath,
+    lastProductTitle: hasUsableOutput ? finalDecision.productTitle : agentState.lastProductTitle || "",
+    lastProductType: hasUsableOutput ? finalDecision.productType : agentState.lastProductType || "",
+    lastNiche: hasUsableOutput ? finalDecision.niche : agentState.lastNiche || "",
+    lastTargetBuyer: hasUsableOutput ? finalDecision.targetBuyer : agentState.lastTargetBuyer || "",
+    lastListingTitle: hasUsableOutput ? finalDecision.listingTitle : agentState.lastListingTitle || "",
+    lastOutputPath: hasUsableOutput ? outputPath : agentState.lastOutputPath || "",
     lastConfidence: finalDecision.confidence || 0,
     lastDuplicateStatus: metadata.duplicateStatus || "original",
-    stage: metadata.stage || normalizeStage(agentState.stage || "idea"),
+    stage: normalizeStage(metadata.stage || agentState.stage || "idea"),
     lastProgressMode: metadata.progressMode || "progressing",
     lastRunAt: now,
     status: finalDecision.status,
@@ -593,7 +638,7 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     attempts: Number(agentState.attempts || 0) + 1,
     uniqueNichesTried: nextUniqueNiches,
     duplicateHits: Number(agentState.duplicateHits || 0) + (metadata.duplicateStatus === "duplicate" ? 1 : 0),
-    successfulOutputs: Number(agentState.successfulOutputs || 0) + (finalDecision.status === "completed" ? 1 : 0)
+    successfulOutputs: Number(agentState.successfulOutputs || 0) + (hasUsableOutput ? 1 : 0)
   };
 
   writeJson(getAgentFile(agentState.name), nextAgentState);
@@ -632,6 +677,9 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     geminiResponseStatus: metadata.geminiResponseStatus,
     rawGeminiText: trimString(metadata.rawGeminiText || "", 2000),
     parsedObject: metadata.parsedObject,
+    attemptDetails: metadata.attemptDetails || [],
+    validationResults: metadata.validationResults || [],
+    retryTriggered: Boolean(metadata.retryTriggered),
     finalObject: finalDecision,
     productTitle: finalDecision.productTitle || "",
     productType: finalDecision.productType || "",
@@ -657,6 +705,9 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
   let rawGeminiText = "";
   let parsedObject: any = null;
   let duplicateStatus = "original";
+  let attemptDetails: any[] = [];
+  let retryTriggered = false;
+  let validationResults: any[] = [];
   let agentState: any = defaultAgentState(agentName);
   let messages: any[] = [];
   let tasks: any[] = [];
@@ -708,6 +759,42 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
       trace.push(`parse:${attempt + 1}`);
       parsedObject = extractJson(rawGeminiText);
       finalDecision = isValidDecisionShape(parsedObject) ? sanitizeDecision(parsedObject) : { ...FALLBACK_INVALID_MODEL_OUTPUT };
+      const validation = validateDecision(finalDecision, expectedStage);
+      validationResults.push({
+        attempt: attempt + 1,
+        parsed: Boolean(parsedObject),
+        shapeValid: isValidDecisionShape(parsedObject),
+        status: finalDecision.status,
+        action: finalDecision.action,
+        issues: validation.issues
+      });
+      attemptDetails.push({
+        attempt: attempt + 1,
+        rawGeminiText: trimString(rawGeminiText, 2000),
+        parsedObject,
+        validation
+      });
+      trace.push(`validate:${attempt + 1}:${validation.isValid ? "valid" : validation.issues.join(",") || "invalid"}`);
+
+      if (!validation.isValid && attempt === 0) {
+        retryTriggered = true;
+        prompt = buildPrompt(agentState, messages, tasks, config, {
+          latestOutputsText,
+          currentStage,
+          expectedStage,
+          stageGoal: getStageGoal(expectedStage),
+          progressMode,
+          retryInstruction:
+            "Your previous response was invalid. You must return complete, valid JSON with all required fields."
+        });
+        continue;
+      }
+
+      if (!validation.isValid) {
+        finalDecision = { ...FALLBACK_INVALID_MODEL_OUTPUT };
+        duplicateStatus = "original";
+        break;
+      }
 
       const progressOkay =
         finalDecision.status !== "completed" ||
@@ -723,6 +810,7 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
 
       if (finalDecision.status === "completed" && duplicateCheck.isDuplicate && attempt === 0) {
         duplicateStatus = "retry";
+        retryTriggered = true;
         prompt = buildPrompt(agentState, messages, tasks, config, {
           latestOutputsText,
           currentStage,
@@ -739,10 +827,7 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
         finalDecision.confidence = Math.min(finalDecision.confidence || 0.35, 0.35);
         finalDecision.reason = trimString(`${finalDecision.reason} Duplicate risk remained after retry.`, 500);
       } else if (finalDecision.status === "completed" && (!progressOkay || !stageOkay)) {
-        finalDecision = {
-          ...FALLBACK_INVALID_MODEL_OUTPUT,
-          reason: "Invalid model output"
-        };
+        finalDecision = { ...FALLBACK_INVALID_MODEL_OUTPUT };
         duplicateStatus = "original";
       }
       break;
@@ -756,6 +841,9 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
       geminiResponseStatus,
       rawGeminiText,
       parsedObject,
+      attemptDetails,
+      validationResults,
+      retryTriggered,
       duplicateStatus,
       stage: expectedStage,
       progressMode,
@@ -784,6 +872,9 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
         geminiResponseStatus,
         rawGeminiText,
         parsedObject,
+        attemptDetails,
+        validationResults,
+        retryTriggered,
         duplicateStatus,
         error
       });
