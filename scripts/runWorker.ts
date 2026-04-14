@@ -22,6 +22,11 @@ function defaultCompletedFields() {
     price: 0,
     description: "",
     bullets: [],
+    redditPosts: [],
+    commentReplies: [],
+    suggestedCommunities: [],
+    suggestedSearchQueries: [],
+    burnerFriendly: false,
     publishInstructions: "",
     fileContent: "",
     confidence: 0
@@ -65,6 +70,11 @@ type WorkerDecision = {
   price: number;
   description: string;
   bullets: string[];
+  redditPosts: string[];
+  commentReplies: string[];
+  suggestedCommunities: string[];
+  suggestedSearchQueries: string[];
+  burnerFriendly: boolean;
   publishInstructions: string;
   fileContent: string;
   confidence: number;
@@ -295,6 +305,15 @@ function isValidDecisionShape(decision: any): boolean {
       typeof decision.description === "string" &&
       Array.isArray(decision.bullets) &&
       decision.bullets.every((item: unknown) => typeof item === "string") &&
+      Array.isArray(decision.redditPosts) &&
+      decision.redditPosts.every((item: unknown) => typeof item === "string") &&
+      Array.isArray(decision.commentReplies) &&
+      decision.commentReplies.every((item: unknown) => typeof item === "string") &&
+      Array.isArray(decision.suggestedCommunities) &&
+      decision.suggestedCommunities.every((item: unknown) => typeof item === "string") &&
+      Array.isArray(decision.suggestedSearchQueries) &&
+      decision.suggestedSearchQueries.every((item: unknown) => typeof item === "string") &&
+      typeof decision.burnerFriendly === "boolean" &&
       typeof decision.publishInstructions === "string" &&
       typeof decision.fileContent === "string" &&
       typeof decision.confidence === "number" &&
@@ -334,6 +353,19 @@ function sanitizeDecision(decision: any): WorkerDecision {
     bullets: Array.isArray(decision?.bullets)
       ? decision.bullets.map((item: unknown) => trimString(item, 180)).filter(Boolean).slice(0, 6)
       : [],
+    redditPosts: Array.isArray(decision?.redditPosts)
+      ? decision.redditPosts.map((item: unknown) => trimString(item, 500)).filter(Boolean).slice(0, 4)
+      : [],
+    commentReplies: Array.isArray(decision?.commentReplies)
+      ? decision.commentReplies.map((item: unknown) => trimString(item, 400)).filter(Boolean).slice(0, 4)
+      : [],
+    suggestedCommunities: Array.isArray(decision?.suggestedCommunities)
+      ? decision.suggestedCommunities.map((item: unknown) => trimString(item, 120)).filter(Boolean).slice(0, 8)
+      : [],
+    suggestedSearchQueries: Array.isArray(decision?.suggestedSearchQueries)
+      ? decision.suggestedSearchQueries.map((item: unknown) => trimString(item, 180)).filter(Boolean).slice(0, 8)
+      : [],
+    burnerFriendly: Boolean(decision?.burnerFriendly),
     publishInstructions: trimString(decision?.publishInstructions || "", 1200),
     fileContent: trimString(decision?.fileContent || "", 5000),
     confidence: Math.max(0, Math.min(1, Number(decision?.confidence || 0)))
@@ -428,6 +460,17 @@ function isPublishReadyListing(decision: WorkerDecision): boolean {
       decision.bullets.length >= 3 &&
       decision.bullets.length <= 6 &&
       decision.bullets.every((item) => trimString(item, 180).length >= 8) &&
+      Array.isArray(decision.redditPosts) &&
+      decision.redditPosts.length >= 2 &&
+      decision.redditPosts.every((item) => trimString(item, 500).length >= 40) &&
+      Array.isArray(decision.commentReplies) &&
+      decision.commentReplies.length >= 2 &&
+      decision.commentReplies.every((item) => trimString(item, 400).length >= 30) &&
+      Array.isArray(decision.suggestedCommunities) &&
+      decision.suggestedCommunities.length >= 2 &&
+      Array.isArray(decision.suggestedSearchQueries) &&
+      decision.suggestedSearchQueries.length >= 2 &&
+      decision.burnerFriendly === true &&
       trimString(decision.targetBuyer, 200).length >= 8 &&
       trimString(decision.fileContent, 5000).length >= 120 &&
       hasRequiredPublishSteps(decision.publishInstructions) &&
@@ -606,6 +649,15 @@ function buildPrompt(
     options.expectedStage === "listing" || options.expectedStage === "publish"
       ? 'Set "task" to exactly {"title":"Approve and publish product","details":"Publish this listing on Gumroad","priority":"high"}.'
       : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "Distribution output must be safe for anonymous or burner-friendly accounts."
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "Include redditPosts, commentReplies, suggestedCommunities, suggestedSearchQueries, and set burnerFriendly to true."
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "Use a helpful, conversational, non-promotional tone. Avoid spammy language and obvious self-promotion."
+      : "",
     "",
     "Allowed actions:",
     "- create a micro-product idea and draft listing title",
@@ -653,6 +705,11 @@ function buildPrompt(
     '  "price": "number",',
     '  "description": "string",',
     '  "bullets": ["string"],',
+    '  "redditPosts": ["string"],',
+    '  "commentReplies": ["string"],',
+    '  "suggestedCommunities": ["string"],',
+    '  "suggestedSearchQueries": ["string"],',
+    '  "burnerFriendly": true | false,',
     '  "publishInstructions": "string",',
     '  "fileContent": "string",',
     '  "confidence": 0-1',
@@ -807,6 +864,27 @@ function renderGenericMarkdown(decision: WorkerDecision, assetFileName: string):
     .trim();
 }
 
+function renderDistributionSection(decision: WorkerDecision): string {
+  return [
+    "## Anonymous Distribution Plan",
+    `Burner-friendly: ${decision.burnerFriendly ? "yes" : "no"}`,
+    "",
+    "### Suggested Communities",
+    ...decision.suggestedCommunities.map((item) => `- ${item}`),
+    "",
+    "### Suggested Search Queries",
+    ...decision.suggestedSearchQueries.map((item) => `- ${item}`),
+    "",
+    "### Reddit Posts",
+    ...decision.redditPosts.map((item, index) => `${index + 1}. ${item}`),
+    "",
+    "### Comment Replies",
+    ...decision.commentReplies.map((item, index) => `${index + 1}. ${item}`)
+  ]
+    .join("\n")
+    .trim();
+}
+
 function markdownToText(markdown: string): string {
   return markdown
     .replace(/^#{1,6}\s+/gm, "")
@@ -845,13 +923,15 @@ function renderPublishAssets(decision: WorkerDecision): {
   const markdown = normalizeComparisonText(decision.productType).includes("prompt")
     ? renderPromptPackMarkdown(decision, markdownFileName)
     : renderGenericMarkdown(decision, markdownFileName);
-  const text = markdownToText(markdown);
+  const distributionSection = renderDistributionSection(decision);
+  const fullMarkdown = `${markdown}\n\n${distributionSection}`.trim();
+  const text = markdownToText(fullMarkdown);
 
   return {
     slug,
     markdownFileName,
     textFileName,
-    markdown,
+    markdown: fullMarkdown,
     text,
     price,
     publishInstructions: buildPublishInstructions(decision, markdownFileName, price)
@@ -894,6 +974,11 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
     price: finalDecision.price,
     description: finalDecision.description,
     bullets: finalDecision.bullets,
+    redditPosts: finalDecision.redditPosts,
+    commentReplies: finalDecision.commentReplies,
+    suggestedCommunities: finalDecision.suggestedCommunities,
+    suggestedSearchQueries: finalDecision.suggestedSearchQueries,
+    burnerFriendly: finalDecision.burnerFriendly,
     publishInstructions: finalDecision.publishInstructions,
     fileContent: finalDecision.fileContent,
     markdownFile: path.relative(ROOT_DIR, markdownPath),
@@ -1010,6 +1095,11 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     price: Number(finalDecision.price || 0),
     description: finalDecision.description || "",
     bullets: finalDecision.bullets || [],
+    redditPosts: finalDecision.redditPosts || [],
+    commentReplies: finalDecision.commentReplies || [],
+    suggestedCommunities: finalDecision.suggestedCommunities || [],
+    suggestedSearchQueries: finalDecision.suggestedSearchQueries || [],
+    burnerFriendly: Boolean(finalDecision.burnerFriendly),
     publishInstructions: finalDecision.publishInstructions || "",
     confidence: finalDecision.confidence || 0,
     duplicateStatus: metadata.duplicateStatus || "original",
