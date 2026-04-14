@@ -26,6 +26,7 @@ function defaultCompletedFields() {
     commentReplies: [],
     suggestedCommunities: [],
     suggestedSearchQueries: [],
+    linksShared: [],
     burnerFriendly: false,
     publishInstructions: "",
     fileContent: "",
@@ -80,11 +81,15 @@ function defaultAgentState(agentName) {
     lastListingTitle: "",
     lastPrice: 0,
     lastOutputPath: "",
+    isPublished: false,
+    publishedUrl: "",
     lastConfidence: 0,
     lastDuplicateStatus: "original",
     stage: "idea",
     lastProgressMode: "progressing",
     attempts: 0,
+    distributionAttempts: 0,
+    linksShared: [],
     uniqueNichesTried: [],
     duplicateHits: 0,
     successfulOutputs: 0
@@ -194,11 +199,17 @@ function ensureAgentState(agentName, trace) {
       lastListingTitle: trimString(state.lastListingTitle || "", 220),
       lastPrice: Number.isFinite(Number(state.lastPrice)) ? Number(state.lastPrice) : 0,
       lastOutputPath: trimString(state.lastOutputPath || "", 260),
+      isPublished: Boolean(state.isPublished) || Boolean(trimString(state.publishedUrl || "", 500)),
+      publishedUrl: trimString(state.publishedUrl || "", 500),
       lastConfidence: Number.isFinite(Number(state.lastConfidence)) ? Number(state.lastConfidence) : 0,
       lastDuplicateStatus: trimString(state.lastDuplicateStatus || "original", 40) || "original",
       stage: normalizeStage(state.stage || fallback.stage),
       lastProgressMode: trimString(state.lastProgressMode || "progressing", 40) || "progressing",
       attempts: Number.isFinite(Number(state.attempts)) ? Number(state.attempts) : 0,
+      distributionAttempts: Number.isFinite(Number(state.distributionAttempts)) ? Number(state.distributionAttempts) : 0,
+      linksShared: Array.isArray(state.linksShared)
+        ? state.linksShared.map((item) => trimString(item, 500)).filter(Boolean)
+        : [],
       uniqueNichesTried: Array.isArray(state.uniqueNichesTried)
         ? state.uniqueNichesTried.map((item) => trimString(item, 160)).filter(Boolean)
         : [],
@@ -278,6 +289,8 @@ function isValidDecisionShape(decision) {
       decision.suggestedCommunities.every((item) => typeof item === "string") &&
       Array.isArray(decision.suggestedSearchQueries) &&
       decision.suggestedSearchQueries.every((item) => typeof item === "string") &&
+      Array.isArray(decision.linksShared) &&
+      decision.linksShared.every((item) => typeof item === "string") &&
       typeof decision.burnerFriendly === "boolean" &&
       typeof decision.publishInstructions === "string" &&
       typeof decision.fileContent === "string" &&
@@ -329,6 +342,9 @@ function sanitizeDecision(decision) {
     suggestedSearchQueries: Array.isArray(decision?.suggestedSearchQueries)
       ? decision.suggestedSearchQueries.map((item) => trimString(item, 180)).filter(Boolean).slice(0, 8)
       : [],
+    linksShared: Array.isArray(decision?.linksShared)
+      ? decision.linksShared.map((item) => trimString(item, 500)).filter(Boolean).slice(0, 8)
+      : [],
     burnerFriendly: Boolean(decision?.burnerFriendly),
     publishInstructions: trimString(decision?.publishInstructions || "", 1200),
     fileContent: trimString(decision?.fileContent || "", 5000),
@@ -346,9 +362,35 @@ function isUsableCompletedDecision(decision) {
   );
 }
 
-function validateDecision(decision, expectedStage) {
+function extractUrlsFromText(value) {
+  return String(value || "").match(/https?:\/\/[^\s)]+/gi) || [];
+}
+
+function uniqueStrings(values) {
+  return Array.from(new Set((Array.isArray(values) ? values : []).map((item) => trimString(item, 500)).filter(Boolean)));
+}
+
+function distributionIncludesPublishedUrl(decision, publishedUrl) {
+  const normalizedUrl = trimString(publishedUrl || "", 500);
+  if (!normalizedUrl) {
+    return true;
+  }
+
+  const distributionText = [
+    ...(Array.isArray(decision?.redditPosts) ? decision.redditPosts : []),
+    ...(Array.isArray(decision?.commentReplies) ? decision.commentReplies : []),
+    ...(Array.isArray(decision?.linksShared) ? decision.linksShared : [])
+  ]
+    .map((item) => trimString(item, 1200))
+    .join("\n");
+
+  return distributionText.includes(normalizedUrl);
+}
+
+function validateDecision(decision, expectedStage, agentState) {
   const issues = [];
   const normalizedStage = normalizeStage(expectedStage);
+  const publishedUrl = trimString(agentState?.publishedUrl || "", 500);
 
   if (!decision || typeof decision !== "object") {
     issues.push("decision_missing");
@@ -368,8 +410,11 @@ function validateDecision(decision, expectedStage) {
     if (decision.status === "blocked_waiting_for_human" && !decision.task) {
       issues.push("blocked_without_task");
     }
-    if ((normalizedStage === "listing" || normalizedStage === "publish") && !isPublishReadyListing(decision)) {
+    if ((normalizedStage === "listing" || normalizedStage === "publish") && !isPublishReadyListing(decision, publishedUrl)) {
       issues.push("listing_not_publish_ready");
+    }
+    if (publishedUrl && !distributionIncludesPublishedUrl(decision, publishedUrl)) {
+      issues.push("missing_published_url_in_distribution");
     }
   }
 
@@ -407,7 +452,7 @@ function isApprovalTask(task) {
   );
 }
 
-function isPublishReadyListing(decision) {
+function isPublishReadyListing(decision, publishedUrl = "") {
   const descriptionWords = countWords(decision.description);
   return Boolean(
     trimString(decision.action, 280) === "create publish-ready listing" &&
@@ -431,10 +476,12 @@ function isPublishReadyListing(decision) {
       decision.suggestedCommunities.length >= 2 &&
       Array.isArray(decision.suggestedSearchQueries) &&
       decision.suggestedSearchQueries.length >= 2 &&
+      Array.isArray(decision.linksShared) &&
       decision.burnerFriendly === true &&
       trimString(decision.targetBuyer, 200).length >= 8 &&
       trimString(decision.fileContent, 5000).length >= 120 &&
       hasRequiredPublishSteps(decision.publishInstructions) &&
+      distributionIncludesPublishedUrl(decision, publishedUrl) &&
       isApprovalTask(decision.task)
   );
 }
@@ -602,6 +649,9 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
       ? "Include redditPosts, commentReplies, suggestedCommunities, suggestedSearchQueries, and set burnerFriendly to true."
       : "",
     options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "If a published URL already exists, include that exact URL in the distribution output and linksShared."
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
       ? "Use a helpful, conversational, non-promotional tone. Avoid spammy language and obvious self-promotion."
       : "",
     "",
@@ -655,6 +705,7 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     '  "commentReplies": ["string"],',
     '  "suggestedCommunities": ["string"],',
     '  "suggestedSearchQueries": ["string"],',
+    '  "linksShared": ["string"],',
     '  "burnerFriendly": true | false,',
     '  "publishInstructions": "string",',
     '  "fileContent": "string",',
@@ -673,6 +724,10 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     `Previous target buyer: ${trimString(agentState.lastTargetBuyer || "none", 200)}`,
     `Previous listing title: ${trimString(agentState.lastListingTitle || "none", 220)}`,
     `Previous price: ${Number(agentState.lastPrice || 0) || "none"}`,
+    `Published status: ${agentState.isPublished ? "live" : "not live"}`,
+    `Published URL: ${trimString(agentState.publishedUrl || "none", 500)}`,
+    `Distribution attempts so far: ${Number(agentState.distributionAttempts || 0)}`,
+    `Links already shared: ${Array.isArray(agentState.linksShared) && agentState.linksShared.length ? agentState.linksShared.join(", ") : "none"}`,
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
@@ -814,6 +869,7 @@ function renderDistributionSection(decision) {
   return [
     "## Anonymous Distribution Plan",
     `Burner-friendly: ${decision.burnerFriendly ? "yes" : "no"}`,
+    `Published URL: ${trimString(decision.publishedUrl || "", 500) || "not live yet"}`,
     "",
     "### Suggested Communities",
     ...decision.suggestedCommunities.map((item) => `- ${item}`),
@@ -825,7 +881,12 @@ function renderDistributionSection(decision) {
     ...decision.redditPosts.map((item, index) => `${index + 1}. ${item}`),
     "",
     "### Comment Replies",
-    ...decision.commentReplies.map((item, index) => `${index + 1}. ${item}`)
+    ...decision.commentReplies.map((item, index) => `${index + 1}. ${item}`),
+    "",
+    "### Links Shared",
+    ...(Array.isArray(decision.linksShared) && decision.linksShared.length
+      ? decision.linksShared.map((item) => `- ${item}`)
+      : ["- none yet"])
   ]
     .join("\n")
     .trim();
@@ -916,6 +977,8 @@ function saveOutput(agentName, now, finalDecision) {
     commentReplies: finalDecision.commentReplies,
     suggestedCommunities: finalDecision.suggestedCommunities,
     suggestedSearchQueries: finalDecision.suggestedSearchQueries,
+    linksShared: finalDecision.linksShared,
+    publishedUrl: finalDecision.publishedUrl || "",
     burnerFriendly: finalDecision.burnerFriendly,
     publishInstructions: finalDecision.publishInstructions,
     fileContent: finalDecision.fileContent,
@@ -950,8 +1013,22 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
   const now = new Date().toISOString();
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
   const latestTask = finalDecision.task ? finalDecision.task : null;
+  const publishedUrl = trimString(agentState.publishedUrl || "", 500);
+  const distributionUrls = uniqueStrings([
+    ...extractUrlsFromText(finalDecision.publishInstructions || ""),
+    ...extractUrlsFromText((finalDecision.redditPosts || []).join("\n")),
+    ...extractUrlsFromText((finalDecision.commentReplies || []).join("\n")),
+    ...(Array.isArray(finalDecision.linksShared) ? finalDecision.linksShared : []),
+    publishedUrl
+  ]);
+  finalDecision.linksShared = distributionUrls;
+  finalDecision.publishedUrl = publishedUrl;
   const outputPath = saveOutput(agentState.name, now, finalDecision);
   const hasUsableOutput = isUsableCompletedDecision(finalDecision);
+  const hasDistributionOutput = Boolean(
+    Array.isArray(finalDecision.redditPosts) && finalDecision.redditPosts.length &&
+      Array.isArray(finalDecision.commentReplies) && finalDecision.commentReplies.length
+  );
   const previousNiches = Array.isArray(agentState.uniqueNichesTried) ? [...agentState.uniqueNichesTried] : [];
   const nextUniqueNiches =
     hasUsableOutput && finalDecision.niche && !previousNiches.includes(finalDecision.niche)
@@ -969,6 +1046,8 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     lastListingTitle: hasUsableOutput ? finalDecision.listingTitle : agentState.lastListingTitle || "",
     lastPrice: hasUsableOutput ? Number(finalDecision.price || 0) : Number(agentState.lastPrice || 0),
     lastOutputPath: hasUsableOutput ? outputPath : agentState.lastOutputPath || "",
+    isPublished: Boolean(publishedUrl),
+    publishedUrl,
     lastConfidence: finalDecision.confidence || 0,
     lastDuplicateStatus: metadata.duplicateStatus || "original",
     stage: normalizeStage(metadata.stage || agentState.stage || "idea"),
@@ -980,6 +1059,10 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     cost: Number(agentState.cost || 0),
     profit,
     attempts: Number(agentState.attempts || 0) + 1,
+    distributionAttempts:
+      Number(agentState.distributionAttempts || 0) +
+      (hasUsableOutput && hasDistributionOutput ? 1 : 0),
+    linksShared: uniqueStrings([...(Array.isArray(agentState.linksShared) ? agentState.linksShared : []), ...distributionUrls]),
     uniqueNichesTried: nextUniqueNiches,
     duplicateHits: Number(agentState.duplicateHits || 0) + (metadata.duplicateStatus === "duplicate" ? 1 : 0),
     successfulOutputs: Number(agentState.successfulOutputs || 0) + (hasUsableOutput ? 1 : 0)
@@ -1037,6 +1120,10 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     commentReplies: finalDecision.commentReplies || [],
     suggestedCommunities: finalDecision.suggestedCommunities || [],
     suggestedSearchQueries: finalDecision.suggestedSearchQueries || [],
+    linksShared: finalDecision.linksShared || [],
+    publishedUrl,
+    isPublished: Boolean(publishedUrl),
+    distributionAttempts: Number(nextAgentState.distributionAttempts || 0),
     burnerFriendly: Boolean(finalDecision.burnerFriendly),
     publishInstructions: finalDecision.publishInstructions || "",
     confidence: finalDecision.confidence || 0,
@@ -1112,7 +1199,7 @@ async function runWorker(agentName) {
       trace.push(`parse:${attempt + 1}`);
       parsedObject = extractJson(rawGeminiText);
       finalDecision = isValidDecisionShape(parsedObject) ? sanitizeDecision(parsedObject) : { ...FALLBACK_INVALID_MODEL_OUTPUT };
-      const validation = validateDecision(finalDecision, expectedStage);
+      const validation = validateDecision(finalDecision, expectedStage, agentState);
       validationResults.push({
         attempt: attempt + 1,
         parsed: Boolean(parsedObject),
