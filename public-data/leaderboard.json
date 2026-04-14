@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T10:45:24.192Z",
+  "generatedAt": "2026-04-14T10:47:49.367Z",
   "agents": [
     {
       "name": "agent-a",
@@ -8,15 +8,15 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a product outline",
-      "lastRunAt": "2026-04-14T10:45:14.908Z",
+      "lastAction": "create a product description",
+      "lastRunAt": "2026-04-14T10:47:35.113Z",
       "lastProductTitle": "AI-Powered Social Media Content Calendar",
       "lastListingTitle": "AI Social Media Content Calendar Template Pack | Boost Engagement",
       "lastProductType": "template pack",
       "lastNiche": "Social Media Marketing",
-      "lastConfidence": 1,
+      "lastConfidence": 0.95,
       "lastDuplicateStatus": "original",
-      "stage": "outline",
+      "stage": "content",
       "lastProgressMode": "progressing"
     },
     {
@@ -25,16 +25,16 @@
       "revenue": 0,
       "cost": 0,
       "profit": 0,
-      "status": "completed",
-      "lastAction": "create a product outline",
-      "lastRunAt": "2026-04-14T10:45:10.957Z",
-      "lastProductTitle": "Automated Social Media Post Scheduler for Small Businesses",
-      "lastListingTitle": "Automated Social Media Post Scheduler: AI Prompt Pack for SMBs",
-      "lastProductType": "Prompt Pack",
-      "lastNiche": "Social Media Marketing Automation",
-      "lastConfidence": 0.8,
+      "status": "blocked_waiting_for_human",
+      "lastAction": "none",
+      "lastRunAt": "2026-04-14T10:47:35.668Z",
+      "lastProductTitle": "",
+      "lastListingTitle": "",
+      "lastProductType": "",
+      "lastNiche": "",
+      "lastConfidence": 0,
       "lastDuplicateStatus": "original",
-      "stage": "outline",
+      "stage": "content",
       "lastProgressMode": "progressing"
     },
     {
@@ -44,15 +44,15 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a product outline",
-      "lastRunAt": "2026-04-14T10:45:13.719Z",
+      "lastAction": "create a product description",
+      "lastRunAt": "2026-04-14T10:47:37.872Z",
       "lastProductTitle": "AI-Powered Social Media Content Planner",
       "lastListingTitle": "AI Social Media Content Planner Template Pack: Boost Engagement",
       "lastProductType": "template pack",
       "lastNiche": "social media marketing",
       "lastConfidence": 0.9,
       "lastDuplicateStatus": "original",
-      "stage": "outline",
+      "stage": "content",
       "lastProgressMode": "progressing"
     }
   ]
