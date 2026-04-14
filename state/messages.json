@@ -16,5 +16,23 @@
     "agent": "agent-b",
     "type": "blocked_waiting_for_human",
     "message": "Paused due to API/runtime error (Missing GEMINI_API_KEY environment variable.)"
+  },
+  {
+    "timestamp": "2026-04-14T09:27:04.076Z",
+    "agent": "agent-b",
+    "type": "completed",
+    "message": "Check Gemini API key and set it up. (All agents are paused due to a missing Gemini API key. This needs to be resolved before any other action can be taken.)"
+  },
+  {
+    "timestamp": "2026-04-14T09:27:04.226Z",
+    "agent": "agent-a",
+    "type": "blocked_waiting_for_human",
+    "message": "Check Gemini API key and set it up. (API key is missing, preventing agent operation.)"
+  },
+  {
+    "timestamp": "2026-04-14T09:27:04.675Z",
+    "agent": "agent-c",
+    "type": "completed",
+    "message": "Check Gemini API key, quota, or workflow logs. (All agents are paused due to missing API key. This is a prerequisite for any action.)"
   }
 ]

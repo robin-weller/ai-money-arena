@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T09:14:04.677Z",
+  "generatedAt": "2026-04-14T09:27:16.791Z",
   "runs": [
     {
       "timestamp": "2026-04-14T09:13:23.964Z",
@@ -7,6 +7,14 @@
       "action": "Paused due to API/runtime error",
       "status": "blocked_waiting_for_human",
       "reason": "Missing GEMINI_API_KEY environment variable.",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T09:27:04.226Z",
+      "agent": "agent-a",
+      "action": "Check Gemini API key and set it up.",
+      "status": "blocked_waiting_for_human",
+      "reason": "API key is missing, preventing agent operation.",
       "profit": 0
     },
     {
@@ -18,11 +26,27 @@
       "profit": 0
     },
     {
+      "timestamp": "2026-04-14T09:27:04.076Z",
+      "agent": "agent-b",
+      "action": "Check Gemini API key and set it up.",
+      "status": "completed",
+      "reason": "All agents are paused due to a missing Gemini API key. This needs to be resolved before any other action can be taken.",
+      "profit": 0
+    },
+    {
       "timestamp": "2026-04-14T09:13:23.997Z",
       "agent": "agent-c",
       "action": "Paused due to API/runtime error",
       "status": "blocked_waiting_for_human",
       "reason": "Missing GEMINI_API_KEY environment variable.",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T09:27:04.675Z",
+      "agent": "agent-c",
+      "action": "Check Gemini API key, quota, or workflow logs.",
+      "status": "completed",
+      "reason": "All agents are paused due to missing API key. This is a prerequisite for any action.",
       "profit": 0
     }
   ]

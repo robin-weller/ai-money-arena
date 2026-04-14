@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T09:14:04.677Z",
+  "generatedAt": "2026-04-14T09:27:16.791Z",
   "tasks": [
     {
       "id": "agent-a-1776158003966",
@@ -23,6 +23,14 @@
       "agent": "agent-b",
       "task": "Check Gemini API key, quota, or workflow logs",
       "reason": "Missing GEMINI_API_KEY environment variable.",
+      "status": "open"
+    },
+    {
+      "id": "agent-a-1776158824226",
+      "createdAt": "2026-04-14T09:27:04.226Z",
+      "agent": "agent-a",
+      "task": "Check Gemini API key, quota, or workflow logs",
+      "reason": "API key is missing, preventing agent operation.",
       "status": "open"
     }
   ]

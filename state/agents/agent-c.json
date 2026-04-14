@@ -3,9 +3,9 @@
   "strategy": "launch simple content-driven micro-products",
   "revenue": 0,
   "cost": 0,
-  "lastAction": "Paused due to API/runtime error",
-  "status": "blocked_waiting_for_human",
-  "lastReason": "Missing GEMINI_API_KEY environment variable.",
-  "lastRunAt": "2026-04-14T09:13:23.997Z",
+  "lastAction": "Check Gemini API key, quota, or workflow logs.",
+  "status": "completed",
+  "lastReason": "All agents are paused due to missing API key. This is a prerequisite for any action.",
+  "lastRunAt": "2026-04-14T09:27:04.675Z",
   "profit": 0
 }
