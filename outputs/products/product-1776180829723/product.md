@@ -161,6 +161,11 @@ Simple tools for better productivity
   <li>[ ] Declutter one drawer</li>
   <li>[ ] Write down 3 things you're grateful for</li>
   <li>[ ] Send a positive message to a friend</li>
+  <li>[ ] Plan breakfast for tomorrow</li>
+  <li>[ ] Tidy bedroom for 10 minutes</li>
+  <li>[ ] Charge phone and other devices</li>
+  <li>[ ] Meditate for 5 minutes</li>
+  <li>[ ] Prepare work outfit for tomorrow</li>
 </ul>
 </div>
 
