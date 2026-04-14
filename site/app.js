@@ -109,6 +109,9 @@
 
     body.innerHTML = products.slice().reverse().map(p => {
       const statusClass = escapeHtml((p.status || '').replace(/_/g, '-'));
+      const titleCell = p.publishedUrl
+        ? `<a href="${escapeHtml(p.publishedUrl)}" target="_blank" rel="noopener">${escapeHtml(p.title || p.id)}</a>${p.marketplace ? `<br><small style="color:#6B7280">${escapeHtml(p.marketplace)}</small>` : ''}`
+        : escapeHtml(p.title || p.id);
       let qaBadge;
       if (p.needsHumanReview) {
         qaBadge = '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#FEE2E2;color:#991B1B">👤 Review</span>';
@@ -121,7 +124,7 @@
         qaBadge = '<span style="color:#999">—</span>';
       }
       return `<tr>
-        <td>${escapeHtml(p.title || p.id)}</td>
+        <td>${titleCell}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
         <td>${renderThemeBadge(p.themeId)}</td>
         <td>${qaBadge}</td>

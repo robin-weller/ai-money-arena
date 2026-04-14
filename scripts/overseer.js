@@ -4,6 +4,7 @@ const path = require('path');
 const { sendMessage } = require('./telegram.js');
 
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
+const MANUAL_PUBLISH_PATH = path.join(__dirname, '../state/manual-publish.json');
 const PUBLIC_DATA_DIR = path.join(__dirname, '../public-data');
 
 const STAGES = ['idea', 'building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'qa_pending', 'publish_ready', 'live'];
@@ -26,6 +27,75 @@ function formatMoney(value) {
 function loadProducts() {
   if (!fs.existsSync(PRODUCTS_PATH)) return [];
   try { return JSON.parse(fs.readFileSync(PRODUCTS_PATH, 'utf8')); } catch { return []; }
+}
+
+function saveProducts(products) {
+  fs.writeFileSync(PRODUCTS_PATH, JSON.stringify(products, null, 2));
+}
+
+/**
+ * Read manual-publish.json and move matching publish_ready products to live.
+ * Removes processed entries from the file.
+ */
+function processManualPublishes(products) {
+  if (!fs.existsSync(MANUAL_PUBLISH_PATH)) return false;
+
+  let manualPublish;
+  try {
+    manualPublish = JSON.parse(fs.readFileSync(MANUAL_PUBLISH_PATH, 'utf8'));
+  } catch {
+    console.log('[overseer] Could not parse manual-publish.json, skipping');
+    return false;
+  }
+
+  const publishes = Array.isArray(manualPublish.publishes) ? manualPublish.publishes : [];
+  if (!publishes.length) return false;
+
+  const remaining = [];
+  let processed = 0;
+
+  for (const entry of publishes) {
+    const { productId, marketplace, publishedUrl, listingId } = entry;
+
+    if (!productId || !publishedUrl || !marketplace) {
+      console.log(`[overseer] Skipping invalid publish entry (missing productId, marketplace, or publishedUrl)`);
+      remaining.push(entry);
+      continue;
+    }
+
+    const idx = products.findIndex(p => p.id === productId);
+    if (idx === -1) {
+      console.log(`[overseer] Publish entry skipped: product not found (${productId})`);
+      remaining.push(entry);
+      continue;
+    }
+
+    if (products[idx].status !== 'publish_ready') {
+      console.log(`[overseer] Publish entry skipped: ${productId} is not publish_ready (status: ${products[idx].status})`);
+      remaining.push(entry);
+      continue;
+    }
+
+    products[idx].isPublished  = true;
+    products[idx].status       = 'live';
+    products[idx].marketplace  = marketplace;
+    products[idx].publishedUrl = publishedUrl;
+    products[idx].listingId    = listingId || '';
+    products[idx].publishedAt  = new Date().toISOString();
+    console.log(`[overseer] ✓ Marked live: "${products[idx].title}" on ${marketplace}`);
+    processed++;
+  }
+
+  // Persist remaining (unprocessed) entries back to file
+  manualPublish.publishes = remaining;
+  fs.writeFileSync(MANUAL_PUBLISH_PATH, JSON.stringify(manualPublish, null, 2));
+
+  if (processed > 0) {
+    saveProducts(products);
+    console.log(`[overseer] Processed ${processed} manual publish(es)`);
+  }
+
+  return processed > 0;
 }
 
 function buildPipelineData(products) {
@@ -94,9 +164,15 @@ function buildTelegramSummary(products, totalAiCost) {
     qaFailed.forEach(p => lines.push(`  • ${p.title} → ${p.qaFailureStage || '?'} (${p.qaFailureReason || '?'})`));
   }
 
-  if (byStage.live.length) {
-    lines.push('\n✅ Live:');
-    byStage.live.forEach(p => lines.push(`  • ${p.title} | $${Number(p.price || 0).toFixed(2)} | revenue=$${Number(p.revenue || 0).toFixed(2)}`));
+  const liveProducts = products.filter(p => p.status === 'live');
+  if (liveProducts.length) {
+    lines.push('\n🟢 Live:');
+    liveProducts.forEach(p => {
+      const marketplace = p.marketplace ? ` · ${p.marketplace}` : '';
+      const revenue     = ` · revenue=$${Number(p.revenue || 0).toFixed(2)}`;
+      const cost        = ` · ai=$${formatMoney(p.aiCostTotal)}`;
+      lines.push(`  • ${p.title}${marketplace}${revenue}${cost}`);
+    });
   }
 
   lines.push(`\n📊 Summary:`);
@@ -114,6 +190,9 @@ async function run() {
   console.log('[overseer] Starting...');
   const products = loadProducts();
   console.log(`[overseer] Loaded ${products.length} products`);
+
+  // Process any manual publish handoffs before building dashboard data
+  processManualPublishes(products);
 
   const byStage = buildPipelineData(products);
   const totalRevenue = products.reduce((sum, p) => sum + (p.revenue || 0), 0);
@@ -163,6 +242,10 @@ async function run() {
         price: p.price || 0,
         revenue: p.revenue || 0,
         isPublished: p.isPublished || false,
+        marketplace: p.marketplace || null,
+        publishedUrl: p.publishedUrl || null,
+        publishedAt: p.publishedAt || null,
+        listingId: p.listingId || null,
         aiCostTotal: p.aiCostTotal || 0,
         aiCalls: p.aiCalls || 0,
         themeId: p.themeId || null,

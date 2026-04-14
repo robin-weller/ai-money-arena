@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T15:16:55.702Z",
+  "generatedAt": "2026-04-14T15:20:36.396Z",
   "products": [
     {
       "id": "product-1776179802088",
@@ -8,6 +8,10 @@
       "price": 4.99,
       "revenue": 0,
       "isPublished": false,
+      "marketplace": null,
+      "publishedUrl": null,
+      "publishedAt": null,
+      "listingId": null,
       "aiCostTotal": 0.0007604999999999999,
       "aiCalls": 3,
       "themeId": "themeC",
