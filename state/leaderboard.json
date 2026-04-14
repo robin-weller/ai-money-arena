@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T10:14:52.735Z",
+  "generatedAt": "2026-04-14T10:27:42.646Z",
   "agents": [
     {
       "name": "agent-a",
@@ -8,10 +8,14 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a micro-product idea and draft listing title",
-      "lastRunAt": "2026-04-14T10:14:30.779Z",
+      "lastAction": "create a product outline",
+      "lastRunAt": "2026-04-14T10:27:26.800Z",
       "lastProductTitle": "AI Prompt Pack for Content Creators",
-      "lastListingTitle": "AI Prompt Pack: Boost Your Content Creation Effortlessly"
+      "lastListingTitle": "AI Prompt Pack: Boost Content Creation",
+      "lastProductType": "Prompt Pack",
+      "lastNiche": "AI Content Generation",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original"
     },
     {
       "name": "agent-b",
@@ -21,9 +25,13 @@
       "profit": 0,
       "status": "completed",
       "lastAction": "create a micro-product idea and draft listing title",
-      "lastRunAt": "2026-04-14T10:14:32.314Z",
-      "lastProductTitle": "AI-Powered Social Media Post Generator for Small Businesses",
-      "lastListingTitle": "B2B Social Media Content Prompts: AI-Assisted Post Generator"
+      "lastRunAt": "2026-04-14T10:27:26.600Z",
+      "lastProductTitle": "AI-Powered LinkedIn Lead Generation Prompt Pack",
+      "lastListingTitle": "LinkedIn Lead Gen Prompts: Unlock High-Quality B2B Leads Instantly",
+      "lastProductType": "Prompt Pack",
+      "lastNiche": "B2B Lead Generation",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original"
     },
     {
       "name": "agent-c",
@@ -32,10 +40,14 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a micro-product idea and draft listing title",
-      "lastRunAt": "2026-04-14T10:14:39.004Z",
+      "lastAction": "create a product outline",
+      "lastRunAt": "2026-04-14T10:27:28.289Z",
       "lastProductTitle": "Social Media Content Prompt Pack",
-      "lastListingTitle": "Boost Your Social Media: 50+ Engaging Content Prompts"
+      "lastListingTitle": "Unlock Viral Social Media: 50+ Engaging Content Prompts",
+      "lastProductType": "prompt pack",
+      "lastNiche": "Social Media Marketing",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original"
     }
   ]
 }
