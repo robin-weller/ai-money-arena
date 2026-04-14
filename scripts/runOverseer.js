@@ -24,14 +24,24 @@ function readJson(filePath, fallback) {
 }
 
 function writeJson(filePath, data) {
-  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+  const tempPath = `${filePath}.tmp-${process.pid}-${Date.now()}`;
+  fs.writeFileSync(tempPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+  fs.renameSync(tempPath, filePath);
 }
 
 function getAgentStates() {
   return fs
     .readdirSync(AGENTS_DIR)
     .filter((fileName) => fileName.endsWith(".json"))
-    .map((fileName) => readJson(path.join(AGENTS_DIR, fileName)))
+    .map((fileName) => {
+      const filePath = path.join(AGENTS_DIR, fileName);
+      const state = readJson(filePath);
+      console.log(`[overseer] loaded path=${filePath}`);
+      console.log(`[overseer] loaded status=${state.status || ""}`);
+      console.log(`[overseer] loaded lastAction=${state.lastAction || ""}`);
+      console.log(`[overseer] loaded lastRunAt=${state.lastRunAt || ""}`);
+      return state;
+    })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -87,7 +97,7 @@ function buildTelegramSummary(leaderboard, blockedTasks) {
   lines.push(`Blocked tasks: ${blockedTasks.length}`);
 
   for (const task of blockedTasks.slice(0, 10)) {
-    lines.push(`- ${task.agent}: ${task.task}`);
+    lines.push(`- ${task.agent}: ${task.title || task.task}`);
   }
 
   return lines.join("\n").slice(0, 3900);
@@ -98,8 +108,16 @@ async function run() {
 
   const config = readJson(path.join(STATE_DIR, "config.json"), {});
   const agentStates = getAgentStates();
-  const tasks = readJson(path.join(STATE_DIR, "tasks.json"), []);
-  const blockedTasks = tasks.filter((task) => task.status !== "done");
+  const blockedTasks = agentStates
+    .filter((agent) => agent.status === "blocked_waiting_for_human" && agent.latestTask)
+    .map((agent) => ({
+      agent: agent.name,
+      title: agent.latestTask.title,
+      details: agent.latestTask.details,
+      priority: agent.latestTask.priority,
+      status: "open",
+      reason: agent.lastReason || ""
+    }));
   const leaderboard = buildLeaderboard(agentStates);
   const latestRuns = getLatestRuns(config.latestRunsLimit || 15);
 
@@ -113,6 +131,7 @@ async function run() {
     generatedAt: new Date().toISOString(),
     tasks: blockedTasks
   });
+  writeJson(path.join(STATE_DIR, "tasks.json"), blockedTasks);
 
   console.log("[overseer] Public data updated");
   console.log(`[overseer] Agents: ${agentStates.length}, blocked tasks: ${blockedTasks.length}`);

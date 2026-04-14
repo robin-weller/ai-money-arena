@@ -25,13 +25,50 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
-function mergeArrayFile(relativePath) {
-  const merged = [];
-  const seen = new Set();
+function getArtifactAgentName(artifactDir) {
+  return artifactDir.replace(/^worker-state-/, "");
+}
+
+function mergeAgentFiles() {
+  ensureDir(path.join(TARGET_STATE_DIR, "agents"));
+  const merged = new Map();
 
   for (const artifactDir of fs.readdirSync(ARTIFACTS_DIR)) {
-    const filePath = path.join(ARTIFACTS_DIR, artifactDir, relativePath);
-    const items = readJson(filePath, []);
+    const agentName = getArtifactAgentName(artifactDir);
+    const agentsDir = path.join(ARTIFACTS_DIR, artifactDir, "state", "agents");
+    if (!fs.existsSync(agentsDir)) {
+      continue;
+    }
+
+    const fileName = `${agentName}.json`;
+    const source = path.join(agentsDir, fileName);
+    if (!fs.existsSync(source)) {
+      continue;
+    }
+
+    const sourceState = readJson(source, null);
+    const existing = merged.get(agentName);
+    const sourceRunAt = String(sourceState?.lastRunAt || "");
+    const existingRunAt = String(existing?.lastRunAt || "");
+    if (!existing || sourceRunAt >= existingRunAt) {
+      merged.set(agentName, sourceState);
+    }
+  }
+
+  for (const [agentName, state] of merged.entries()) {
+    writeJson(path.join(TARGET_STATE_DIR, "agents", `${agentName}.json`), state);
+  }
+}
+
+function mergeMessages() {
+  const baseline = readJson(path.join(ROOT_DIR, "state", "messages.json"), []);
+  const merged = [...baseline];
+  const seen = new Set(baseline.map((item) => JSON.stringify(item)));
+
+  for (const artifactDir of fs.readdirSync(ARTIFACTS_DIR)) {
+    const agentName = getArtifactAgentName(artifactDir);
+    const filePath = path.join(ARTIFACTS_DIR, artifactDir, "state", "messages.json");
+    const items = readJson(filePath, []).filter((item) => item.agent === agentName);
 
     for (const item of items) {
       const key = JSON.stringify(item);
@@ -42,25 +79,28 @@ function mergeArrayFile(relativePath) {
     }
   }
 
-  merged.sort((a, b) => String(a.timestamp || a.createdAt || "").localeCompare(String(b.timestamp || b.createdAt || "")));
-  writeJson(path.join(ROOT_DIR, relativePath), merged);
+  merged.sort((a, b) => String(a.timestamp || "").localeCompare(String(b.timestamp || "")));
+  writeJson(path.join(ROOT_DIR, "state", "messages.json"), merged);
 }
 
-function mergeAgentFiles() {
-  ensureDir(path.join(TARGET_STATE_DIR, "agents"));
+function rebuildTasksFromAgents() {
+  const tasks = fs
+    .readdirSync(path.join(TARGET_STATE_DIR, "agents"))
+    .filter((fileName) => fileName.endsWith(".json"))
+    .map((fileName) => readJson(path.join(TARGET_STATE_DIR, "agents", fileName), {}))
+    .filter((agent) => agent.status === "blocked_waiting_for_human" && agent.latestTask)
+    .map((agent) => ({
+      id: `${agent.name}-${String(agent.lastRunAt || Date.now()).replace(/[^0-9]/g, "").slice(0, 20)}`,
+      createdAt: agent.lastRunAt || new Date().toISOString(),
+      agent: agent.name,
+      title: agent.latestTask.title,
+      details: agent.latestTask.details,
+      priority: agent.latestTask.priority,
+      reason: agent.lastReason || "",
+      status: "open"
+    }));
 
-  for (const artifactDir of fs.readdirSync(ARTIFACTS_DIR)) {
-    const agentsDir = path.join(ARTIFACTS_DIR, artifactDir, "state", "agents");
-    if (!fs.existsSync(agentsDir)) {
-      continue;
-    }
-
-    for (const fileName of fs.readdirSync(agentsDir)) {
-      const source = path.join(agentsDir, fileName);
-      const target = path.join(TARGET_STATE_DIR, "agents", fileName);
-      fs.copyFileSync(source, target);
-    }
-  }
+  writeJson(path.join(ROOT_DIR, "state", "tasks.json"), tasks);
 }
 
 function mergeLogs() {
@@ -90,8 +130,8 @@ function run() {
   }
 
   mergeAgentFiles();
-  mergeArrayFile(path.join("state", "messages.json"));
-  mergeArrayFile(path.join("state", "tasks.json"));
+  mergeMessages();
+  rebuildTasksFromAgents();
   mergeLogs();
 
   console.log("[merge-worker-artifacts] Worker outputs merged");

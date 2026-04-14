@@ -68,7 +68,9 @@ function readJson<T>(filePath: string, fallback?: T): T {
 
 function writeJson(filePath: string, data: unknown): void {
   ensureDir(path.dirname(filePath));
-  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+  const tempPath = `${filePath}.tmp-${process.pid}-${Date.now()}`;
+  fs.writeFileSync(tempPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+  fs.renameSync(tempPath, filePath);
 }
 
 function safeReadArray(filePath: string): any[] {
@@ -247,12 +249,14 @@ function writeLog(agentName: string, payload: unknown): void {
 function persistRun(agentState: any, messages: any[], tasks: any[], finalDecision: WorkerDecision, metadata: any) {
   const now = new Date().toISOString();
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
+  const latestTask = finalDecision.status === "blocked_waiting_for_human" && finalDecision.task ? finalDecision.task : null;
   const nextAgentState = {
     ...agentState,
     lastAction: finalDecision.action,
     lastReason: finalDecision.reason,
     lastRunAt: now,
     status: finalDecision.status,
+    latestTask,
     profit
   };
 
@@ -267,19 +271,17 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
   });
   writeJson(MESSAGES_PATH, nextMessages);
 
-  const nextTasks = Array.isArray(tasks) ? [...tasks] : [];
-  if (
-    finalDecision.status === "blocked_waiting_for_human" &&
-    finalDecision.task &&
-    !hasOpenTask(nextTasks, agentState.name, finalDecision.task.title)
-  ) {
+  let nextTasks = Array.isArray(tasks) ? [...tasks] : [];
+  nextTasks = nextTasks.filter((task) => task.agent !== agentState.name);
+
+  if (latestTask && !hasOpenTask(nextTasks, agentState.name, latestTask.title)) {
     nextTasks.push({
       id: `${agentState.name}-${Date.now()}`,
       createdAt: now,
       agent: agentState.name,
-      title: finalDecision.task.title,
-      details: finalDecision.task.details,
-      priority: finalDecision.task.priority,
+      title: latestTask.title,
+      details: latestTask.details,
+      priority: latestTask.priority,
       reason: finalDecision.reason,
       status: "open"
     });
