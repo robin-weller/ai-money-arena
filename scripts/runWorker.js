@@ -6,21 +6,35 @@ const ROOT_DIR = path.join(__dirname, "..");
 const STATE_DIR = path.join(ROOT_DIR, "state");
 const AGENTS_DIR = path.join(STATE_DIR, "agents");
 const LOGS_DIR = path.join(ROOT_DIR, "logs");
+const OUTPUTS_DIR = path.join(ROOT_DIR, "outputs");
 const MESSAGES_PATH = path.join(STATE_DIR, "messages.json");
 const TASKS_PATH = path.join(STATE_DIR, "tasks.json");
+
+function defaultCompletedFields() {
+  return {
+    productTitle: "",
+    productType: "",
+    targetBuyer: "",
+    listingTitle: "",
+    shortDescription: "",
+    fileContent: ""
+  };
+}
 
 const FALLBACK_INVALID_MODEL_OUTPUT = {
   action: "none",
   status: "blocked_waiting_for_human",
   reason: "Invalid model output",
-  task: null
+  task: null,
+  ...defaultCompletedFields()
 };
 
 const FALLBACK_RUNTIME_FAILURE = {
   action: "none",
   status: "blocked_waiting_for_human",
   reason: "Runtime failure",
-  task: null
+  task: null,
+  ...defaultCompletedFields()
 };
 
 function ensureDir(dirPath) {
@@ -157,6 +171,12 @@ function isValidDecisionShape(decision) {
       typeof decision.action === "string" &&
       typeof decision.reason === "string" &&
       ["completed", "blocked_waiting_for_human"].includes(decision.status) &&
+      typeof decision.productTitle === "string" &&
+      typeof decision.productType === "string" &&
+      typeof decision.targetBuyer === "string" &&
+      typeof decision.listingTitle === "string" &&
+      typeof decision.shortDescription === "string" &&
+      typeof decision.fileContent === "string" &&
       (decision.task === null || isValidTask(decision.task))
   );
 }
@@ -170,11 +190,21 @@ function sanitizeDecision(decision) {
       }
     : null;
 
+  const completedFields = {
+    productTitle: trimString(decision?.productTitle || "", 200),
+    productType: trimString(decision?.productType || "", 120),
+    targetBuyer: trimString(decision?.targetBuyer || "", 200),
+    listingTitle: trimString(decision?.listingTitle || "", 220),
+    shortDescription: trimString(decision?.shortDescription || "", 500),
+    fileContent: trimString(decision?.fileContent || "", 5000)
+  };
+
   return {
     action: trimString(decision?.action || "none", 280) || "none",
     status: decision?.status === "blocked_waiting_for_human" ? "blocked_waiting_for_human" : "completed",
     reason: trimString(decision?.reason || "", 500) || "Invalid model output",
-    task
+    task,
+    ...completedFields
   };
 }
 
@@ -198,6 +228,13 @@ function buildPrompt(agentState, messages, tasks, config) {
     "- create a listing draft",
     "- create a blocked task for human intervention if truly required",
     "",
+    "Allowed product examples:",
+    "- prompt pack",
+    "- checklist",
+    "- template pack",
+    "- small dataset idea",
+    "- mini guide",
+    "",
     "Do not brainstorm broadly.",
     "Do not return multiple options.",
     "Do not return markdown.",
@@ -212,7 +249,13 @@ function buildPrompt(agentState, messages, tasks, config) {
     '    "title": "string",',
     '    "details": "string",',
     '    "priority": "low" | "medium" | "high"',
-    "  }",
+    "  },",
+    '  "productTitle": "string",',
+    '  "productType": "string",',
+    '  "targetBuyer": "string",',
+    '  "listingTitle": "string",',
+    '  "shortDescription": "string",',
+    '  "fileContent": "string"',
     "}",
     "",
     `Agent: ${trimString(agentState.name, 80) || "agent"}`,
@@ -233,17 +276,51 @@ function writeLog(agentName, payload) {
   fs.writeFileSync(logPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 }
 
+function saveOutput(agentName, now, finalDecision) {
+  if (finalDecision.status !== "completed") {
+    return "";
+  }
+
+  const agentOutputDir = path.join(OUTPUTS_DIR, agentName);
+  ensureDir(agentOutputDir);
+  const fileName = `${now.replace(/[:.]/g, "-")}.json`;
+  const outputPath = path.join(agentOutputDir, fileName);
+  const outputPayload = {
+    generatedAt: now,
+    agent: agentName,
+    productTitle: finalDecision.productTitle,
+    productType: finalDecision.productType,
+    targetBuyer: finalDecision.targetBuyer,
+    listingTitle: finalDecision.listingTitle,
+    shortDescription: finalDecision.shortDescription,
+    fileContent: finalDecision.fileContent,
+    action: finalDecision.action,
+    reason: finalDecision.reason
+  };
+
+  writeJson(outputPath, outputPayload);
+  writeJson(path.join(agentOutputDir, "latest.json"), outputPayload);
+  return path.relative(ROOT_DIR, outputPath);
+}
+
 function persistRun(agentState, messages, tasks, finalDecision, metadata) {
   const now = new Date().toISOString();
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
   const latestTask = finalDecision.status === "blocked_waiting_for_human" && finalDecision.task ? finalDecision.task : null;
+  const completedFields = finalDecision.status === "completed" ? defaultCompletedFields() : defaultCompletedFields();
+  const outputPath = saveOutput(agentState.name, now, finalDecision);
   const nextAgentState = {
     ...agentState,
     lastAction: finalDecision.action,
     lastReason: finalDecision.reason,
+    lastProductTitle: finalDecision.status === "completed" ? finalDecision.productTitle : "",
+    lastListingTitle: finalDecision.status === "completed" ? finalDecision.listingTitle : "",
+    lastOutputPath: outputPath,
     lastRunAt: now,
     status: finalDecision.status,
     latestTask,
+    revenue: Number(agentState.revenue || 0),
+    cost: Number(agentState.cost || 0),
     profit
   };
 
@@ -284,6 +361,9 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     rawGeminiText: trimString(metadata.rawGeminiText || "", 2000),
     parsedObject: metadata.parsedObject,
     finalObject: finalDecision,
+    productTitle: finalDecision.productTitle || "",
+    listingTitle: finalDecision.listingTitle || "",
+    outputPath,
     finalStatus: finalDecision.status,
     errorMessage: metadata.error ? trimString(metadata.error.message || metadata.error, 500) : "",
     errorStack: metadata.error?.stack ? String(metadata.error.stack).slice(0, 4000) : "",
@@ -352,6 +432,7 @@ async function runWorker(agentName) {
     console.log(`[worker] gemini.status=${geminiResponseStatus}`);
     console.log(`[worker] parsed=${JSON.stringify(parsedObject)}`);
     console.log(`[worker] final=${JSON.stringify(finalDecision)}`);
+    console.log(`[worker] output=${nextAgentState.lastOutputPath || ""}`);
     console.log(`[worker] saved=${nextAgentState.status}`);
     return finalDecision;
   } catch (error) {

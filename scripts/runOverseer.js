@@ -75,7 +75,9 @@ function buildLeaderboard(agentStates) {
           profit,
           status: agent.status,
           lastAction: agent.lastAction || "",
-          lastRunAt: agent.lastRunAt || ""
+          lastRunAt: agent.lastRunAt || "",
+          lastProductTitle: agent.lastProductTitle || "",
+          lastListingTitle: agent.lastListingTitle || ""
         };
       })
       .sort((a, b) => b.profit - a.profit)
@@ -89,7 +91,7 @@ function buildTelegramSummary(leaderboard, blockedTasks) {
 
   for (const agent of leaderboard.agents) {
     lines.push(
-      `${agent.name}: ${agent.lastAction || "No action"} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
+      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | listing=${agent.lastListingTitle || "-"} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
     );
   }
 
