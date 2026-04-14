@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T15:33:54.268Z",
+  "generatedAt": "2026-04-14T15:37:29.772Z",
   "products": [
     {
       "id": "product-1776179802088",
@@ -26,7 +26,9 @@
       "qaFailureStage": null,
       "qaFailureReason": null,
       "qaRetryCount": 0,
-      "needsHumanReview": false
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
     },
     {
       "id": "product-1776180829723",
@@ -48,7 +50,9 @@
       "qaFailureStage": null,
       "qaFailureReason": null,
       "qaRetryCount": 0,
-      "needsHumanReview": false
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
     }
   ]
 }
