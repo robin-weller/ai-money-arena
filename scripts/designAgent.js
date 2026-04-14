@@ -75,13 +75,39 @@ function insertPageBreaksForLargeTables(html) {
   });
 }
 
-function renderProductHtml(productContent, product, brand, theme) {
-  const rawHtml = marked.parse(productContent);
+function extractHowToUse(productContent) {
+  // Extract the How to Use section as an HTML list for the cover page
+  const match = productContent.match(/##\s+How to Use\s*\n([\s\S]*?)(?=\n##|\n#[^#]|$)/i);
+  if (!match) return '<ul><li>Print on A4 or letter paper</li><li>Fill in each section as you go</li><li>Review weekly for best results</li></ul>';
+  const lines = match[1].split('\n').filter(l => l.trim());
+  const items = lines
+    .filter(l => /^[\s]*[-*+]\s+/.test(l))
+    .slice(0, 5)
+    .map(l => `<li>${escapeHtml(l.replace(/^[\s]*[-*+]\s+/, '').replace(/\*\*/g, ''))}</li>`);
+  return items.length ? `<ul>${items.join('')}</ul>` : '<ul><li>Print and use immediately</li><li>Fill in each section daily</li></ul>';
+}
+
+function stripHowToUse(productContent) {
+  // Remove the How to Use section from main content (shown on cover instead)
+  return productContent.replace(/##\s+How to Use\s*\n[\s\S]*?(?=\n##|\n#[^#]|$)/i, '');
+}
+
+function renderProductHtml(productContent, product, salesData, brand, theme) {
+  const howToUseHtml = extractHowToUse(productContent);
+  const mainContent = stripHowToUse(productContent);
+  const rawHtml = marked.parse(mainContent);
   const sectioned = wrapSections(rawHtml);
   const contentHtml = insertPageBreaksForLargeTables(sectioned);
+
+  const subtitle = (salesData && salesData.shortSummary)
+    ? salesData.shortSummary
+    : (salesData && salesData.description ? salesData.description.slice(0, 120) : product.title);
+
   let html = loadTemplate('product.html');
   html = applyTheme(html, brand, theme);
   html = html.replace(/\{\{TITLE\}\}/g, escapeHtml(product.title));
+  html = html.replace(/\{\{SUBTITLE\}\}/g, escapeHtml(subtitle));
+  html = html.replace(/\{\{HOW_TO_USE\}\}/g, howToUseHtml);
   html = html.replace(/\{\{CONTENT\}\}/g, contentHtml);
   html = html.replace(/\{\{THEME_NAME\}\}/g, escapeHtml(theme.name));
   return html;
@@ -186,7 +212,7 @@ async function run() {
 
       try {
         // Render HTML files
-        const productHtml = renderProductHtml(productMdContent, product, brand, theme);
+        const productHtml = renderProductHtml(productMdContent, product, salesData, brand, theme);
         const coverHtml   = renderCoverHtml(product, salesData, brand, theme);
         const mockupHtml  = renderMockupHtml(product, salesData, brand, theme);
 
