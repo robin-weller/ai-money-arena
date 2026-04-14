@@ -1,29 +1,5 @@
 {
-  "generatedAt": "2026-04-14T16:27:12.497Z",
-  "totalProducts": 1,
-  "totalRevenue": 0,
-  "totalAiCost": 0.0013785,
-  "totalProfit": -0.0013785,
-  "byStage": {
-    "idea": [],
-    "building": [],
-    "ready_to_ship": [],
-    "ready_to_market": [],
-    "ready_to_distribute": [],
-    "design_ready": [],
-    "qa_pending": [],
-    "publish_ready": [
-      {
-        "id": "product-1776184019287",
-        "title": "30-Day Habit Tracker",
-        "productType": "habit-tracker",
-        "price": 4.99,
-        "revenue": 0,
-        "elementCount": 10,
-        "createdAt": "2026-04-14T16:26:59.287Z",
-        "completedAt": "2026-04-14T16:27:07.645Z"
-      }
-    ],
-    "live": []
-  }
+  "generatedAt": "2026-04-14T16:28:41.249Z",
+  "stages": {},
+  "products": []
 }

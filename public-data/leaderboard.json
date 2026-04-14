@@ -1,29 +1,4 @@
 {
-  "generatedAt": "2026-04-14T16:27:12.497Z",
-  "agents": [
-    {
-      "name": "Product Agent",
-      "lastProductTitle": "Idle",
-      "profit": 0,
-      "status": "idle"
-    },
-    {
-      "name": "Sales Agent",
-      "lastProductTitle": "Idle",
-      "profit": 0,
-      "status": "idle"
-    },
-    {
-      "name": "Marketing Agent",
-      "lastProductTitle": "Idle",
-      "profit": 0,
-      "status": "idle"
-    },
-    {
-      "name": "Design Agent",
-      "lastProductTitle": "Idle",
-      "profit": 0,
-      "status": "idle"
-    }
-  ]
+  "generatedAt": "2026-04-14T16:28:41.249Z",
+  "entries": []
 }
