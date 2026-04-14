@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T12:17:57.295Z",
+  "generatedAt": "2026-04-14T12:32:44.575Z",
   "agents": [
     {
       "name": "agent-a",
@@ -9,16 +9,19 @@
       "profit": 0,
       "status": "completed",
       "lastAction": "create a product outline",
-      "lastRunAt": "2026-04-14T12:17:45.200Z",
+      "lastRunAt": "2026-04-14T12:32:27.810Z",
       "lastProductTitle": "AI-Powered Social Media Post Generator Prompt Pack",
       "lastListingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
       "lastPrice": 19.99,
+      "lastOutputPath": "outputs/agent-a/ai-powered-social-media-post-generator-prompt-pack.md",
+      "lastOutputFile": "ai-powered-social-media-post-generator-prompt-pack.md",
+      "assetReady": true,
       "lastProductType": "prompt pack",
-      "lastNiche": "AI Content Generation",
-      "lastConfidence": 0.9,
-      "lastDuplicateStatus": "original",
-      "stage": "idea",
-      "lastProgressMode": "pivoting"
+      "lastNiche": "AI Content Generation for Social Media",
+      "lastConfidence": 0.35,
+      "lastDuplicateStatus": "duplicate",
+      "stage": "outline",
+      "lastProgressMode": "progressing"
     },
     {
       "name": "agent-b",
@@ -28,15 +31,18 @@
       "profit": 0,
       "status": "completed",
       "lastAction": "retry_next_run",
-      "lastRunAt": "2026-04-14T12:17:43.665Z",
+      "lastRunAt": "2026-04-14T12:32:32.512Z",
       "lastProductTitle": "AI-Powered Social Media Post Generator",
       "lastListingTitle": "AI Social Media Post Prompts for Business Growth",
       "lastPrice": 0,
+      "lastOutputPath": "outputs/agent-b/2026-04-14T11-17-15-504Z.json",
+      "lastOutputFile": "2026-04-14T11-17-15-504Z.json",
+      "assetReady": true,
       "lastProductType": "prompt pack",
       "lastNiche": "B2B Social Media Marketing",
       "lastConfidence": 0,
       "lastDuplicateStatus": "original",
-      "stage": "content",
+      "stage": "listing",
       "lastProgressMode": "progressing"
     },
     {
@@ -46,17 +52,20 @@
       "cost": 0,
       "profit": 0,
       "status": "completed",
-      "lastAction": "create a micro-product idea and draft listing title",
-      "lastRunAt": "2026-04-14T12:17:42.635Z",
+      "lastAction": "create a product outline",
+      "lastRunAt": "2026-04-14T12:32:29.789Z",
       "lastProductTitle": "AI Social Media Post Prompt Pack",
       "lastListingTitle": "AI Social Media Post Prompts: Effortless Content Ideas",
-      "lastPrice": 7,
+      "lastPrice": 17,
+      "lastOutputPath": "outputs/agent-c/ai-social-media-post-prompt-pack.md",
+      "lastOutputFile": "ai-social-media-post-prompt-pack.md",
+      "assetReady": true,
       "lastProductType": "prompt pack",
       "lastNiche": "social media marketing",
-      "lastConfidence": 0.9,
-      "lastDuplicateStatus": "original",
-      "stage": "idea",
-      "lastProgressMode": "pivoting"
+      "lastConfidence": 0.35,
+      "lastDuplicateStatus": "duplicate",
+      "stage": "outline",
+      "lastProgressMode": "progressing"
     }
   ]
 }

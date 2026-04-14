@@ -1,0 +1,202 @@
+{
+  "timestamp": "2026-04-14T12:32:27.810Z",
+  "agent": "agent-a",
+  "steps": [
+    "start:agent-a",
+    "load",
+    "load:agent-state-ready",
+    "prompt",
+    "gemini",
+    "parse:1",
+    "validate:1:valid",
+    "parse:2",
+    "validate:2:valid",
+    "save"
+  ],
+  "stepReached": "save",
+  "geminiResponseStatus": 200,
+  "rawGeminiText": "{\n  \"action\": \"create a product outline\",\n  \"status\": \"completed\",\n  \"reason\": \"Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack.\",\n  \"task\": {\n    \"title\": \"Outline AI-Powered Social Media Post Generator Prompt Pack\",\n    \"details\": \"Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"AI Content Generation for Social Media\",\n  \"targetBuyer\": \"Social Media Managers, Content Creators, Small Business Owners\",\n  \"listingTitle\": \"AI Social Media Post Generator Prompt Pack | Effortless Content Creation\",\n  \"shortDescription\": \"Unlock your social media potential with expertly crafted AI prompts for engaging posts.\",\n  \"priceSuggestion\": \"Premium\",\n  \"price\": 24.99,\n  \"description\": \"This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.\",\n  \"bullets\": [\n    \"Boost engagement with AI-generated post ideas.\",\n    \"Save time and effort in content creation.\",\n    \"Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.\",\n    \"Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.\",\n    \"Includes prompts for different tones: professional, casual, humorous, inspirational.\",\n    \"Easy-to-use, copy-paste prompts for immediate results.\",\n    \"Expand your content calendar effortlessly.\"\n  ],\n  \"publishInstructions\": \"Upload the compiled prompt pack as a PDF or text file. E",
+  "parsedObject": {
+    "action": "create a product outline",
+    "status": "completed",
+    "reason": "Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack.",
+    "task": {
+      "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
+      "details": "Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.",
+      "priority": "high"
+    },
+    "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+    "productType": "prompt pack",
+    "niche": "AI Content Generation for Social Media",
+    "targetBuyer": "Social Media Managers, Content Creators, Small Business Owners",
+    "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+    "shortDescription": "Unlock your social media potential with expertly crafted AI prompts for engaging posts.",
+    "priceSuggestion": "Premium",
+    "price": 24.99,
+    "description": "This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.",
+    "bullets": [
+      "Boost engagement with AI-generated post ideas.",
+      "Save time and effort in content creation.",
+      "Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.",
+      "Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.",
+      "Includes prompts for different tones: professional, casual, humorous, inspirational.",
+      "Easy-to-use, copy-paste prompts for immediate results.",
+      "Expand your content calendar effortlessly."
+    ],
+    "publishInstructions": "Upload the compiled prompt pack as a PDF or text file. Ensure the listing description and bullets clearly highlight the benefits and versatility of the prompts. Add relevant tags like 'AI prompts', 'social media content', 'content creation', 'marketing'.",
+    "fileContent": "## AI-Powered Social Media Post Generator Prompt Pack Outline\n\n**I. Introduction to AI Prompt Engineering for Social Media**\n    * What are AI prompts?\n    * Benefits of using AI for social media content\n    * How to get the best results from these prompts\n\n**II. Core Prompt Categories**\n    * **A. Engaging Question Prompts:**\n        * Prompt 1: Ask a question to spark discussion about [Industry/Topic].\n        * Prompt 2: Seek audience opinions on [Specific Trend/Product].\n        * Prompt 3: 'Would you rather?' scenario related to [Niche].\n    * **B. Promotional Post Prompts:**\n        * Prompt 4: Announce a new [Product/Service] with key benefits and a call to action.\n        * Prompt 5: Highlight a special offer/discount for [Product/Service] with urgency.\n        * Prompt 6: Showcase a customer testimonial for [Product/Service].\n    * **C. Educational/Informative Post Prompts:**\n        * Prompt 7: Explain a complex [Industry Term/Concept] in simple terms.\n        * Prompt 8: Share a 'how-to' guide for [Task related to Niche].\n        * Prompt 9: Provide interesting facts about [Niche/Industry].\n    * **D. Behind-the-Scenes/Brand Story Prompts:**\n        * Prompt 10: Share a relatable anecdote about [Company/Team Experience].\n        * Prompt 11: Introduce a team member and their role in [Company].\n        * Prompt 12: Give a sneak peek of [Upcoming Project/Product].\n\n**III. Platform-Specific Prompt Adjustments**\n    * **A. Instagram:**\n        * Prompt 13: Suggest engaging Instagram caption ideas for a [Type of Photo/Video].\n        * Prompt 14: Generate relevant Instagram Story poll questions.\n    * **B. Twitter:**\n        * Prompt 15: Craft concise and attention-grabbing tweets about [Topic].\n        * Prompt 16: Generate a thread of tweets on [In-depth Topic].\n    * **C. LinkedIn:**\n        * Prompt 17: Write a professional post on [Industry Insight/Thought Leadership].\n        * Prompt 18: Draft a connection request message for [Specific Professional].\n    * **D. Facebook:**\n        * Prompt 19: Create a Facebook post to drive traffic to [Website/Link].\n        * Prompt 20: Suggest a Facebook Live topic for [Niche].\n\n**IV. Advanced Prompting Techniques**\n    * **A. Tone and Style Modifiers:**\n        * Prompt 21: Rewrite a previous post in a [Humorous/Inspirational/Casual] tone.\n    * **B. Call to Action (CTA) Variations:**\n        * Prompt 22: Suggest 5 different CTAs for a [Promotional Post].\n\n**V. Customization and Best Practices**\n    * Tips for tailoring prompts to your specific brand voice.\n    * Strategies for testing and iterating on AI-generated content.\n    * Ethical considerations when using AI for content creation.",
+    "confidence": 0.9
+  },
+  "attemptDetails": [
+    {
+      "attempt": 1,
+      "rawGeminiText": "```json\n{\n  \"action\": \"create a product outline\",\n  \"status\": \"completed\",\n  \"reason\": \"Building on the established 'AI-Powered Social Media Post Generator Prompt Pack' product, the next logical step is to create a detailed outline, defining its structure and content to guide its development.\",\n  \"task\": {\n    \"title\": \"Outline AI-Powered Social Media Post Generator Prompt Pack\",\n    \"details\": \"Develop a structured outline for the AI-Powered Social Media Post Generator Prompt Pack. This should include sections for different social media platforms, content types (e.g., promotional, educational, engagement), tone variations, and any supplementary usage guidance.\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"AI Content Generation\",\n  \"targetBuyer\": \"Social Media Managers & Content Creators\",\n  \"listingTitle\": \"AI Social Media Post Generator Prompt Pack | Effortless Content Creation\",\n  \"shortDescription\": \"Boost your social media presence with our AI prompt pack for generating engaging posts quickly across platforms.\",\n  \"priceSuggestion\": \"Similar to competitor prompt packs in the content creation niche, around $15-$25.\",\n  \"price\": 19.99,\n  \"description\": \"Tired of staring at a blank screen? Our AI-Powered Social Media Post Generator Prompt Pack is designed to help social media managers and content creators generate high-quality, engaging posts with ease. This comprehensive pack provides expertly crafted prompts for various platforms and content types, saving you time and boosting your content strategy.\",\n  \"bullets\": [\n    \"Generate posts for Facebook, Instagram, Twitter, LinkedIn, and more.\",\n    \"Create promotional, educational, and engagement-focused content.\",\n    \"Adapt prompts for different tones: professional, casual, witty, informative.\",\n    \"Includes prompts for captions, hooks, calls to action, and hashtags.\",\n    \"Save hours of content creation time each ",
+      "parsedObject": {
+        "action": "create a product outline",
+        "status": "completed",
+        "reason": "Building on the established 'AI-Powered Social Media Post Generator Prompt Pack' product, the next logical step is to create a detailed outline, defining its structure and content to guide its development.",
+        "task": {
+          "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
+          "details": "Develop a structured outline for the AI-Powered Social Media Post Generator Prompt Pack. This should include sections for different social media platforms, content types (e.g., promotional, educational, engagement), tone variations, and any supplementary usage guidance.",
+          "priority": "high"
+        },
+        "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+        "productType": "prompt pack",
+        "niche": "AI Content Generation",
+        "targetBuyer": "Social Media Managers & Content Creators",
+        "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+        "shortDescription": "Boost your social media presence with our AI prompt pack for generating engaging posts quickly across platforms.",
+        "priceSuggestion": "Similar to competitor prompt packs in the content creation niche, around $15-$25.",
+        "price": 19.99,
+        "description": "Tired of staring at a blank screen? Our AI-Powered Social Media Post Generator Prompt Pack is designed to help social media managers and content creators generate high-quality, engaging posts with ease. This comprehensive pack provides expertly crafted prompts for various platforms and content types, saving you time and boosting your content strategy.",
+        "bullets": [
+          "Generate posts for Facebook, Instagram, Twitter, LinkedIn, and more.",
+          "Create promotional, educational, and engagement-focused content.",
+          "Adapt prompts for different tones: professional, casual, witty, informative.",
+          "Includes prompts for captions, hooks, calls to action, and hashtags.",
+          "Save hours of content creation time each week."
+        ],
+        "publishInstructions": "Once the outline is complete and approved, proceed to develop the content for each prompt based on the outline and then create the final publish-ready listing.",
+        "fileContent": "## AI-Powered Social Media Post Generator Prompt Pack Outline\n\n**I. Introduction & Usage Guide**\n    A. Welcome & Product Overview\n    B. How to Use These Prompts Effectively (General Tips)\n    C. Recommended AI Model Settings (Temperature, Max Tokens, etc.)\n\n**II. Platform-Specific Prompts**\n    A. Instagram\n        1. Captions (Promotional, Educational, Behind-the-Scenes)\n        2. Story Ideas & Prompts\n        3. Reels/TikTok Script Starters\n    B. Facebook\n        1. Post Variations (Text-based, Link Shares, Image-focused)\n        2. Group Post Ideas\n        3. Event Promotion Posts\n    C. Twitter (X)\n        1. Tweet Threads Starters\n        2. Engaging Question Prompts\n        3. Quick Tip/Fact Tweets\n    D. LinkedIn\n        1. Professional Updates & Insights\n        2. Article/Blog Post Promotion\n        3. Networking/Engagement Posts\n    E. Pinterest\n        1. Pin Title & Description Ideas\n        2. Board Idea Prompts\n\n**III. Content Type Prompts**\n    A. Promotional Posts (Product Launches, Sales, Offers)\n    B. Educational Content (Tips, How-Tos, Explanations)\n    C. Engagement Posts (Questions, Polls, Contests)\n    D. Behind-the-Scenes & Humanizing Content\n    E. User-Generated Content Prompts\n\n**IV. Tone & Style Variation Prompts**\n    A. Professional & Formal\n    B. Casual & Friendly\n    C. Witty & Humorous\n    D. Informative & Authoritative\n    E. Inspirational & Motivational\n\n**V. Supplementary Prompts**\n    A. Call to Action (CTA) Variations\n    B. Hashtag Generation Prompts\n    C. Headline/Hook Generator Prompts\n    D. Repurposing Content Prompts (e.g., blog to social)\n\n**VI. Appendix**\n    A. Glossary of Terms\n    B. Further Resources",
+        "confidence": 0.9
+      },
+      "validation": {
+        "isValid": true,
+        "issues": [],
+        "stage": "outline"
+      }
+    },
+    {
+      "attempt": 2,
+      "rawGeminiText": "{\n  \"action\": \"create a product outline\",\n  \"status\": \"completed\",\n  \"reason\": \"Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack.\",\n  \"task\": {\n    \"title\": \"Outline AI-Powered Social Media Post Generator Prompt Pack\",\n    \"details\": \"Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"AI Content Generation for Social Media\",\n  \"targetBuyer\": \"Social Media Managers, Content Creators, Small Business Owners\",\n  \"listingTitle\": \"AI Social Media Post Generator Prompt Pack | Effortless Content Creation\",\n  \"shortDescription\": \"Unlock your social media potential with expertly crafted AI prompts for engaging posts.\",\n  \"priceSuggestion\": \"Premium\",\n  \"price\": 24.99,\n  \"description\": \"This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.\",\n  \"bullets\": [\n    \"Boost engagement with AI-generated post ideas.\",\n    \"Save time and effort in content creation.\",\n    \"Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.\",\n    \"Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.\",\n    \"Includes prompts for different tones: professional, casual, humorous, inspirational.\",\n    \"Easy-to-use, copy-paste prompts for immediate results.\",\n    \"Expand your content calendar effortlessly.\"\n  ],\n  \"publishInstructions\": \"Upload the compiled prompt pack as a PDF or text file. E",
+      "parsedObject": {
+        "action": "create a product outline",
+        "status": "completed",
+        "reason": "Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack.",
+        "task": {
+          "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
+          "details": "Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.",
+          "priority": "high"
+        },
+        "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+        "productType": "prompt pack",
+        "niche": "AI Content Generation for Social Media",
+        "targetBuyer": "Social Media Managers, Content Creators, Small Business Owners",
+        "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+        "shortDescription": "Unlock your social media potential with expertly crafted AI prompts for engaging posts.",
+        "priceSuggestion": "Premium",
+        "price": 24.99,
+        "description": "This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.",
+        "bullets": [
+          "Boost engagement with AI-generated post ideas.",
+          "Save time and effort in content creation.",
+          "Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.",
+          "Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.",
+          "Includes prompts for different tones: professional, casual, humorous, inspirational.",
+          "Easy-to-use, copy-paste prompts for immediate results.",
+          "Expand your content calendar effortlessly."
+        ],
+        "publishInstructions": "Upload the compiled prompt pack as a PDF or text file. Ensure the listing description and bullets clearly highlight the benefits and versatility of the prompts. Add relevant tags like 'AI prompts', 'social media content', 'content creation', 'marketing'.",
+        "fileContent": "## AI-Powered Social Media Post Generator Prompt Pack Outline\n\n**I. Introduction to AI Prompt Engineering for Social Media**\n    * What are AI prompts?\n    * Benefits of using AI for social media content\n    * How to get the best results from these prompts\n\n**II. Core Prompt Categories**\n    * **A. Engaging Question Prompts:**\n        * Prompt 1: Ask a question to spark discussion about [Industry/Topic].\n        * Prompt 2: Seek audience opinions on [Specific Trend/Product].\n        * Prompt 3: 'Would you rather?' scenario related to [Niche].\n    * **B. Promotional Post Prompts:**\n        * Prompt 4: Announce a new [Product/Service] with key benefits and a call to action.\n        * Prompt 5: Highlight a special offer/discount for [Product/Service] with urgency.\n        * Prompt 6: Showcase a customer testimonial for [Product/Service].\n    * **C. Educational/Informative Post Prompts:**\n        * Prompt 7: Explain a complex [Industry Term/Concept] in simple terms.\n        * Prompt 8: Share a 'how-to' guide for [Task related to Niche].\n        * Prompt 9: Provide interesting facts about [Niche/Industry].\n    * **D. Behind-the-Scenes/Brand Story Prompts:**\n        * Prompt 10: Share a relatable anecdote about [Company/Team Experience].\n        * Prompt 11: Introduce a team member and their role in [Company].\n        * Prompt 12: Give a sneak peek of [Upcoming Project/Product].\n\n**III. Platform-Specific Prompt Adjustments**\n    * **A. Instagram:**\n        * Prompt 13: Suggest engaging Instagram caption ideas for a [Type of Photo/Video].\n        * Prompt 14: Generate relevant Instagram Story poll questions.\n    * **B. Twitter:**\n        * Prompt 15: Craft concise and attention-grabbing tweets about [Topic].\n        * Prompt 16: Generate a thread of tweets on [In-depth Topic].\n    * **C. LinkedIn:**\n        * Prompt 17: Write a professional post on [Industry Insight/Thought Leadership].\n        * Prompt 18: Draft a connection request message for [Specific Professional].\n    * **D. Facebook:**\n        * Prompt 19: Create a Facebook post to drive traffic to [Website/Link].\n        * Prompt 20: Suggest a Facebook Live topic for [Niche].\n\n**IV. Advanced Prompting Techniques**\n    * **A. Tone and Style Modifiers:**\n        * Prompt 21: Rewrite a previous post in a [Humorous/Inspirational/Casual] tone.\n    * **B. Call to Action (CTA) Variations:**\n        * Prompt 22: Suggest 5 different CTAs for a [Promotional Post].\n\n**V. Customization and Best Practices**\n    * Tips for tailoring prompts to your specific brand voice.\n    * Strategies for testing and iterating on AI-generated content.\n    * Ethical considerations when using AI for content creation.",
+        "confidence": 0.9
+      },
+      "validation": {
+        "isValid": true,
+        "issues": [],
+        "stage": "outline"
+      }
+    }
+  ],
+  "validationResults": [
+    {
+      "attempt": 1,
+      "parsed": true,
+      "shapeValid": true,
+      "status": "completed",
+      "action": "create a product outline",
+      "issues": []
+    },
+    {
+      "attempt": 2,
+      "parsed": true,
+      "shapeValid": true,
+      "status": "completed",
+      "action": "create a product outline",
+      "issues": []
+    }
+  ],
+  "retryTriggered": true,
+  "finalObject": {
+    "action": "create a product outline",
+    "status": "completed",
+    "reason": "Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack. Duplicate risk remained after retry.",
+    "task": {
+      "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
+      "details": "Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.",
+      "priority": "high"
+    },
+    "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+    "productType": "prompt pack",
+    "niche": "AI Content Generation for Social Media",
+    "targetBuyer": "Social Media Managers, Content Creators, Small Business Owners",
+    "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+    "shortDescription": "Unlock your social media potential with expertly crafted AI prompts for engaging posts.",
+    "priceSuggestion": "19.99",
+    "price": 19.99,
+    "description": "This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.",
+    "bullets": [
+      "Boost engagement with AI-generated post ideas.",
+      "Save time and effort in content creation.",
+      "Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.",
+      "Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.",
+      "Includes prompts for different tones: professional, casual, humorous, inspirational.",
+      "Easy-to-use, copy-paste prompts for immediate results."
+    ],
+    "publishInstructions": "1. Go to Gumroad.\n2. Create a new product.\n3. Use the title: AI Social Media Post Generator Prompt Pack | Effortless Content Creation.\n4. Set the price to $19.99.\n5. Upload the file: ai-powered-social-media-post-generator-prompt-pack.md.\n6. Paste the sales description and publish.",
+    "fileContent": "# AI-Powered Social Media Post Generator Prompt Pack\n\nThis comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.\n\n## How To Use\n1. Pick the prompt category that matches your immediate goal.\n2. Paste the prompt into your AI tool and replace placeholders with your own context.\n3. Save the best outputs, refine them, and repeat with the follow-up prompts.\n\n## Research And Positioning\n1. ## AI-Powered Social Media Post Generator Prompt Pack Outline\n2. **I. Introduction to AI Prompt Engineering for Social Media**\n3. What are AI prompts?\n4. Benefits of using AI for social media content\n5. How to get the best results from these prompts\n6. **II. Core Prompt Categories**\n\n## Creation And Delivery\n1. **A. Engaging Question Prompts:**\n2. Prompt 1: Ask a question to spark discussion about [Industry/Topic].\n3. Prompt 2: Seek audience opinions on [Specific Trend/Product].\n4. Prompt 3: 'Would you rather?' scenario related to [Niche].\n5. **B. Promotional Post Prompts:**\n6. Prompt 4: Announce a new [Product/Service] with key benefits and a call to action.\n\n## Marketing And Optimization\n1. Prompt 5: Highlight a special offer/discount for [Product/Service] with urgency.\n2. Prompt 6: Showcase a customer testimonial for [Product/Service].\n3. **C. Educational/Informative Post Prompts:**\n4. Prompt 7: Explain a complex [Industry Term/Concept] in simple terms.\n5. Prompt 8: Share a 'how-to' guide for [Task related to Niche].\n6. Prompt 9: Provide interesting facts about [Niche/Industry].\n\n## Scaling And Retention\n1. **D. Behind-the-Scenes/Brand Story Prompts:**\n2. Prompt 10: Share a relatable anecdote about [Company/Team Experience].\n3. Prompt 11: Introduce a team member and their role in [Company].\n4. Prompt 12: Give a sneak peek of [Upcoming Project/Product].\n5. **III. Platform-Specific Prompt Adjustments**\n6. Prompt 13: Suggest engaging Instagram caption ideas for a [Type of Photo/Video].\n\n## Final Tips\n- Be specific about your audience, offer, and constraints before running a prompt.\n- Reuse strong outputs as source material for the next prompt in the pack.\n- Keep a swipe file of the best responses so you can improve them over time.\n\nFile to upload: ai-powered-social-media-post-generator-prompt-pack.md",
+    "confidence": 0.35
+  },
+  "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+  "productType": "prompt pack",
+  "niche": "AI Content Generation for Social Media",
+  "targetBuyer": "Social Media Managers, Content Creators, Small Business Owners",
+  "listingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
+  "price": 19.99,
+  "description": "This comprehensive prompt pack is designed to empower social media managers, content creators, and small business owners to generate high-quality, engaging social media content with ease. Leverage the power of AI to overcome writer's block and consistently publish captivating posts across various platforms.",
+  "bullets": [
+    "Boost engagement with AI-generated post ideas.",
+    "Save time and effort in content creation.",
+    "Adaptable prompts for Facebook, Instagram, Twitter, LinkedIn, and more.",
+    "Versatile prompts for different content types: promotional, educational, engaging questions, behind-the-scenes.",
+    "Includes prompts for different tones: professional, casual, humorous, inspirational.",
+    "Easy-to-use, copy-paste prompts for immediate results."
+  ],
+  "publishInstructions": "1. Go to Gumroad.\n2. Create a new product.\n3. Use the title: AI Social Media Post Generator Prompt Pack | Effortless Content Creation.\n4. Set the price to $19.99.\n5. Upload the file: ai-powered-social-media-post-generator-prompt-pack.md.\n6. Paste the sales description and publish.",
+  "confidence": 0.35,
+  "duplicateStatus": "duplicate",
+  "outputPath": "outputs/agent-a/ai-powered-social-media-post-generator-prompt-pack.md",
+  "finalStatus": "completed",
+  "errorMessage": "",
+  "errorStack": "",
+  "profit": 0
+}
