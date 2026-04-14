@@ -1,4 +1,59 @@
 {
-  "generatedAt": "",
-  "agents": []
+  "generatedAt": "2026-04-14T10:38:46.852Z",
+  "agents": [
+    {
+      "name": "agent-a",
+      "strategy": "generate and list digital products",
+      "revenue": 0,
+      "cost": 0,
+      "profit": 0,
+      "status": "completed",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T10:38:32.935Z",
+      "lastProductTitle": "AI-Powered Social Media Content Calendar",
+      "lastListingTitle": "AI Social Media Content Calendar Template Pack | Boost Engagement",
+      "lastProductType": "template pack",
+      "lastNiche": "Social Media Marketing",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original",
+      "stage": "idea",
+      "lastProgressMode": "progressing"
+    },
+    {
+      "name": "agent-b",
+      "strategy": "find small B2B automation opportunities",
+      "revenue": 0,
+      "cost": 0,
+      "profit": 0,
+      "status": "completed",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T10:38:34.758Z",
+      "lastProductTitle": "Automated Social Media Post Scheduler for Small Businesses",
+      "lastListingTitle": "Effortless Social Media Posting: AI Prompt Pack for Small Businesses",
+      "lastProductType": "Prompt Pack",
+      "lastNiche": "Social Media Marketing Automation",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original",
+      "stage": "idea",
+      "lastProgressMode": "progressing"
+    },
+    {
+      "name": "agent-c",
+      "strategy": "launch simple content-driven micro-products",
+      "revenue": 0,
+      "cost": 0,
+      "profit": 0,
+      "status": "completed",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T10:38:30.946Z",
+      "lastProductTitle": "AI-Powered Social Media Content Planner",
+      "lastListingTitle": "AI Social Media Content Planner Template Pack: Boost Engagement",
+      "lastProductType": "template pack",
+      "lastNiche": "social media marketing",
+      "lastConfidence": 0.9,
+      "lastDuplicateStatus": "original",
+      "stage": "idea",
+      "lastProgressMode": "progressing"
+    }
+  ]
 }
