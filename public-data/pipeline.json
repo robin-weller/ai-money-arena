@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-14T15:49:50.453Z",
-  "totalProducts": 2,
+  "generatedAt": "2026-04-14T16:17:15.527Z",
+  "totalProducts": 3,
   "totalRevenue": 0,
-  "totalAiCost": 0.010681,
-  "totalProfit": -0.010681,
+  "totalAiCost": 0.011697599999999999,
+  "totalProfit": -0.011697599999999999,
   "byStage": {
     "idea": [],
     "building": [],
@@ -32,6 +32,16 @@
         "elementCount": 18,
         "createdAt": "2026-04-14T15:33:49.723Z",
         "completedAt": "2026-04-14T15:49:34.912Z"
+      },
+      {
+        "id": "product-1776183423980",
+        "title": "Goal Tracker & Action Planner",
+        "productType": "goal-tracker",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 44,
+        "createdAt": "2026-04-14T16:17:03.980Z",
+        "completedAt": "2026-04-14T16:17:09.869Z"
       }
     ],
     "live": []

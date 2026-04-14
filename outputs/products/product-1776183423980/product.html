@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Goal Tracker &amp; Action Planner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, sans-serif;
+      color: #344E41;
+      background: #FDF6EC;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover-page {
+      width: 210mm;
+      height: 297mm;
+      background: #FDF6EC;
+      display: flex;
+      flex-direction: column;
+      padding: 22mm 22mm 18mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8mm;
+      height: 100%;
+      background: #A5A58D;
+    }
+
+    .cover-top-rule {
+      height: 2px;
+      background: #A5A58D;
+      margin-bottom: 16mm;
+      opacity: 0.25;
+    }
+
+    .cover-category {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #A5A58D;
+      margin-bottom: 10mm;
+    }
+
+    .cover-title {
+      font-family: Playfair Display, serif;
+      font-size: 34pt;
+      font-weight: 700;
+      color: #6B705C;
+      line-height: 1.1;
+      margin: 0 0 8mm;
+      max-width: 155mm;
+    }
+
+    .cover-divider {
+      width: 18mm;
+      height: 3px;
+      background: #A5A58D;
+      border-radius: 2px;
+      margin-bottom: 8mm;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #344E41;
+      opacity: 0.7;
+      line-height: 1.55;
+      max-width: 135mm;
+      margin-bottom: 14mm;
+      font-weight: 300;
+    }
+
+    .cover-instructions {
+      flex: 1;
+      background: #FFE8D6;
+      border-radius: 4px;
+      padding: 8mm 10mm;
+      margin-bottom: 10mm;
+    }
+
+    .cover-instructions h3 {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A5A58D;
+      margin: 0 0 5mm;
+    }
+
+    .cover-instructions ul {
+      margin: 0;
+      padding-left: 4mm;
+      list-style: none;
+    }
+
+    .cover-instructions li {
+      font-size: 10pt;
+      color: #344E41;
+      line-height: 1.6;
+      margin-bottom: 2.5mm;
+      padding-left: 4mm;
+      position: relative;
+    }
+
+    .cover-instructions li::before {
+      content: '→';
+      position: absolute;
+      left: -2mm;
+      color: #A5A58D;
+      font-weight: 600;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 5mm;
+      border-top: 1px solid #A5A58D;
+      opacity: 0.4;
+    }
+
+    .cover-footer-brand {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-footer-format {
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CONTENT PAGES ─── */
+    .content-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      page-break-before: always;
+      background: #FDF6EC;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+      padding-bottom: 3mm;
+      border-bottom: 1.5px solid #A5A58D;
+    }
+
+    .content-header-title {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A5A58D;
+    }
+
+    .content-header-page {
+      font-size: 8pt;
+      color: #344E41;
+      opacity: 0.4;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #6B705C;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.15;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-family: Inter, sans-serif;
+      color: #6B705C;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10mm 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1.5px solid #A5A58D;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #6B705C;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin: 7mm 0 2mm;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 4mm;
+    }
+
+    ul, ol {
+      margin: 0 0 4mm;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+      line-height: 1.6;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5mm 0 8mm;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #6B705C;
+      color: #FDF6EC;
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+      padding: 2.5mm 3.5mm;
+      text-align: left;
+      border: none;
+    }
+
+    td {
+      padding: 2.5mm 3.5mm;
+      border-bottom: 1px solid #FFE8D6;
+      border-right: none;
+      border-left: none;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #FFE8D6;
+    }
+
+    tr:nth-child(odd) td {
+      background: #FDF6EC;
+    }
+
+    /* ─── CHECKBOXES ─── */
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 4mm;
+      height: 4mm;
+      min-width: 4mm;
+      border: 1.5px solid #A5A58D;
+      border-radius: 1px;
+      margin-top: 0.8mm;
+      display: inline-block;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 8mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* ─── MISC ─── */
+    blockquote {
+      border-left: 3px solid #A5A58D;
+      margin: 5mm 0;
+      padding: 3mm 5mm;
+      background: #FFE8D6;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #FFE8D6;
+      margin: 6mm 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #FFE8D6;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #344E41;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <div class="cover-page">
+    <div class="cover-accent-bar"></div>
+    <div class="cover-top-rule"></div>
+    <div class="cover-category">Productivity · Instant Download</div>
+    <h1 class="cover-title">Goal Tracker &amp; Action Planner</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle">Achieve your goals with this daily action planner.</p>
+
+    <div class="cover-instructions">
+      <h3>How to Use</h3>
+      <ul><li>Define Your Goals: Clearly write down what you aim to achieve in the &quot;My Goals&quot; section.</li><li>Break Down Actions: For each goal, list the specific, actionable steps you need to take in the &quot;Action Plan&quot; section.</li><li>Track Progress Daily: Use the checkboxes to mark off completed tasks and habits each day.</li><li>Review Weekly: At the end of each week, reflect on your progress and challenges using the prompts provided.</li><li>Stay Motivated: Use the footer quote to keep your spirits high and focus on your achievements.</li></ul>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-brand">Lazy Whippet</span>
+      <span class="cover-footer-format">Print-Ready PDF · Warm Calm</span>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 2+: CONTENT ═══ -->
+  <div class="content-page">
+    <div class="content-header">
+      <span class="content-header-title">Goal Tracker &amp; Action Planner</span>
+      <span class="content-header-page">Lazy Whippet</span>
+    </div>
+
+    <h1>Goal Tracker &amp; Action Planner</h1>
+<p>Simple tools for better productivity</p>
+<hr>
+<div class="section">
+<h2>My Goals &amp; Action Plan</h2>
+<p><strong>Week of:</strong> Monday, October 30th</p>
+<table>
+<thead>
+<tr>
+<th align="left">Goal Category</th>
+<th align="left">My Goal</th>
+<th align="left">Week 1 Actions</th>
+<th align="left">Mon - [ ]</th>
+<th align="left">Tue - [ ]</th>
+<th align="left">Wed - [ ]</th>
+<th align="left">Thu - [ ]</th>
+<th align="left">Fri - [ ]</th>
+<th align="left">Sat - [ ]</th>
+<th align="left">Sun - [ ]</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Health &amp; Wellness</strong></td>
+<td align="left">Improve Daily Hydration</td>
+<td align="left">Drink 8 glasses of water daily. Carry a water bottle.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Increase Physical Activity</td>
+<td align="left">30 minutes of brisk walking. Try a new yoga video.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Prioritize Sleep</td>
+<td align="left">Aim for 7-8 hours of sleep. Establish a wind-down routine.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"><strong>Personal Growth</strong></td>
+<td align="left">Read More Books</td>
+<td align="left">Read 20 pages from &quot;Atomic Habits&quot; daily. Visit the library.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Learn a New Skill (Coding Basics)</td>
+<td align="left">Complete 1 hour of online Python course. Practice basic syntax.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Practice Gratitude</td>
+<td align="left">Write down 3 things you&#39;re grateful for each evening.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"><strong>Professional</strong></td>
+<td align="left">Organize Digital Files</td>
+<td align="left">Create folders for projects. Archive old documents.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Improve Email Management</td>
+<td align="left">Check email twice a day. Respond to urgent emails within 2 hours.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Plan Weekly Tasks</td>
+<td align="left">Create a detailed to-do list for the week on Sunday evening.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"><strong>Home &amp; Lifestyle</strong></td>
+<td align="left">Declutter Living Space</td>
+<td align="left">Tidy up one area per day (e.g., coffee table, bookshelf).</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Meal Prep for the Week</td>
+<td align="left">Plan meals for the week. Grocery shop on Saturday.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Connect with Friends/Family</td>
+<td align="left">Send a text to a friend. Call a family member.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"><strong>Creative Pursuits</strong></td>
+<td align="left">Daily Drawing Practice</td>
+<td align="left">Sketch for 15 minutes. Explore new techniques.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">Journaling</td>
+<td align="left">Write in journal for 10 minutes. Reflect on thoughts.</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+<td align="left">[ ]</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Additional Tracking &amp; Notes</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Status</th>
+<th align="left">Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Morning Routine Completed</td>
+<td align="left">[ ] Yes [ ] No</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Evening Review Completed</td>
+<td align="left">[ ] Yes [ ] No</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Hydration Goal (Liters)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Steps Taken (Target: 10,000)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Meditation Duration (Minutes)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Hours of Focused Work</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Meals Eaten (Healthy Choices)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Social Interaction Time (Minutes)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Mood Tracker (1-5 Scale)</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Top Accomplishment of the Day</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Biggest Challenge of the Day</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Top Priority for Tomorrow</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Weekly Review</h2>
+<ol>
+<li><strong>What went well this week?</strong>
+<br>\</li>
+<li><strong>What were the biggest challenges I faced?</strong>
+<br>\</li>
+<li><strong>Did I make progress on my main goals? If so, what?</strong>
+<br>\</li>
+<li><strong>What habits did I successfully maintain?</strong>
+<br>\</li>
+<li><strong>What habits or tasks could I improve next week?</strong>
+<br>\</li>
+<li><strong>What is my main focus for the upcoming week?</strong>
+<br>\</li>
+</ol>
+<hr>
+<p>&quot;The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.&quot; - Stephen Covey</p>
+<p>A Lazy Whippet productivity tool</p>
+
+</div>
+
+    <div class="page-footer">
+      <span>Lazy Whippet &mdash; Goal Tracker &amp; Action Planner</span>
+      <span>Print &amp; Use · lazywh.com</span>
+    </div>
+  </div>
+
+</body>
+</html>

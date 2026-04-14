@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T15:49:50.453Z",
+  "generatedAt": "2026-04-14T16:17:15.527Z",
   "products": [
     {
       "id": "product-1776179802088",
@@ -50,6 +50,35 @@
         "pdf": "outputs/products/product-1776180829723/product.pdf",
         "cover": "outputs/products/product-1776180829723/cover.png",
         "mockup": "outputs/products/product-1776180829723/mockup-1.png"
+      },
+      "qaStatus": "passed",
+      "qaFailureStage": null,
+      "qaFailureReason": null,
+      "qaRetryCount": 0,
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
+    },
+    {
+      "id": "product-1776183423980",
+      "title": "Goal Tracker & Action Planner",
+      "status": "publish_ready",
+      "price": 4.99,
+      "revenue": 0,
+      "isPublished": false,
+      "marketplace": null,
+      "publishedUrl": null,
+      "publishedAt": null,
+      "listingId": null,
+      "aiCostTotal": 0.0010166,
+      "aiCalls": 3,
+      "themeId": "themeC",
+      "designReady": true,
+      "designOutputPaths": {
+        "html": "outputs/products/product-1776183423980/product.html",
+        "pdf": "outputs/products/product-1776183423980/product.pdf",
+        "cover": "outputs/products/product-1776183423980/cover.png",
+        "mockup": "outputs/products/product-1776183423980/mockup-1.png"
       },
       "qaStatus": "passed",
       "qaFailureStage": null,
