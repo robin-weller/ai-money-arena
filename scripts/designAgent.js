@@ -43,9 +43,20 @@ function applyTheme(template, brand, theme) {
     .replace(/\{\{BRAND_NAME\}\}/g, escapeHtml(brand.name));
 }
 
+// Convert GFM checkbox <input> elements to print-safe styled boxes
+function convertCheckboxes(html) {
+  return html.replace(/<li class="task-list-item">([\s\S]*?)<\/li>/g, (match, inner) => {
+    // Replace the <input type="checkbox" ...> with a styled span
+    const isChecked = /<input[^>]+checked[^>]*>/.test(inner);
+    const boxHtml = isChecked
+      ? '<span class="print-checkbox checked">✓</span>'
+      : '<span class="print-checkbox"></span>';
+    const cleaned = inner.replace(/<input[^>]+type="checkbox"[^>]*>/gi, boxHtml);
+    return `<li class="task-list-item">${cleaned}</li>`;
+  });
+}
+
 function wrapSections(html) {
-  // Wrap each h2 block in a .section div for page-break-inside: avoid
-  // Also insert explicit page breaks before large tables (>20 rows)
   const lines = html.split('\n');
   const out = [];
   let inSection = false;
@@ -124,7 +135,7 @@ function stripHowToUse(productContent) {
 function renderProductHtml(productContent, product, salesData, brand, theme) {
   const howToUseHtml = extractHowToUse(productContent);
   const mainContent = stripHowToUse(productContent);
-  const rawHtml = marked.parse(mainContent);
+  const rawHtml = convertCheckboxes(marked.parse(mainContent));
   const sectioned = wrapSections(rawHtml);
   const contentHtml = applyTableLayout(sectioned);
 

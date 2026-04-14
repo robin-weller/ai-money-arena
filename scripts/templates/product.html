@@ -260,8 +260,8 @@
     }
 
     td {
-      padding: 2.5mm 3mm;
-      min-height: 7mm;
+      padding: 3mm 3mm;
+      min-height: 9mm;
       border-bottom: 1px solid {{ACCENT}};
       border-right: none;
       border-left: none;
@@ -316,32 +316,57 @@
       padding: 2mm 2.5mm;
     }
 
-    /* ─── CHECKBOXES ─── */
+    /* ─── PRINT CHECKBOXES ─── */
     .task-list-item {
       list-style: none;
       margin-left: -4mm;
       display: flex;
       align-items: flex-start;
-      gap: 2.5mm;
-      margin-bottom: 2mm;
+      gap: 3mm;
+      margin-bottom: 3.5mm;
+      line-height: 1.6;
     }
 
+    /* Remove native checkbox — replaced by .print-checkbox */
     .task-list-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 4mm;
-      height: 4mm;
-      min-width: 4mm;
-      border: 1.5px solid {{SECONDARY}};
-      border-radius: 1px;
-      margin-top: 0.8mm;
-      display: inline-block;
+      display: none;
+    }
+
+    .print-checkbox {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 5.5mm;
+      height: 5.5mm;
+      min-width: 5.5mm;
+      border: 1.8px solid {{SECONDARY}};
+      border-radius: 1.5px;
+      margin-top: 0.4mm;
+      flex-shrink: 0;
+      background: transparent;
+      font-size: 9pt;
+      color: {{SECONDARY}};
+    }
+
+    .print-checkbox.checked {
+      background: {{ACCENT}};
     }
 
     /* ─── SECTIONS ─── */
     .section {
       page-break-inside: avoid;
       margin-bottom: 8mm;
+    }
+
+    /* Subtle guidance text beneath section headers */
+    .section > p:first-of-type,
+    .content-page > p:first-of-type {
+      color: {{TEXT}};
+      opacity: 0.55;
+      font-size: 8.5pt;
+      font-style: italic;
+      margin-top: -2mm;
+      margin-bottom: 4mm;
     }
 
     .page-break {

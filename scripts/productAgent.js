@@ -218,8 +218,8 @@ function countElements(content, productType) {
   // Table data rows: lines starting with | but NOT separator rows (|---|)
   const tableRows = (content.match(/^\|(?![-|])/gm) || []).length;
 
-  // Checkboxes: handle any number of spaces/tabs before [ ] or [x]
-  const checkboxes = (content.match(/^[\s]*[-*+]\s+\[[ xX]\]/gm) || []).length;
+  // Checkboxes: handle □ Unicode, [ ] markdown style, and [x] checked
+  const checkboxes = (content.match(/^[\s]*[-*+]\s+(?:\[[ xX]\]|□)/gm) || []).length;
 
   // Numbered list items
   const numbered = (content.match(/^\d+\.\s+\S/gm) || []).length;
@@ -268,7 +268,27 @@ function validateProduct(content, productType) {
     return { valid: false, reason: `Contains sequential day labels (${dayMatches.slice(0,3).join(', ')}…) — use blank rows instead` };
   }
 
-  const { total, breakdown } = countElements(content, productType);
+  // Reject markdown [ ] checkbox syntax — must use □ Unicode for print-safe checkboxes
+  const MARKDOWN_CHECKBOX_RE = /^[\s]*[-*+]\s+\[\s\]/gm;
+  const markdownCheckboxes = content.match(MARKDOWN_CHECKBOX_RE) || [];
+  if (markdownCheckboxes.length > 0) {
+    return { valid: false, reason: `Contains markdown "[ ]" checkbox syntax (${markdownCheckboxes.length} found) — use □ Unicode character instead for print-safe checkboxes` };
+  }
+
+  // Reject tables that have a separator row but no meaningful column headers
+  // A header row directly above | --- | must contain at least one non-empty, non-dashes cell
+  const TABLE_BLOCK_RE = /^(\|[^\n]+\|)\n\|[\s\-|:]+\|/gm;
+  let tableMatch;
+  while ((tableMatch = TABLE_BLOCK_RE.exec(content)) !== null) {
+    const headerRow = tableMatch[1];
+    const cells = headerRow.split('|').map(c => c.trim()).filter(Boolean);
+    const emptyHeaders = cells.filter(c => !c || /^[-\s]+$/.test(c)).length;
+    if (emptyHeaders === cells.length) {
+      return { valid: false, reason: 'Table found with no column headers — every table must have descriptive headers (e.g. Task | Priority | Due Date | Status | Notes)' };
+    }
+  }
+
+
   const label = productType || 'unknown';
   console.log(`[product-agent] Element count for ${label}: total=${total} tables=${breakdown.tableRows} checkboxes=${breakdown.checkboxes} numbered=${breakdown.numbered} bullets=${breakdown.plainBullets} sections=${breakdown.sections} fields=${breakdown.fieldLines}`);
 
@@ -328,8 +348,10 @@ PRODUCT REQUIREMENTS:
 - Type: ${productLabel}
 - Must be immediately printable and usable without any editing
 - Minimum 30 usable rows/fields/checkboxes/elements
-- Use markdown tables with clear column headers
-- Use checkboxes (- [ ]) for task/habit tracking sections
+- Use markdown tables with clear, descriptive column headers (e.g. | Task | Priority | Due Date | Status | Notes |)
+- Every table MUST include a header row — never leave headers blank or generic
+- Use □ (Unicode U+25A1) for checkboxes in task/habit lists — do NOT use markdown "[ ]" syntax
+- Each □ item must have enough surrounding space for comfortable handwriting
 - Include a brief "How to Use" section (3-5 bullet points)
 - No pre-filled dates, fixed calendar values, or sequential day labels like "Day 1, Day 2"
 - No personal pre-fills — the buyer fills everything in themselves
@@ -338,8 +360,10 @@ PRODUCT REQUIREMENTS:
 - For habit/challenge trackers: blank rows where the user writes the habit name and fills daily checkboxes
 - For planners: include "Date: ______" at the top of each page/section
 - Column headers in tables should be structural, not date-specific (e.g. "Habit" | "M" | "T" | "W" | "Th" | "F" | "Sa" | "Su" | "✓")
-- Rows in tracker tables: blank "______" in the habit/task column, empty checkboxes in tracking columns
+- Rows in tracker tables: blank "______" in the habit/task column, □ in tracking columns (not [ ])
 - No placeholders like [topic], [fill in here], [your goal] — use "______" for user-fillable fields
+- Add subtle guidance text beneath each section header (one short sentence explaining what to do)
+- Section labels must be clear and intuitive — user must understand each section without asking
 
 PRINT USABILITY (CRITICAL):
 - Ensure there is enough writing space in every row and field
