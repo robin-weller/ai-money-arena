@@ -6,15 +6,53 @@ const ROOT_DIR = path.join(__dirname, "..");
 const STATE_DIR = path.join(ROOT_DIR, "state");
 const AGENTS_DIR = path.join(STATE_DIR, "agents");
 const LOGS_DIR = path.join(ROOT_DIR, "logs");
-const FALLBACK_DECISION = {
+const MESSAGES_PATH = path.join(STATE_DIR, "messages.json");
+const TASKS_PATH = path.join(STATE_DIR, "tasks.json");
+
+const FALLBACK_INVALID_MODEL_OUTPUT = {
   action: "none",
   status: "blocked_waiting_for_human",
   reason: "Invalid model output",
   task: null
+} as const;
+
+const FALLBACK_RUNTIME_FAILURE = {
+  action: "none",
+  status: "blocked_waiting_for_human",
+  reason: "Runtime failure",
+  task: null
+} as const;
+
+type TaskPayload = {
+  title: string;
+  details: string;
+  priority: "low" | "medium" | "high";
+};
+
+type WorkerDecision = {
+  action: string;
+  status: "completed" | "blocked_waiting_for_human";
+  reason: string;
+  task: TaskPayload | null;
 };
 
 function ensureDir(dirPath: string): void {
   fs.mkdirSync(dirPath, { recursive: true });
+}
+
+function trimString(value: unknown, maxLength: number): string {
+  return String(value || "").trim().replace(/^["']+|["']+$/g, "").slice(0, maxLength);
+}
+
+function defaultAgentState(agentName: string) {
+  return {
+    name: agentName,
+    strategy: "generate digital products",
+    revenue: 0,
+    cost: 0,
+    lastAction: "",
+    status: "idle"
+  };
 }
 
 function readJson<T>(filePath: string, fallback?: T): T {
@@ -29,18 +67,69 @@ function readJson<T>(filePath: string, fallback?: T): T {
 }
 
 function writeJson(filePath: string, data: unknown): void {
+  ensureDir(path.dirname(filePath));
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+
+function safeReadArray(filePath: string): any[] {
+  try {
+    const value = readJson<any>(filePath, []);
+    return Array.isArray(value) ? value : [];
+  } catch (_error: any) {
+    writeJson(filePath, []);
+    return [];
+  }
+}
+
+function safeReadConfig(): Record<string, any> {
+  try {
+    return readJson<Record<string, any>>(path.join(STATE_DIR, "config.json"), {});
+  } catch (_error: any) {
+    return {};
+  }
+}
+
+function getAgentFile(agentName: string): string {
+  return path.join(AGENTS_DIR, `${agentName}.json`);
+}
+
+function ensureAgentState(agentName: string, trace: string[]) {
+  const agentFile = getAgentFile(agentName);
+  const fallback = defaultAgentState(agentName);
+
+  try {
+    const state = readJson<any>(agentFile, fallback);
+
+    if (!state || typeof state !== "object" || Array.isArray(state)) {
+      throw new Error("Agent state must be a JSON object.");
+    }
+
+    const normalized = {
+      ...fallback,
+      ...state,
+      name: agentName,
+      strategy: trimString(state.strategy || fallback.strategy, 200) || fallback.strategy,
+      revenue: Number.isFinite(Number(state.revenue)) ? Number(state.revenue) : 0,
+      cost: Number.isFinite(Number(state.cost)) ? Number(state.cost) : 0,
+      lastAction: trimString(state.lastAction || "", 280),
+      status: trimString(state.status || fallback.status, 60) || fallback.status
+    };
+
+    writeJson(agentFile, normalized);
+    trace.push("load:agent-state-ready");
+    return normalized;
+  } catch (error: any) {
+    trace.push(`load:agent-state-reset:${error.message}`);
+    writeJson(agentFile, fallback);
+    return fallback;
+  }
 }
 
 function hasOpenTask(tasks: any[], agentName: string, taskTitle: string): boolean {
   return tasks.some((task) => task.agent === agentName && (task.title || task.task) === taskTitle && task.status !== "done");
 }
 
-function trimString(value: unknown, maxLength: number): string {
-  return String(value || "").trim().replace(/^["']+|["']+$/g, "").slice(0, maxLength);
-}
-
-function extractJson(text: string): object | null {
+export function extractJson(text: string): object | null {
   if (!text || typeof text !== "string") {
     return null;
   }
@@ -55,16 +144,14 @@ function extractJson(text: string): object | null {
     return null;
   }
 
-  const jsonSlice = candidate.slice(startIndex, endIndex + 1);
-
   try {
-    return JSON.parse(jsonSlice);
+    return JSON.parse(candidate.slice(startIndex, endIndex + 1));
   } catch (_error: any) {
     return null;
   }
 }
 
-function isValidTask(task: any): boolean {
+function isValidTask(task: any): task is TaskPayload {
   return Boolean(
     task &&
       typeof task === "object" &&
@@ -85,7 +172,7 @@ function isValidDecisionShape(decision: any): boolean {
   );
 }
 
-function sanitizeDecision(decision: any) {
+function sanitizeDecision(decision: any): WorkerDecision {
   const task = isValidTask(decision?.task)
     ? {
         title: trimString(decision.task.title, 140),
@@ -95,28 +182,22 @@ function sanitizeDecision(decision: any) {
     : null;
 
   return {
-    action: trimString(decision?.action || "none", 280),
+    action: trimString(decision?.action || "none", 280) || "none",
     status: decision?.status === "blocked_waiting_for_human" ? "blocked_waiting_for_human" : "completed",
-    reason: trimString(decision?.reason || "", 500),
+    reason: trimString(decision?.reason || "", 500) || "Invalid model output",
     task
   };
 }
 
-function getAgentFile(agentName: string): string {
-  return path.join(AGENTS_DIR, `${agentName}.json`);
-}
+function buildPrompt(agentState: any, messages: any[], tasks: any[], config: Record<string, any>): string {
+  const recentMessages = messages.slice(-3).map((entry) => `- ${entry.agent}: ${entry.message}`).join("\n") || "- none";
+  const openTasks = tasks
+    .filter((task) => task.status !== "done")
+    .slice(-3)
+    .map((task) => `- ${task.agent}: ${task.title || task.task}`)
+    .join("\n") || "- none";
 
-function buildPrompt(agentState: any, messages: any[], tasks: any[], config: any): string {
-  const recentMessages =
-    messages.slice(-3).map((entry) => `- ${entry.agent}: ${entry.message}`).join("\n") || "- none";
-  const openTasks =
-    tasks
-      .filter((task) => task.status !== "done")
-      .slice(-3)
-      .map((task) => `- ${task.agent}: ${task.title || task.task}`)
-      .join("\n") || "- none";
-
-  return [
+  const prompt = [
     "You are an autonomous agent whose goal is to generate money.",
     "Choose exactly ONE concrete monetisation action for this run.",
     "",
@@ -145,84 +226,54 @@ function buildPrompt(agentState: any, messages: any[], tasks: any[], config: any
     "  }",
     "}",
     "",
-    `Agent: ${agentState.name}`,
-    `Strategy: ${agentState.strategy}`,
-    `Revenue: ${agentState.revenue}`,
-    `Cost: ${agentState.cost}`,
+    `Agent: ${trimString(agentState.name, 80) || "agent"}`,
+    `Strategy: ${trimString(agentState.strategy, 200) || "generate digital products"}`,
+    `Revenue: ${Number(agentState.revenue || 0)}`,
+    `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
     `Open tasks:\n${openTasks}`,
     `Keep it short and practical. Max ${config.maxActionChars || 140} chars for action.`
   ].join("\n");
+
+  return trimString(prompt, 6000);
 }
 
-async function run(): Promise<void> {
-  const agentName = process.argv[2];
-
-  if (!agentName) {
-    throw new Error("Usage: node scripts/runWorker.js <agent-name>");
-  }
-
+function writeLog(agentName: string, payload: unknown): void {
   ensureDir(LOGS_DIR);
+  const logPath = path.join(LOGS_DIR, `${agentName}-${Date.now()}.json`);
+  fs.writeFileSync(logPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
 
-  const config = readJson<any>(path.join(STATE_DIR, "config.json"), {});
-  const agentFile = getAgentFile(agentName);
-  const agentState = readJson<any>(agentFile);
-  const messagesPath = path.join(STATE_DIR, "messages.json");
-  const tasksPath = path.join(STATE_DIR, "tasks.json");
-  const messages = readJson<any[]>(messagesPath, []);
-  const tasks = readJson<any[]>(tasksPath, []);
-
-  console.log(`[worker] Running ${agentName}`);
-
-  let rawGeminiText = "";
-  let parsedDecision: any = null;
-  let finalDecision: any;
-  let runError: any = null;
-  let nextTasks = tasks;
-
-  try {
-    const prompt = buildPrompt(agentState, messages, tasks, config);
-    rawGeminiText = await callGemini(prompt, {
-      timeoutMs: config.geminiTimeoutMs || 20000
-    });
-    parsedDecision = extractJson(rawGeminiText);
-    finalDecision = isValidDecisionShape(parsedDecision) ? sanitizeDecision(parsedDecision) : FALLBACK_DECISION;
-  } catch (error: any) {
-    runError = error;
-    finalDecision = {
-      action: "none",
-      status: "blocked_waiting_for_human",
-      reason: "Gemini API failure",
-      task: null
-    };
-  }
-
+function persistRun(agentState: any, messages: any[], tasks: any[], finalDecision: WorkerDecision, metadata: any) {
   const now = new Date().toISOString();
-  const profit = Number((agentState.revenue - agentState.cost).toFixed(2));
+  const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
+  const nextAgentState = {
+    ...agentState,
+    lastAction: finalDecision.action,
+    lastReason: finalDecision.reason,
+    lastRunAt: now,
+    status: finalDecision.status,
+    profit
+  };
 
-  agentState.lastAction = finalDecision.action;
-  agentState.lastReason = finalDecision.reason;
-  agentState.lastRunAt = now;
-  agentState.status = finalDecision.status;
-  agentState.profit = profit;
+  writeJson(getAgentFile(agentState.name), nextAgentState);
 
-  writeJson(agentFile, agentState);
-
-  const nextMessages = readJson<any[]>(messagesPath, []);
+  const nextMessages = Array.isArray(messages) ? [...messages] : [];
   nextMessages.push({
     timestamp: now,
     agent: agentState.name,
     type: finalDecision.status,
     message: `${finalDecision.action} (${finalDecision.reason})`.slice(0, 500)
   });
-  writeJson(messagesPath, nextMessages);
+  writeJson(MESSAGES_PATH, nextMessages);
 
+  const nextTasks = Array.isArray(tasks) ? [...tasks] : [];
   if (
     finalDecision.status === "blocked_waiting_for_human" &&
     finalDecision.task &&
-    !hasOpenTask(tasks, agentState.name, finalDecision.task.title)
+    !hasOpenTask(nextTasks, agentState.name, finalDecision.task.title)
   ) {
-    const taskEntry = {
+    nextTasks.push({
       id: `${agentState.name}-${Date.now()}`,
       createdAt: now,
       agent: agentState.name,
@@ -231,37 +282,131 @@ async function run(): Promise<void> {
       priority: finalDecision.task.priority,
       reason: finalDecision.reason,
       status: "open"
-    };
-    nextTasks = [...tasks, taskEntry];
-    writeJson(tasksPath, nextTasks);
+    });
   }
+  writeJson(TASKS_PATH, nextTasks);
 
-  const logEntry = {
+  writeLog(agentState.name, {
     timestamp: now,
     agent: agentState.name,
-    rawGeminiText: rawGeminiText.slice(0, 2000),
-    parsedObject: parsedDecision,
+    steps: metadata.trace,
+    stepReached: metadata.stepReached,
+    geminiResponseStatus: metadata.geminiResponseStatus,
+    rawGeminiText: trimString(metadata.rawGeminiText || "", 2000),
+    parsedObject: metadata.parsedObject,
     finalObject: finalDecision,
-    action: finalDecision.action,
-    status: finalDecision.status,
-    reason: finalDecision.reason,
     finalStatus: finalDecision.status,
-    profit,
-    errorMessage: runError ? String(runError.message || runError).slice(0, 500) : ""
-  };
+    errorMessage: metadata.error ? trimString(metadata.error.message || metadata.error, 500) : "",
+    errorStack: metadata.error?.stack ? String(metadata.error.stack).slice(0, 4000) : "",
+    profit
+  });
 
-  fs.writeFileSync(path.join(LOGS_DIR, `${agentState.name}-${Date.now()}.json`), `${JSON.stringify(logEntry, null, 2)}\n`, "utf8");
+  return nextAgentState;
+}
 
-  console.log(`[worker] parsed object: ${JSON.stringify(parsedDecision)}`);
-  console.log(`[worker] final object: ${JSON.stringify(finalDecision)}`);
-  console.log(`[worker] ${agentName} -> ${finalDecision.status}: ${finalDecision.action}`);
+export async function runWorker(agentName: string): Promise<WorkerDecision> {
+  const trace: string[] = [];
+  let stepReached = "start";
+  let geminiResponseStatus: number | null = null;
+  let rawGeminiText = "";
+  let parsedObject: any = null;
+  let agentState: any = defaultAgentState(agentName);
+  let messages: any[] = [];
+  let tasks: any[] = [];
 
-  if (runError) {
-    console.log(`[worker] ${agentName} error handled: ${runError.message}`);
+  try {
+    ensureDir(LOGS_DIR);
+    trace.push(`start:${agentName}`);
+
+    stepReached = "load";
+    trace.push("load");
+    const config = safeReadConfig();
+    agentState = ensureAgentState(agentName, trace);
+    messages = safeReadArray(MESSAGES_PATH);
+    tasks = safeReadArray(TASKS_PATH);
+
+    stepReached = "prompt";
+    trace.push("prompt");
+    const prompt = buildPrompt(agentState, messages, tasks, config);
+    if (!prompt || !prompt.trim()) {
+      throw new Error("Generated prompt is empty.");
+    }
+
+    stepReached = "gemini";
+    trace.push("gemini");
+    const geminiResult = await callGemini(prompt, {
+      timeoutMs: config.geminiTimeoutMs || 20000
+    });
+    rawGeminiText = typeof geminiResult?.text === "string" ? geminiResult.text : "";
+    geminiResponseStatus = geminiResult?.status ?? null;
+
+    stepReached = "parse";
+    trace.push("parse");
+    parsedObject = extractJson(rawGeminiText);
+    const finalDecision = isValidDecisionShape(parsedObject)
+      ? sanitizeDecision(parsedObject)
+      : FALLBACK_INVALID_MODEL_OUTPUT;
+
+    stepReached = "save";
+    trace.push("save");
+    const nextAgentState = persistRun(agentState, messages, tasks, finalDecision, {
+      trace,
+      stepReached,
+      geminiResponseStatus,
+      rawGeminiText,
+      parsedObject,
+      error: null
+    });
+
+    console.log(`[worker] agent=${agentName}`);
+    console.log(`[worker] steps=${trace.join(" -> ")}`);
+    console.log(`[worker] gemini.status=${geminiResponseStatus}`);
+    console.log(`[worker] parsed=${JSON.stringify(parsedObject)}`);
+    console.log(`[worker] final=${JSON.stringify(finalDecision)}`);
+    console.log(`[worker] saved=${nextAgentState.status}`);
+    return finalDecision;
+  } catch (error: any) {
+    trace.push(`error:${stepReached}`);
+
+    const fallbackDecision: WorkerDecision = { ...FALLBACK_RUNTIME_FAILURE };
+    try {
+      stepReached = "save";
+      trace.push("save");
+      persistRun(agentState, messages, tasks, fallbackDecision, {
+        trace,
+        stepReached,
+        geminiResponseStatus,
+        rawGeminiText,
+        parsedObject,
+        error
+      });
+    } catch (persistError: any) {
+      console.error("[worker] Failed to persist fallback state:", persistError);
+    }
+
+    console.error(`[worker] agent=${agentName}`);
+    console.error(`[worker] steps=${trace.join(" -> ")}`);
+    console.error(`[worker] gemini.status=${geminiResponseStatus}`);
+    console.error(`[worker] error.message=${error.message}`);
+    console.error(`[worker] error.stack=${error.stack || ""}`);
+    return fallbackDecision;
   }
 }
 
-run().catch((error) => {
-  console.error("[worker] Fatal error:", error);
-  process.exit(1);
-});
+async function main(): Promise<void> {
+  const agentName = process.argv[2];
+
+  if (!agentName) {
+    console.error("[worker] Missing agent name. Usage: node scripts/runWorker.js <agent-name>");
+    return;
+  }
+
+  const result = await runWorker(agentName);
+  console.log(`[worker] result=${JSON.stringify(result)}`);
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error("[worker] Unhandled main error:", error);
+  });
+}

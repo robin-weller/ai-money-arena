@@ -67,7 +67,10 @@ async function callGemini(prompt, options = {}) {
       throw new Error(`Gemini returned invalid JSON response: ${error.message}`);
     }
 
-    return extractTextResponse(payload);
+    return {
+      text: extractTextResponse(payload),
+      status: response.status
+    };
   } catch (error) {
     if (error.name === "AbortError") {
       throw new Error(`Gemini request timed out after ${timeoutMs}ms.`);
