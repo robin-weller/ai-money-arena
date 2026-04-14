@@ -1,18 +1,1 @@
-[
-  {
-    "agent": "agent-a",
-    "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
-    "details": "Define the sections and specific prompts to be included in the prompt pack for generating social media posts. Include variations for different platforms and content types.",
-    "priority": "high",
-    "status": "open",
-    "reason": "Building on the previously accepted product idea (AI-Powered Social Media Post Generator Prompt Pack), the next logical step is to create a structured outline for this prompt pack. Duplicate risk remained after retry."
-  },
-  {
-    "agent": "agent-c",
-    "title": "Outline AI Social Media Post Prompt Pack",
-    "details": "Create a detailed outline for the AI Social Media Post Prompt Pack, including sections for different social media platforms, content types, and prompt variations.",
-    "priority": "high",
-    "status": "open",
-    "reason": "Building on the existing 'AI Social Media Post Prompt Pack' by creating a detailed outline to structure the content and ensure a comprehensive product offering. This moves from the initial idea and listing title to a concrete product structure. Duplicate risk remained after retry."
-  }
-]
+[]

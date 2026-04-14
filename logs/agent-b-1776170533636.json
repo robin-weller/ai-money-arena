@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-04-14T12:42:13.634Z",
+  "agent": "agent-b",
+  "steps": [
+    "start:agent-b",
+    "load",
+    "load:agent-state-ready",
+    "prompt",
+    "gemini",
+    "parse:1",
+    "validate:1:listing_not_publish_ready",
+    "parse:2",
+    "validate:2:listing_not_publish_ready",
+    "save"
+  ],
+  "stepReached": "save",
+  "geminiResponseStatus": 200,
+  "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"The previous attempt failed due to an invalid output. Building on the established product idea of an 'AI-Powered Social Media Post Generator Prompt Pack', the next logical step is to create a publish-ready listing for Gumroad. This includes defining the product details, writing a compelling description, and providing clear publishing instructions. This is a concrete step towards monetization.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Social Media Marketing\",\n  \"targetBuyer\": \"Small Business Owners and Marketing Managers\",\n  \"listingTitle\": \"Boost Your Social Media: AI Prompt Pack for Effortless Content Creation\",\n  \"shortDescription\": \"Generate engaging social media posts in minutes with this AI prompt pack. Save time, increase engagement, and drive business growth.\",\n  \"priceSuggestion\": \"This is a valuable tool for businesses looking to save time and improve their social media presence. Consider a price between $27 and $47.\",\n  \"price\": 37,\n  \"description\": \"Struggling to consistently create compelling social media content for your business? This AI-Powered Social Media Post Generator Prompt Pack is designed to eliminate writer's block and streamline your content creation process.  Targeted at small business owners and marketing managers, this pack provides you with a curated collection of expertly crafted prompts that leverage the power of AI to generate engaging posts for platforms like LinkedIn, Twitter, and Facebook.  Say goodbye to hours spent brainstorming and drafting. With these prompts, you'll be able to quickly produce posts that educate, entertain, and convert your audience.  Focus on running your business while our prompts handle the creative heavy lifting.  *",
+  "parsedObject": {
+    "action": "create publish-ready listing",
+    "status": "completed",
+    "reason": "The previous attempt failed due to an invalid output. Building on the established product idea of an 'AI-Powered Social Media Post Generator Prompt Pack', the next logical step is to create a publish-ready listing for Gumroad. This includes defining the product details, writing a compelling description, and providing clear publishing instructions. This is a concrete step towards monetization.",
+    "task": {
+      "title": "Approve and publish product",
+      "details": "Publish this listing on Gumroad",
+      "priority": "high"
+    },
+    "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+    "productType": "prompt pack",
+    "niche": "B2B Social Media Marketing",
+    "targetBuyer": "Small Business Owners and Marketing Managers",
+    "listingTitle": "Boost Your Social Media: AI Prompt Pack for Effortless Content Creation",
+    "shortDescription": "Generate engaging social media posts in minutes with this AI prompt pack. Save time, increase engagement, and drive business growth.",
+    "priceSuggestion": "This is a valuable tool for businesses looking to save time and improve their social media presence. Consider a price between $27 and $47.",
+    "price": 37,
+    "description": "Struggling to consistently create compelling social media content for your business? This AI-Powered Social Media Post Generator Prompt Pack is designed to eliminate writer's block and streamline your content creation process.  Targeted at small business owners and marketing managers, this pack provides you with a curated collection of expertly crafted prompts that leverage the power of AI to generate engaging posts for platforms like LinkedIn, Twitter, and Facebook.  Say goodbye to hours spent brainstorming and drafting. With these prompts, you'll be able to quickly produce posts that educate, entertain, and convert your audience.  Focus on running your business while our prompts handle the creative heavy lifting.  **Buyer Outcome:** Effortlessly generate high-quality social media content, save significant time, increase audience engagement, and ultimately drive more leads and sales for your business.",
+    "bullets": [
+      "Generate attention-grabbing posts for various platforms (LinkedIn, Twitter, Facebook).",
+      "Overcome content creation fatigue and writer's block instantly.",
+      "Save hours of brainstorming and drafting time each week.",
+      "Boost audience engagement with targeted and relevant content ideas.",
+      "Drive more traffic and potential customers to your business.",
+      "Easy to use: simply copy, paste, and customize AI-generated outputs."
+    ],
+    "publishInstructions": "Go to Gumroad, create new product, paste title 'Boost Your Social Media: AI Prompt Pack for Effortless Content Creation' and the description provided. Upload the prompt pack file. Set the price to $37. Add relevant tags like 'AI prompts', 'social media marketing', 'content creation', 'business growth'. Publish the product.",
+    "fileContent": "--- SOCIAL MEDIA POST GENERATOR PROMPT PACK ---\n\nThis pack contains prompts designed to help you generate a variety of social media posts using AI. Remember to review and customize the AI-generated content to match your brand voice and specific campaign goals.\n\n**1. Product/Service Announcement Prompt:**\n\nPrompt: \"Generate a compelling social media post announcing our new [Product/Service Name]. Highlight its key benefit: [Key Benefit 1], and a secondary benefit: [Key Benefit 2]. Include a call to action to visit our website: [Website URL]. Tone: Enthusiastic and informative.\"\n\n**2. Customer Testimonial/Social Proof Prompt:**\n\nPrompt: \"Craft a social media post that showcases a positive customer testimonial. Use the following quote: '[Customer Quote]'. Frame it as a success story and emphasize how our [Product/Service] helped them achieve [Customer's Result]. Include a call to action to learn more about similar success stories: [Link to Case Studies/Website]. Tone: Trustworthy and inspiring.\"\n\n**3. Behind-the-Scenes/Company Culture Prompt:**\n\nPrompt: \"Create a social media post giving our audience a glimpse into our company culture. Focus on [Specific Aspect of Culture, e.g., 'our collaborative team environment' or 'our commitment to innovation']. Include a photo description (e.g., 'Image of team brainstorming session'). End with a question to encourage engagement: '[Engagement Question]'. Tone: Authentic and relatable.\"\n\n**4. Tip/Educational Content Prompt:**\n\nPrompt: \"Generate a short, actionable social media post providing a valuable tip related to [Your Industry/Niche]. The tip should be: [Specific Tip]. Explain briefly why this tip is important. Include a call to action to follow us for more industry insights: [Website URL]. Tone: Helpful and authoritative.\"\n\n**5. Question/Engagement Prompt:**\n\nPrompt: \"Create an open-ended social media question designed to spark discussion within our community. The question should be about [Topic Relevant to Your Audience's Interests/Pain Points]. Encourage followers to share their thoughts and experiences. Tone: Curious and inviting.\"\n\n**6. Holiday/Seasonal Content Prompt:**\n\nPrompt: \"Draft a social media post for [Holiday/Season, e.g., 'upcoming Spring season' or 'National Small Business Week']. Connect it to our business by mentioning [How Your Business Relates to the Holiday/Season]. Include a festive greeting and a subtle call to action to check out our relevant offerings: [Link to Offerings]. Tone: Celebratory and relevant.\"\n\n**7. Problem/Solution Prompt:**\n\nPrompt: \"Identify a common pain point for our target audience: [Audience Pain Point]. Then, generate a social media post that presents our [Product/Service Name] as the ideal solution. Clearly explain how our offering solves this problem and its primary benefit: [Primary Benefit]. Include a call to action to discover the solution: [Website URL]. Tone: Empathetic and problem-solving.\"\n\n**8. Industry News/Trend Prompt:**\n\nPrompt: \"Create a social media post reacting to a recent trend or piece of news in the [Your Industry] industry: [Specific Trend/News Item]. Offer our perspective or insight on this development. Encourage followers to share their opinions: '[Engagement Question about the News]'. Tone: Informed and insightful.\"\n\n**9. Event Promotion Prompt:**\n\nPrompt: \"Generate a social media post promoting our upcoming event: [Event Name]. Include key details: Date: [Event Date], Time: [Event Time], Location: [Event Location/Virtual Link]. Highlight a key speaker or session: [Key Speaker/Session]. Include a call to action to register: [Registration Link]. Tone: Exciting and informative.\"\n\n**10. 'Did You Know?' Fact Prompt:**\n\nPrompt: \"Create a 'Did You Know?' social media post that shares an interesting and relevant fact about [Your Industry/Niche]. The fact is: [Interesting Fact]. Explain why this fact is significant or useful. Include a call to action to learn more from our experts: [Website URL]. Tone: Informative and surprising.\"\n\n--- END OF PROMPT PACK ---",
+    "confidence": 0.95
+  },
+  "attemptDetails": [
+    {
+      "attempt": 1,
+      "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"Product is ready for publishing. Consolidating previous efforts into a final Gumroad listing with a human approval task.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Social Media Marketing\",\n  \"targetBuyer\": \"Small Business Owners and Marketing Managers\",\n  \"listingTitle\": \"Effortless Social Media Posts: AI Prompt Pack for Business Growth\",\n  \"shortDescription\": \"Generate engaging social media content for your business in minutes with this AI prompt pack. Save time and boost your online presence.\",\n  \"priceSuggestion\": \"Offer a tiered pricing strategy or a single price point.\",\n  \"price\": 29.99,\n  \"description\": \"Are you a small business owner or marketing manager struggling to consistently create engaging social media content? This AI-Powered Social Media Post Generator Prompt Pack is designed to solve that problem. Stop staring at a blank screen and start generating high-quality posts effortlessly. Our carefully crafted prompts leverage the power of AI to help you brainstorm ideas, write compelling copy, and craft posts tailored to your specific business goals. \\n\\nImagine saving hours each week on content creation. With this pack, you'll gain access to prompts for various platforms (Facebook, Instagram, LinkedIn, Twitter) and objectives, including promotions, engagement, education, and behind-the-scenes glimpses. \\n\\nThis pack is your shortcut to a more active and impactful social media presence. You'll learn how to prompt AI for:\\n\\n*  Captivating captions that grab attention.\\n*  Relevant calls-to-action that drive results.\\n*  Content ideas aligned with your brand voice.\\n*  Posts that foster community and interaction.\\n\\nNo more guesswork. Just powerful prompts that del",
+      "parsedObject": {
+        "action": "create publish-ready listing",
+        "status": "completed",
+        "reason": "Product is ready for publishing. Consolidating previous efforts into a final Gumroad listing with a human approval task.",
+        "task": {
+          "title": "Approve and publish product",
+          "details": "Publish this listing on Gumroad",
+          "priority": "high"
+        },
+        "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+        "productType": "prompt pack",
+        "niche": "B2B Social Media Marketing",
+        "targetBuyer": "Small Business Owners and Marketing Managers",
+        "listingTitle": "Effortless Social Media Posts: AI Prompt Pack for Business Growth",
+        "shortDescription": "Generate engaging social media content for your business in minutes with this AI prompt pack. Save time and boost your online presence.",
+        "priceSuggestion": "Offer a tiered pricing strategy or a single price point.",
+        "price": 29.99,
+        "description": "Are you a small business owner or marketing manager struggling to consistently create engaging social media content? This AI-Powered Social Media Post Generator Prompt Pack is designed to solve that problem. Stop staring at a blank screen and start generating high-quality posts effortlessly. Our carefully crafted prompts leverage the power of AI to help you brainstorm ideas, write compelling copy, and craft posts tailored to your specific business goals. \n\nImagine saving hours each week on content creation. With this pack, you'll gain access to prompts for various platforms (Facebook, Instagram, LinkedIn, Twitter) and objectives, including promotions, engagement, education, and behind-the-scenes glimpses. \n\nThis pack is your shortcut to a more active and impactful social media presence. You'll learn how to prompt AI for:\n\n*  Captivating captions that grab attention.\n*  Relevant calls-to-action that drive results.\n*  Content ideas aligned with your brand voice.\n*  Posts that foster community and interaction.\n\nNo more guesswork. Just powerful prompts that deliver.",
+        "bullets": [
+          "Generate 10x more social media posts in half the time.",
+          "Overcome writer's block with ready-to-use AI prompts.",
+          "Boost engagement with targeted content for Facebook, Instagram, LinkedIn, and Twitter.",
+          "Craft compelling copy that converts followers into customers.",
+          "Save valuable time and resources on content creation.",
+          "Ideal for small business owners and busy marketing managers."
+        ],
+        "publishInstructions": "Go to Gumroad, create new product, paste title and description, upload file (attached below), set price to 29.99, and publish.",
+        "fileContent": "This is a prompt pack for generating social media posts using AI. The file contains a list of prompts categorized by objective and platform, designed for B2B social media marketing. Each prompt is structured to guide an AI model in creating engaging and effective content. \n\n## AI-Powered Social Media Post Generator Prompt Pack\n\nThis pack contains prompts designed to help you create a variety of social media posts for your business using AI. \n\n--- \n\n### **Category 1: Promotional Posts**\n\n*   **Prompt 1.1 (Product Launch):** \"Generate a compelling Instagram post announcing the launch of [Product Name]. Highlight its key benefit: [Key Benefit] and include a call-to-action to visit [Website URL]. Use emojis strategically.\" \n*   **Prompt 1.2 (Special Offer):** \"Create a Facebook post detailing a limited-time discount of [Discount Percentage]% on [Product/Service]. Emphasize urgency and provide a clear link to claim the offer: [Offer Link].\" \n*   **Prompt 1.3 (Service Highlight):** \"Draft a LinkedIn post showcasing our [Service Name] service. Focus on how it solves [Client Pain Point] for businesses and invite inquiries via DM.\" \n\n--- \n\n### **Category 2: Engagement Posts**\n\n*   **Prompt 2.1 (Question):** \"Write a thought-provoking question for Twitter related to [Industry Trend] that encourages discussion and engagement. Aim for a concise and open-ended question.\" \n*   **Prompt 2.2 (Poll Idea):** \"Suggest a fun poll for Instagram Stories asking followers about their preferences for [Two Related Options] within our industry. Keep it light and relatable.\" \n*   **Prompt 2.3 (Behind-the-Scenes):** \"Generate a short, personal Facebook post sharing a recent team achievement or a day-in-the-life snapshot at [Your Company Name]. Make it feel authentic and relatable.\"\n\n--- \n\n### **Category 3: Educational Posts**\n\n*   **Prompt 3.1 (Tip):** \"Create a concise LinkedIn post sharing a valuable tip for [Target Audience] on how to improve their [Skill/Area]. Explain the 'why' behind the tip.\"\n*   **Prompt 3.2 (How-To Snippet):** \"Draft an Instagram carousel post outline (title for each slide) explaining a simple 'how-to' for [Simple Task related to your business]. Focus on clarity and actionable steps.\"\n*   **Prompt 3.3 (Industry Insight):** \"Write a short, informative Twitter thread (3-4 tweets) about a recent development in [Your Industry] and its potential impact on businesses. Start with a hook.\" \n\n--- \n\n### **Category 4: Brand Building Posts**\n\n*   **Prompt 4.1 (Testimonial):** \"Craft a social media post (suitable for Facebook or LinkedIn) that highlights a positive customer testimonial: '[Customer Testimonial Snippet]'. Tag the customer if applicable and add a sentence about the impact.\"\n*   **Prompt 4.2 (Company Value):** \"Generate a post for [Platform, e.g., Instagram] that embodies one of our core company values: [Company Value]. Explain how we live this value in our daily operations.\"\n\n--- \n\n**Tips for Using These Prompts:**\n\n1.  **Be Specific:** Replace bracketed information `[...]` with your actual details.\n2.  **Iterate:** Don't be afraid to tweak the AI's output. The goal is to get a great starting point.\n3.  **Add Your Voice:** Inject your brand's unique personality into the generated content.\n4.  **Visuals Matter:** Always pair your text with compelling images or videos.\n5.  **Platform Adaptation:** Adjust length and tone slightly based on the platform's norms.\n\nEnjoy creating impactful social media content!",
+        "confidence": 0.95
+      },
+      "validation": {
+        "isValid": false,
+        "issues": [
+          "listing_not_publish_ready"
+        ],
+        "stage": "publish"
+      }
+    },
+    {
+      "attempt": 2,
+      "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"The previous attempt failed due to an invalid output. Building on the established product idea of an 'AI-Powered Social Media Post Generator Prompt Pack', the next logical step is to create a publish-ready listing for Gumroad. This includes defining the product details, writing a compelling description, and providing clear publishing instructions. This is a concrete step towards monetization.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI-Powered Social Media Post Generator Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Social Media Marketing\",\n  \"targetBuyer\": \"Small Business Owners and Marketing Managers\",\n  \"listingTitle\": \"Boost Your Social Media: AI Prompt Pack for Effortless Content Creation\",\n  \"shortDescription\": \"Generate engaging social media posts in minutes with this AI prompt pack. Save time, increase engagement, and drive business growth.\",\n  \"priceSuggestion\": \"This is a valuable tool for businesses looking to save time and improve their social media presence. Consider a price between $27 and $47.\",\n  \"price\": 37,\n  \"description\": \"Struggling to consistently create compelling social media content for your business? This AI-Powered Social Media Post Generator Prompt Pack is designed to eliminate writer's block and streamline your content creation process.  Targeted at small business owners and marketing managers, this pack provides you with a curated collection of expertly crafted prompts that leverage the power of AI to generate engaging posts for platforms like LinkedIn, Twitter, and Facebook.  Say goodbye to hours spent brainstorming and drafting. With these prompts, you'll be able to quickly produce posts that educate, entertain, and convert your audience.  Focus on running your business while our prompts handle the creative heavy lifting.  *",
+      "parsedObject": {
+        "action": "create publish-ready listing",
+        "status": "completed",
+        "reason": "The previous attempt failed due to an invalid output. Building on the established product idea of an 'AI-Powered Social Media Post Generator Prompt Pack', the next logical step is to create a publish-ready listing for Gumroad. This includes defining the product details, writing a compelling description, and providing clear publishing instructions. This is a concrete step towards monetization.",
+        "task": {
+          "title": "Approve and publish product",
+          "details": "Publish this listing on Gumroad",
+          "priority": "high"
+        },
+        "productTitle": "AI-Powered Social Media Post Generator Prompt Pack",
+        "productType": "prompt pack",
+        "niche": "B2B Social Media Marketing",
+        "targetBuyer": "Small Business Owners and Marketing Managers",
+        "listingTitle": "Boost Your Social Media: AI Prompt Pack for Effortless Content Creation",
+        "shortDescription": "Generate engaging social media posts in minutes with this AI prompt pack. Save time, increase engagement, and drive business growth.",
+        "priceSuggestion": "This is a valuable tool for businesses looking to save time and improve their social media presence. Consider a price between $27 and $47.",
+        "price": 37,
+        "description": "Struggling to consistently create compelling social media content for your business? This AI-Powered Social Media Post Generator Prompt Pack is designed to eliminate writer's block and streamline your content creation process.  Targeted at small business owners and marketing managers, this pack provides you with a curated collection of expertly crafted prompts that leverage the power of AI to generate engaging posts for platforms like LinkedIn, Twitter, and Facebook.  Say goodbye to hours spent brainstorming and drafting. With these prompts, you'll be able to quickly produce posts that educate, entertain, and convert your audience.  Focus on running your business while our prompts handle the creative heavy lifting.  **Buyer Outcome:** Effortlessly generate high-quality social media content, save significant time, increase audience engagement, and ultimately drive more leads and sales for your business.",
+        "bullets": [
+          "Generate attention-grabbing posts for various platforms (LinkedIn, Twitter, Facebook).",
+          "Overcome content creation fatigue and writer's block instantly.",
+          "Save hours of brainstorming and drafting time each week.",
+          "Boost audience engagement with targeted and relevant content ideas.",
+          "Drive more traffic and potential customers to your business.",
+          "Easy to use: simply copy, paste, and customize AI-generated outputs."
+        ],
+        "publishInstructions": "Go to Gumroad, create new product, paste title 'Boost Your Social Media: AI Prompt Pack for Effortless Content Creation' and the description provided. Upload the prompt pack file. Set the price to $37. Add relevant tags like 'AI prompts', 'social media marketing', 'content creation', 'business growth'. Publish the product.",
+        "fileContent": "--- SOCIAL MEDIA POST GENERATOR PROMPT PACK ---\n\nThis pack contains prompts designed to help you generate a variety of social media posts using AI. Remember to review and customize the AI-generated content to match your brand voice and specific campaign goals.\n\n**1. Product/Service Announcement Prompt:**\n\nPrompt: \"Generate a compelling social media post announcing our new [Product/Service Name]. Highlight its key benefit: [Key Benefit 1], and a secondary benefit: [Key Benefit 2]. Include a call to action to visit our website: [Website URL]. Tone: Enthusiastic and informative.\"\n\n**2. Customer Testimonial/Social Proof Prompt:**\n\nPrompt: \"Craft a social media post that showcases a positive customer testimonial. Use the following quote: '[Customer Quote]'. Frame it as a success story and emphasize how our [Product/Service] helped them achieve [Customer's Result]. Include a call to action to learn more about similar success stories: [Link to Case Studies/Website]. Tone: Trustworthy and inspiring.\"\n\n**3. Behind-the-Scenes/Company Culture Prompt:**\n\nPrompt: \"Create a social media post giving our audience a glimpse into our company culture. Focus on [Specific Aspect of Culture, e.g., 'our collaborative team environment' or 'our commitment to innovation']. Include a photo description (e.g., 'Image of team brainstorming session'). End with a question to encourage engagement: '[Engagement Question]'. Tone: Authentic and relatable.\"\n\n**4. Tip/Educational Content Prompt:**\n\nPrompt: \"Generate a short, actionable social media post providing a valuable tip related to [Your Industry/Niche]. The tip should be: [Specific Tip]. Explain briefly why this tip is important. Include a call to action to follow us for more industry insights: [Website URL]. Tone: Helpful and authoritative.\"\n\n**5. Question/Engagement Prompt:**\n\nPrompt: \"Create an open-ended social media question designed to spark discussion within our community. The question should be about [Topic Relevant to Your Audience's Interests/Pain Points]. Encourage followers to share their thoughts and experiences. Tone: Curious and inviting.\"\n\n**6. Holiday/Seasonal Content Prompt:**\n\nPrompt: \"Draft a social media post for [Holiday/Season, e.g., 'upcoming Spring season' or 'National Small Business Week']. Connect it to our business by mentioning [How Your Business Relates to the Holiday/Season]. Include a festive greeting and a subtle call to action to check out our relevant offerings: [Link to Offerings]. Tone: Celebratory and relevant.\"\n\n**7. Problem/Solution Prompt:**\n\nPrompt: \"Identify a common pain point for our target audience: [Audience Pain Point]. Then, generate a social media post that presents our [Product/Service Name] as the ideal solution. Clearly explain how our offering solves this problem and its primary benefit: [Primary Benefit]. Include a call to action to discover the solution: [Website URL]. Tone: Empathetic and problem-solving.\"\n\n**8. Industry News/Trend Prompt:**\n\nPrompt: \"Create a social media post reacting to a recent trend or piece of news in the [Your Industry] industry: [Specific Trend/News Item]. Offer our perspective or insight on this development. Encourage followers to share their opinions: '[Engagement Question about the News]'. Tone: Informed and insightful.\"\n\n**9. Event Promotion Prompt:**\n\nPrompt: \"Generate a social media post promoting our upcoming event: [Event Name]. Include key details: Date: [Event Date], Time: [Event Time], Location: [Event Location/Virtual Link]. Highlight a key speaker or session: [Key Speaker/Session]. Include a call to action to register: [Registration Link]. Tone: Exciting and informative.\"\n\n**10. 'Did You Know?' Fact Prompt:**\n\nPrompt: \"Create a 'Did You Know?' social media post that shares an interesting and relevant fact about [Your Industry/Niche]. The fact is: [Interesting Fact]. Explain why this fact is significant or useful. Include a call to action to learn more from our experts: [Website URL]. Tone: Informative and surprising.\"\n\n--- END OF PROMPT PACK ---",
+        "confidence": 0.95
+      },
+      "validation": {
+        "isValid": false,
+        "issues": [
+          "listing_not_publish_ready"
+        ],
+        "stage": "publish"
+      }
+    }
+  ],
+  "validationResults": [
+    {
+      "attempt": 1,
+      "parsed": true,
+      "shapeValid": true,
+      "status": "completed",
+      "action": "create publish-ready listing",
+      "issues": [
+        "listing_not_publish_ready"
+      ]
+    },
+    {
+      "attempt": 2,
+      "parsed": true,
+      "shapeValid": true,
+      "status": "completed",
+      "action": "create publish-ready listing",
+      "issues": [
+        "listing_not_publish_ready"
+      ]
+    }
+  ],
+  "retryTriggered": true,
+  "finalObject": {
+    "action": "retry_next_run",
+    "status": "completed",
+    "reason": "Model failed to produce valid output, will retry next cycle",
+    "task": null,
+    "productTitle": "",
+    "productType": "",
+    "niche": "",
+    "targetBuyer": "",
+    "listingTitle": "",
+    "shortDescription": "",
+    "priceSuggestion": "",
+    "price": 0,
+    "description": "",
+    "bullets": [],
+    "publishInstructions": "",
+    "fileContent": "",
+    "confidence": 0
+  },
+  "productTitle": "",
+  "productType": "",
+  "niche": "",
+  "targetBuyer": "",
+  "listingTitle": "",
+  "price": 0,
+  "description": "",
+  "bullets": [],
+  "publishInstructions": "",
+  "confidence": 0,
+  "duplicateStatus": "original",
+  "outputPath": "",
+  "finalStatus": "completed",
+  "errorMessage": "",
+  "errorStack": "",
+  "profit": 0
+}
