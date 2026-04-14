@@ -11,6 +11,11 @@
       margin: 0;
     }
 
+    @page landscape {
+      size: A4 landscape;
+      margin: 15mm 20mm;
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -233,10 +238,12 @@
     /* ─── TABLES ─── */
     table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       margin: 5mm 0 8mm;
       font-size: 9pt;
       page-break-inside: avoid;
+      word-wrap: break-word;
     }
 
     th {
@@ -245,18 +252,22 @@
       font-weight: 600;
       font-size: 8pt;
       letter-spacing: 0.5px;
-      padding: 2.5mm 3.5mm;
+      padding: 2.5mm 3mm;
       text-align: left;
       border: none;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     td {
-      padding: 3mm 3.5mm;
-      min-height: 8mm;
+      padding: 2.5mm 3mm;
+      min-height: 7mm;
       border-bottom: 1px solid {{ACCENT}};
       border-right: none;
       border-left: none;
       vertical-align: middle;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     /* Blank fill-in underlines: text like "______" rendered as a visible line */
@@ -274,6 +285,35 @@
 
     tr:nth-child(odd) td {
       background: {{BG}};
+    }
+
+    /* ─── COMPRESS TABLE (6-9 cols) ─── */
+    .compress-table {
+      font-size: 7.5pt;
+    }
+    .compress-table th {
+      font-size: 7pt;
+      padding: 1.5mm 2mm;
+      letter-spacing: 0;
+    }
+    .compress-table td {
+      padding: 1.5mm 2mm;
+      font-size: 7.5pt;
+    }
+
+    /* ─── LANDSCAPE TABLE WRAP (10+ cols) ─── */
+    .landscape-table-wrap {
+      page: landscape;
+      page-break-before: always;
+      width: 257mm; /* A4 landscape content width */
+      margin: 0 auto;
+    }
+    .landscape-table-wrap table {
+      font-size: 8pt;
+    }
+    .landscape-table-wrap th,
+    .landscape-table-wrap td {
+      padding: 2mm 2.5mm;
     }
 
     /* ─── CHECKBOXES ─── */

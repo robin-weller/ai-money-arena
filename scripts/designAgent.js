@@ -63,15 +63,44 @@ function wrapSections(html) {
   return out.join('\n');
 }
 
-function insertPageBreaksForLargeTables(html) {
-  // Find <table> elements with many <tr> rows and split them
+function countTableColumns(tableHtml) {
+  const firstRowMatch = tableHtml.match(/<tr[^>]*>([\s\S]*?)<\/tr>/);
+  if (!firstRowMatch) return 0;
+  const cells = firstRowMatch[1].match(/<t[hd][^>]*>/g) || [];
+  return cells.length;
+}
+
+function applyTableLayout(html) {
   return html.replace(/<table[\s\S]*?<\/table>/g, (tableHtml) => {
     const rows = (tableHtml.match(/<tr/g) || []).length;
-    if (rows > 20) {
-      // Wrap in a page-break div
-      return `<div class="page-break"></div>${tableHtml}`;
+    const cols = countTableColumns(tableHtml);
+
+    let result = tableHtml;
+
+    // Ensure table-layout fixed on all tables
+    if (!result.includes('class=')) {
+      result = result.replace('<table', '<table class="data-table"');
     }
-    return tableHtml;
+
+    // Compress moderately wide tables (6-9 cols)
+    if (cols >= 6 && cols < 10) {
+      result = result.replace('<table', '<table').replace(/class="([^"]*)"/, 'class="$1 compress-table"');
+      if (!result.includes('compress-table')) {
+        result = result.replace('<table', '<table class="compress-table"');
+      }
+    }
+
+    // Landscape for very wide tables (10+ cols)
+    if (cols >= 10) {
+      result = `<div class="landscape-table-wrap">${result}</div>`;
+    }
+
+    // Page break before tall tables (>20 rows)
+    if (rows > 20) {
+      result = `<div class="page-break"></div>${result}`;
+    }
+
+    return result;
   });
 }
 
@@ -97,7 +126,7 @@ function renderProductHtml(productContent, product, salesData, brand, theme) {
   const mainContent = stripHowToUse(productContent);
   const rawHtml = marked.parse(mainContent);
   const sectioned = wrapSections(rawHtml);
-  const contentHtml = insertPageBreaksForLargeTables(sectioned);
+  const contentHtml = applyTableLayout(sectioned);
 
   const subtitle = (salesData && salesData.shortSummary)
     ? salesData.shortSummary
@@ -113,15 +142,21 @@ function renderProductHtml(productContent, product, salesData, brand, theme) {
   return html;
 }
 
+function toTitleCase(str) {
+  return str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
 function renderCoverHtml(product, salesData, brand, theme) {
   const summary = salesData.shortSummary ||
     (salesData.description ? salesData.description.slice(0, 120) : null) ||
     product.title;
+  const productTypeLabel = product.productType ? `Printable ${toTitleCase(product.productType)}` : 'Printable Productivity Template';
   let html = loadTemplate('cover.html');
   html = applyTheme(html, brand, theme);
   html = html.replace(/\{\{TITLE\}\}/g, escapeHtml(product.title));
   html = html.replace(/\{\{SUMMARY\}\}/g, escapeHtml(summary));
   html = html.replace(/\{\{NICHE\}\}/g, escapeHtml(product.niche || 'productivity'));
+  html = html.replace(/\{\{PRODUCT_TYPE_LABEL\}\}/g, escapeHtml(productTypeLabel));
   return html;
 }
 

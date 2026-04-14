@@ -198,7 +198,7 @@
 
     <div class="left-panel">
       <div class="top-row">
-        <span class="category-pill">{{NICHE}}</span>
+        <span class="category-pill">{{PRODUCT_TYPE_LABEL}}</span>
       </div>
 
       <div class="middle">
@@ -243,5 +243,16 @@
       </div>
     </div>
   </div>
+  <script>
+    (function() {
+      var h1 = document.querySelector('h1');
+      if (h1 && h1.textContent.length > 50) {
+        h1.style.fontSize = '44px';
+      }
+      if (h1 && h1.textContent.length > 70) {
+        h1.style.fontSize = '36px';
+      }
+    })();
+  </script>
 </body>
 </html>
