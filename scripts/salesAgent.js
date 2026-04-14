@@ -43,7 +43,7 @@ Create an Etsy-optimised listing. Return ONLY valid JSON with this exact structu
   "description": "full Etsy product description 150-250 words: what it is, what's included, benefits, how to use, ideal for who",
   "category": "Paper & Party Supplies",
   "price": 4.99,
-  "shortSummary": "one sentence under 80 chars"
+  "shortSummary": "outcome-driven sentence under 80 chars — what the buyer will achieve (e.g. 'Plan your week in minutes and stop feeling overwhelmed')"
 }
 
 TITLE RULES (critical — follow exactly):
@@ -66,7 +66,9 @@ OTHER RULES:
 - No placeholders
 - Tags should be common Etsy search terms for productivity printables
 - Description should mention the target audience (${product.audience || 'productivity enthusiasts'}) and speak to their specific needs
-- Brand name may appear once in the description only, not the title`;
+- Brand name may appear once in the description only, not the title
+- shortSummary must be outcome-driven and specific — avoid generic phrases like "Get more done", "Stay productive", "Boost productivity", "Be more organised"
+- shortSummary should answer: what will the buyer actually achieve? (e.g. "Plan your week in minutes", "Stop forgetting habits with a simple daily grid", "Track every book you read and retain more")`;
 }
 
 async function run() {

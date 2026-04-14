@@ -91,6 +91,18 @@
       font-weight: 300;
     }
 
+    /* Audience line — "for busy professionals" */
+    .audience-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: {{SECONDARY}};
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+
     .bottom-row {
       display: flex;
       align-items: center;
@@ -203,6 +215,7 @@
 
       <div class="middle">
         <h1>{{TITLE}}</h1>
+        {{AUDIENCE_LINE}}
         <div class="divider"></div>
         <p class="subtitle">{{SUMMARY}}</p>
       </div>

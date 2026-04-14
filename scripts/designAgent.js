@@ -151,10 +151,17 @@ function renderCoverHtml(product, salesData, brand, theme) {
     (salesData.description ? salesData.description.slice(0, 120) : null) ||
     product.title;
   const productTypeLabel = product.productType ? `Printable ${toTitleCase(product.productType)}` : 'Printable Productivity Template';
+  // Format audience as "for busy professionals" — capitalise first letter
+  const rawAudience = product.audience || '';
+  const audienceLabel = rawAudience ? `for ${rawAudience}` : '';
+  const audienceLine = audienceLabel
+    ? `<p class="audience-label">${escapeHtml(audienceLabel)}</p>`
+    : '';
   let html = loadTemplate('cover.html');
   html = applyTheme(html, brand, theme);
   html = html.replace(/\{\{TITLE\}\}/g, escapeHtml(product.title));
   html = html.replace(/\{\{SUMMARY\}\}/g, escapeHtml(summary));
+  html = html.replace(/\{\{AUDIENCE_LINE\}\}/g, audienceLine);
   html = html.replace(/\{\{NICHE\}\}/g, escapeHtml(product.niche || 'productivity'));
   html = html.replace(/\{\{PRODUCT_TYPE_LABEL\}\}/g, escapeHtml(productTypeLabel));
   return html;
