@@ -7,29 +7,34 @@ type GeminiDecision = {
 
 const DEFAULT_MODEL = "gemini-2.5-flash-lite";
 const DEFAULT_TIMEOUT_MS = 20000;
-const MAX_OUTPUT_TOKENS = 220;
 
 function buildGeminiUrl(model: string): string {
   return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 }
 
-function extractTextResponse(payload: any): string {
-  const text = payload?.candidates?.[0]?.content?.parts
-    ?.map((part: any) => part?.text || "")
-    .join("")
-    .trim();
+function trimForLog(value: unknown, limit = 600): string {
+  return String(value || "").slice(0, limit);
+}
 
-  if (!text) {
-    throw new Error("Gemini returned no text content.");
+function extractTextResponse(payload: any): string {
+  const text = payload?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!text || !String(text).trim()) {
+    throw new Error("Gemini returned no candidates or empty text.");
   }
 
-  return text;
+  return String(text).trim();
 }
 
 function parseJsonFromText(text: string): GeminiDecision {
   const fencedMatch = text.match(/```json\s*([\s\S]*?)```/i);
   const candidate = fencedMatch ? fencedMatch[1] : text;
-  return JSON.parse(candidate);
+
+  try {
+    return JSON.parse(candidate);
+  } catch (error: any) {
+    throw new Error(`Gemini returned invalid JSON: ${error.message}`);
+  }
 }
 
 export async function callGemini(
@@ -46,9 +51,10 @@ export async function callGemini(
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  const url = `${buildGeminiUrl(model)}?key=${encodeURIComponent(apiKey)}`;
 
   try {
-    const response = await fetch(`${buildGeminiUrl(model)}?key=${encodeURIComponent(apiKey)}`, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -56,25 +62,28 @@ export async function callGemini(
       body: JSON.stringify({
         contents: [
           {
-            role: "user",
             parts: [{ text: prompt }]
           }
-        ],
-        generationConfig: {
-          temperature: 0.4,
-          maxOutputTokens: options.maxOutputTokens || MAX_OUTPUT_TOKENS,
-          responseMimeType: "application/json"
-        }
+        ]
       }),
       signal: controller.signal
     });
 
+    const responseText = await response.text();
+    console.log(`[gemini] response.status=${response.status}`);
+    console.log(`[gemini] response.body=${trimForLog(responseText)}`);
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Gemini API error ${response.status}: ${errorText.slice(0, 500)}`);
+      throw new Error(`Gemini API error ${response.status}`);
     }
 
-    const payload = await response.json();
+    let payload: any;
+    try {
+      payload = JSON.parse(responseText);
+    } catch (error: any) {
+      throw new Error(`Gemini returned invalid JSON response: ${error.message}`);
+    }
+
     const text = extractTextResponse(payload);
     return parseJsonFromText(text);
   } catch (error: any) {
@@ -82,6 +91,7 @@ export async function callGemini(
       throw new Error(`Gemini request timed out after ${timeoutMs}ms.`);
     }
 
+    console.log(`[gemini] error.message=${trimForLog(error.message)}`);
     throw error;
   } finally {
     clearTimeout(timeout);

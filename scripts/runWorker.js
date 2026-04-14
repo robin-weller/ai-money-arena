@@ -32,9 +32,13 @@ function appendJsonArray(filePath, entry) {
   writeJson(filePath, items);
 }
 
+function hasOpenTask(tasks, agentName, taskTitle) {
+  return tasks.some((task) => task.agent === agentName && task.task === taskTitle && task.status !== "done");
+}
+
 function sanitizeDecision(decision) {
   return {
-    action: String(decision?.action || "No action suggested").slice(0, 280),
+    action: String(decision?.action || "none").slice(0, 280),
     status: decision?.status === "blocked_waiting_for_human" ? "blocked_waiting_for_human" : "completed",
     reason: String(decision?.reason || "").slice(0, 500),
     task: typeof decision?.task === "string" ? decision.task.slice(0, 280) : ""
@@ -88,20 +92,20 @@ async function run() {
 
   let decision;
   let runError = null;
+  let nextTasks = tasks;
 
   try {
     const prompt = buildPrompt(agentState, messages, tasks, config);
     const geminiDecision = await callGemini(prompt, {
-      maxOutputTokens: config.maxGeminiOutputTokens || 220,
       timeoutMs: config.geminiTimeoutMs || 20000
     });
     decision = sanitizeDecision(geminiDecision);
   } catch (error) {
     runError = error;
     decision = {
-      action: "Paused due to API/runtime error",
+      action: "none",
       status: "blocked_waiting_for_human",
-      reason: String(error.message || error).slice(0, 500),
+      reason: "Gemini API failure",
       task: "Check Gemini API key, quota, or workflow logs"
     };
   }
@@ -124,15 +128,17 @@ async function run() {
     message: `${decision.action} (${decision.reason})`.slice(0, 500)
   });
 
-  if (decision.status === "blocked_waiting_for_human" && decision.task) {
-    appendJsonArray(tasksPath, {
+  if (decision.status === "blocked_waiting_for_human" && decision.task && !hasOpenTask(tasks, agentState.name, decision.task)) {
+    const taskEntry = {
       id: `${agentState.name}-${Date.now()}`,
       createdAt: now,
       agent: agentState.name,
       task: decision.task,
       reason: decision.reason,
       status: "open"
-    });
+    };
+    nextTasks = [...tasks, taskEntry];
+    writeJson(tasksPath, nextTasks);
   }
 
   const logEntry = {
@@ -141,7 +147,8 @@ async function run() {
     action: decision.action,
     status: decision.status,
     reason: decision.reason,
-    profit
+    profit,
+    errorMessage: runError ? String(runError.message || runError).slice(0, 500) : ""
   };
 
   fs.writeFileSync(
