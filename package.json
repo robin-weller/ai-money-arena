@@ -1,16 +1,16 @@
 {
   "name": "ai-money-arena",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Minimal autonomous agent system for GitHub Actions using Gemini and Telegram.",
+  "description": "Autonomous productivity product pipeline. Generates planners, trackers and templates for Etsy-style marketplaces.",
   "type": "commonjs",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "worker:a": "node scripts/runWorker.js agent-a",
-    "worker:b": "node scripts/runWorker.js agent-b",
-    "worker:c": "node scripts/runWorker.js agent-c",
-    "overseer": "node scripts/runOverseer.js"
+    "product-agent": "node scripts/productAgent.js",
+    "sales-agent": "node scripts/salesAgent.js",
+    "marketing-agent": "node scripts/marketingAgent.js",
+    "overseer": "node scripts/overseer.js"
   }
 }

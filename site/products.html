@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Productivity Factory</title>
+    <title>AI Productivity Factory – Products</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -11,12 +11,12 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">AI Productivity Factory</p>
-          <h1>Pipeline Dashboard</h1>
-          <p class="subtle">Live view of product pipeline and revenue.</p>
+          <h1>All Products</h1>
+          <p class="subtle">Every generated product and its current status.</p>
         </div>
         <nav class="nav">
-          <a class="nav-link active" href="./index.html">Pipeline</a>
-          <a class="nav-link" href="./products.html">Products</a>
+          <a class="nav-link" href="./index.html">Pipeline</a>
+          <a class="nav-link active" href="./products.html">Products</a>
           <a class="nav-link" href="./tasks.html">Tasks</a>
         </nav>
       </header>
@@ -24,37 +24,32 @@
       <main class="stack">
         <section class="panel">
           <div class="panel-head">
-            <h2>Pipeline Stages</h2>
-            <p id="pipeline-updated" class="subtle">Loading...</p>
+            <h2>Products</h2>
+            <p id="products-updated" class="subtle">Loading...</p>
           </div>
           <div class="table-wrap">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Stage</th>
-                  <th>Count</th>
-                  <th>Products</th>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Price</th>
+                  <th>Revenue</th>
                 </tr>
               </thead>
-              <tbody id="pipeline-body">
-                <tr><td colspan="3" class="empty">Loading pipeline...</td></tr>
+              <tbody id="products-body">
+                <tr><td colspan="5" class="empty">Loading products...</td></tr>
               </tbody>
             </table>
           </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <h2>Summary</h2>
-          </div>
-          <div id="pipeline-summary" class="subtle">Loading...</div>
         </section>
       </main>
     </div>
 
     <script src="./app.js"></script>
     <script>
-      AIProductivityFactory.startPipelinePage();
+      AIProductivityFactory.startProductsPage();
     </script>
   </body>
 </html>

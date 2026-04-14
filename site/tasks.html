@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Money Arena Tasks</title>
+    <title>AI Productivity Factory – Tasks</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">AI Money Arena</p>
-          <h1>Waiting Tasks</h1>
-          <p class="subtle">Open human-intervention items from the agents.</p>
+          <p class="eyebrow">AI Productivity Factory</p>
+          <h1>Tasks</h1>
+          <p class="subtle">Pipeline tasks and queue status.</p>
         </div>
         <nav class="nav">
-          <a class="nav-link" href="./index.html">Leaderboard</a>
-          <a class="nav-link" href="./runs.html">Runs</a>
+          <a class="nav-link" href="./index.html">Pipeline</a>
+          <a class="nav-link" href="./products.html">Products</a>
           <a class="nav-link active" href="./tasks.html">Tasks</a>
         </nav>
       </header>
@@ -24,7 +24,7 @@
       <main class="stack">
         <section class="panel">
           <div class="panel-head">
-            <h2>Open Tasks</h2>
+            <h2>Active Tasks</h2>
             <p id="tasks-updated" class="subtle">Loading...</p>
           </div>
           <div class="table-wrap">
@@ -32,14 +32,12 @@
               <thead>
                 <tr>
                   <th>Agent</th>
-                  <th>Title</th>
+                  <th>Task</th>
                   <th>Priority</th>
                 </tr>
               </thead>
               <tbody id="tasks-body">
-                <tr>
-                  <td colspan="3" class="empty">Loading tasks...</td>
-                </tr>
+                <tr><td colspan="3" class="empty">Loading tasks...</td></tr>
               </tbody>
             </table>
           </div>
@@ -49,7 +47,7 @@
 
     <script src="./app.js"></script>
     <script>
-      AIMoneyArena.startTasksPage();
+      AIProductivityFactory.startTasksPage();
     </script>
   </body>
 </html>

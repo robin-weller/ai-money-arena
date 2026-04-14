@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-04-14T14:14:47.938Z",
+  "totalProducts": 0,
+  "totalRevenue": 0,
+  "byStage": {
+    "idea": [],
+    "building": [],
+    "ready_to_ship": [],
+    "ready_to_market": [],
+    "ready_to_distribute": [],
+    "live": []
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "timestamp": "2026-04-14T09:27:04.675Z",
-  "agent": "agent-c",
-  "action": "Check Gemini API key, quota, or workflow logs.",
-  "status": "completed",
-  "reason": "All agents are paused due to missing API key. This is a prerequisite for any action.",
-  "profit": 0
-}
