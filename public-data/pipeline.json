@@ -1,12 +1,22 @@
 {
-  "generatedAt": "2026-04-14T15:20:36.395Z",
-  "totalProducts": 1,
+  "generatedAt": "2026-04-14T15:33:54.268Z",
+  "totalProducts": 2,
   "totalRevenue": 0,
-  "totalAiCost": 0.0007604999999999999,
-  "totalProfit": -0.0007604999999999999,
+  "totalAiCost": 0.0011553,
+  "totalProfit": -0.0011553,
   "byStage": {
     "idea": [],
-    "building": [],
+    "building": [
+      {
+        "id": "product-1776180829723",
+        "title": "ADHD-Friendly Daily Planner",
+        "productType": "adhd-planner",
+        "price": 0,
+        "revenue": 0,
+        "elementCount": 0,
+        "createdAt": "2026-04-14T15:33:49.723Z"
+      }
+    ],
     "ready_to_ship": [],
     "ready_to_market": [],
     "ready_to_distribute": [],

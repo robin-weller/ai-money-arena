@@ -36,5 +36,25 @@
     "qaFailureReason": "",
     "nextOwner": "human",
     "publishReadyAt": "2026-04-14T15:16:55.663Z"
+  },
+  {
+    "id": "product-1776180829723",
+    "title": "ADHD-Friendly Daily Planner",
+    "productType": "adhd-planner",
+    "niche": "productivity",
+    "status": "building",
+    "owner": "product-agent",
+    "isPublished": false,
+    "publishedUrl": "",
+    "price": 0,
+    "productOutputPath": "outputs/products/product-1776180829723/product.md",
+    "salesOutputPath": "outputs/products/product-1776180829723/sales.json",
+    "marketingOutputPath": "outputs/products/product-1776180829723/marketing.json",
+    "distributionAttempts": 0,
+    "revenue": 0,
+    "createdAt": "2026-04-14T15:33:49.723Z",
+    "themeId": "themeC",
+    "aiCostTotal": 0.0003948,
+    "aiCalls": 1
   }
 ]
