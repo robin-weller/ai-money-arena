@@ -166,13 +166,132 @@ Simple tools for better productivity
   <li>[ ] Charge phone and other devices</li>
   <li>[ ] Meditate for 5 minutes</li>
   <li>[ ] Prepare work outfit for tomorrow</li>
+  <li>[ ] Call a family member</li>
+  <li>[ ] Organize digital files for 15 minutes</li>
+  <li>[ ] Review bank statement</li>
+  <li>[ ] Plan dinner</li>
+  <li>[ ] Do a 10-minute tidying sweep of the living room</li>
 </ul>
 </div>
 
 ---
 
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+<h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Habit Tracker</h2>
+<p style="color: #344E41; font-family: 'Inter', sans-serif;">Build consistency with these daily habits.</p>
+<table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
+  <thead>
+    <tr style="background-color: #A5A58D;">
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Habit</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Mon</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Tue</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Wed</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Thu</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Fri</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Sat</th>
+      <th style="padding: 8px; text-align: left; color: #FDF6EC;">Sun</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Morning Hydration</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Movement (15+ min)</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Mindful Eating</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Short Break (Tech-Free)</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Journaling (5 min)</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Tidy Up Space</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Read for 20 min</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Drink Water Target</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+    <tr style="background-color: #FDF6EC; color: #344E41;">
+      <td style="padding: 8px;">Prepare for Tomorrow</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+      <td style="padding: 8px;">[ ]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+---
+
+<div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Focus & Energy Log</h2>
+<p style="color: #344E41; font-family: 'Inter', sans-serif;">Track your focus and energy to understand your peak times and challenges.</p>
 <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
   <thead>
     <tr style="background-color: #A5A58D;">
@@ -184,37 +303,37 @@ Simple tools for better productivity
   </thead>
   <tbody>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Morning Work</td>
+      <td style="padding: 8px;">Morning Deep Work</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
     </tr>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Afternoon Work</td>
+      <td style="padding: 8px;">Afternoon Tasks</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
     </tr>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Creative Tasks</td>
+      <td style="padding: 8px;">Creative Session</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
     </tr>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Admin Tasks</td>
+      <td style="padding: 8px;">Admin & Emails</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
     </tr>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Personal Time</td>
+      <td style="padding: 8px;">Personal Project Time</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
     </tr>
     <tr style="background-color: #FDF6EC; color: #344E41;">
-      <td style="padding: 8px;">Overall Day</td>
+      <td style="padding: 8px;">Overall Day Stamina</td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
       <td style="padding: 8px;"></td>
