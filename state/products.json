@@ -4,7 +4,7 @@
     "title": "30-Day Productivity Power-Up Habit Tracker",
     "productType": "habit-tracker",
     "niche": "productivity",
-    "status": "ready_to_distribute",
+    "status": "design_ready",
     "owner": "product-agent",
     "isPublished": false,
     "publishedUrl": "",
@@ -20,6 +20,14 @@
     "salesTitle": "30-Day Productivity Power-Up Habit Tracker Printable | Digital Download PDF Planner | Instant Download Habit Journal",
     "salesCompletedAt": "2026-04-14T14:20:44.966Z",
     "marketingCompletedAt": "2026-04-14T14:20:46.821Z",
-    "themeId": "themeC"
+    "themeId": "themeC",
+    "designReady": true,
+    "designOutputPaths": {
+      "html": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/product.html",
+      "pdf": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/product.pdf",
+      "cover": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/cover.png",
+      "mockup": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/mockup-1.png"
+    },
+    "designCompletedAt": "2026-04-14T15:04:01.843Z"
   }
 ]

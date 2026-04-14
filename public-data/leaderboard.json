@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T14:38:21.900Z",
+  "generatedAt": "2026-04-14T15:04:07.698Z",
   "agents": [
     {
       "name": "Product Agent",
@@ -15,6 +15,12 @@
     },
     {
       "name": "Marketing Agent",
+      "lastProductTitle": "Idle",
+      "profit": 0,
+      "status": "idle"
+    },
+    {
+      "name": "Design Agent",
       "lastProductTitle": "30-Day Productivity Power-Up Habit Tracker",
       "profit": 0,
       "status": "idle"

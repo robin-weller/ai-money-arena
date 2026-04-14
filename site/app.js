@@ -53,9 +53,10 @@
     ready_to_ship: '📦 Ready to Ship',
     ready_to_market: '📣 Ready to Market',
     ready_to_distribute: '🚀 Ready to Distribute',
+    design_ready: '🎨 Design Ready',
     live: '✅ Live',
   };
-  const STAGES = ['building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'live', 'idea'];
+  const STAGES = ['building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'live', 'idea'];
 
   async function loadPipeline() {
     const [data, dash] = await Promise.all([
@@ -100,16 +101,20 @@
 
     const products = Array.isArray(data.products) ? data.products : [];
     if (!products.length) {
-      body.innerHTML = '<tr><td colspan="7" class="empty">No products yet.</td></tr>';
+      body.innerHTML = '<tr><td colspan="8" class="empty">No products yet.</td></tr>';
       return;
     }
 
     body.innerHTML = products.slice().reverse().map(p => {
       const statusClass = escapeHtml((p.status || '').replace(/_/g, '-'));
+      const designBadge = p.designReady
+        ? '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#D1FAE5;color:#065F46">🎨 Ready</span>'
+        : '<span style="color:#999">—</span>';
       return `<tr>
         <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
         <td>${renderThemeBadge(p.themeId)}</td>
+        <td>${designBadge}</td>
         <td style="text-align:right">$${formatMoney(p.aiCostTotal)}</td>
         <td style="text-align:right">${p.aiCalls || 0}</td>
         <td style="text-align:right">${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>

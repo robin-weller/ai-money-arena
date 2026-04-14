@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+    }
+
+    body {
+      background: {{ACCENT}};
+      font-family: {{FONT_PRIMARY}};
+      color: {{TEXT}};
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 80px;
+      gap: 64px;
+    }
+
+    /* ── Paper mockup (left) ── */
+    .mockup-wrap {
+      position: relative;
+      width: 360px;
+      flex-shrink: 0;
+    }
+
+    .paper-shadow {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 360px;
+      height: 500px;
+      background: {{SECONDARY}};
+      border-radius: 4px;
+      transform: rotate(-2.5deg);
+      opacity: 0.25;
+    }
+
+    .paper {
+      position: relative;
+      width: 360px;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      padding: 28px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .paper-title {
+      font-family: {{FONT_SECONDARY}};
+      font-size: 15px;
+      font-weight: 700;
+      color: {{PRIMARY}};
+      padding-bottom: 10px;
+      border-bottom: 2px solid {{SECONDARY}};
+      line-height: 1.3;
+    }
+
+    .lines {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .line {
+      height: 9px;
+      background: {{ACCENT}};
+      border-radius: 2px;
+    }
+
+    /* Simulated table */
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+    }
+
+    .mock-table th {
+      background: {{SECONDARY}};
+      opacity: 0.9;
+      height: 16px;
+      border: 1px solid {{SECONDARY}};
+    }
+
+    .mock-table td {
+      height: 14px;
+      border: 1px solid {{ACCENT}};
+    }
+
+    .mock-table tr:nth-child(odd) td {
+      background: #f9f9f9;
+    }
+
+    /* Simulated checkboxes */
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-box {
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid {{SECONDARY}};
+      border-radius: 2px;
+      flex-shrink: 0;
+      background: #fff;
+    }
+
+    .checkbox-line {
+      height: 8px;
+      background: {{ACCENT}};
+      border-radius: 2px;
+      flex: 1;
+    }
+
+    /* ── Info panel (right) ── */
+    .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      max-width: 600px;
+    }
+
+    .tag-badge {
+      display: inline-block;
+      background: {{SECONDARY}};
+      color: {{BG}};
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+
+    .info h2 {
+      font-family: {{FONT_SECONDARY}};
+      font-size: 36px;
+      font-weight: 700;
+      color: {{PRIMARY}};
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: {{TEXT}};
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+
+    .bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: {{TEXT}};
+    }
+
+    .feature-dot {
+      width: 8px;
+      height: 8px;
+      background: {{SECONDARY}};
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .info-brand {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: {{TEXT}};
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <!-- Paper mockup -->
+  <div class="mockup-wrap">
+    <div class="paper-shadow"></div>
+    <div class="paper">
+      <div class="paper-title">{{TITLE}}</div>
+
+      <div class="lines">
+        <div class="line" style="width:90%"></div>
+        <div class="line" style="width:75%"></div>
+        <div class="line" style="width:85%"></div>
+      </div>
+
+      <table class="mock-table">
+        <thead>
+          <tr><th></th><th></th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <div class="checkbox-list">
+        <div class="checkbox-row"><div class="checkbox-box"></div><div class="checkbox-line" style="width:80%"></div></div>
+        <div class="checkbox-row"><div class="checkbox-box"></div><div class="checkbox-line" style="width:65%"></div></div>
+        <div class="checkbox-row"><div class="checkbox-box"></div><div class="checkbox-line" style="width:75%"></div></div>
+        <div class="checkbox-row"><div class="checkbox-box"></div><div class="checkbox-line" style="width:55%"></div></div>
+      </div>
+
+      <div class="lines">
+        <div class="line" style="width:70%"></div>
+        <div class="line" style="width:50%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info">
+    <div class="tag-badge">Printable Template</div>
+    <h2>{{TITLE}}</h2>
+    <p class="tagline">{{SUMMARY}}</p>
+    <div class="bullet-list">
+      {{BULLETS}}
+    </div>
+    <div class="info-brand">{{BRAND_NAME}}</div>
+  </div>
+</body>
+</html>

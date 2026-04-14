@@ -6,13 +6,14 @@ const { sendMessage } = require('./telegram.js');
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 const PUBLIC_DATA_DIR = path.join(__dirname, '../public-data');
 
-const STAGES = ['idea', 'building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'live'];
+const STAGES = ['idea', 'building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'live'];
 const STAGE_LABELS = {
   idea: 'Idea',
   building: 'Building',
   ready_to_ship: 'Ready to Ship',
   ready_to_market: 'Ready to Market',
   ready_to_distribute: 'Ready to Distribute',
+  design_ready: 'Design Ready',
   live: 'Live',
 };
 
@@ -69,6 +70,11 @@ function buildTelegramSummary(products, totalAiCost) {
     byStage.ready_to_distribute.forEach(p => lines.push(`  • ${p.title}`));
   }
 
+  if (byStage.design_ready.length) {
+    lines.push('\n🎨 Design Ready:');
+    byStage.design_ready.forEach(p => lines.push(`  • ${p.title}`));
+  }
+
   if (byStage.live.length) {
     lines.push('\n✅ Live:');
     byStage.live.forEach(p => lines.push(`  • ${p.title} | $${Number(p.price || 0).toFixed(2)} | revenue=$${Number(p.revenue || 0).toFixed(2)}`));
@@ -102,6 +108,7 @@ async function run() {
       generatedAt: new Date().toISOString(),
       totalProducts: products.length,
       liveProducts: (byStage.live || []).length,
+      uploadReady: (byStage.design_ready || []).length,
       totalRevenue,
       totalAiCost,
       totalProfit,
@@ -137,6 +144,8 @@ async function run() {
         aiCostTotal: p.aiCostTotal || 0,
         aiCalls: p.aiCalls || 0,
         themeId: p.themeId || null,
+        designReady: p.designReady || false,
+        designOutputPaths: p.designOutputPaths || null,
       })),
     }, null, 2)
   );
@@ -164,6 +173,12 @@ async function run() {
           lastProductTitle: byStage.ready_to_distribute[0]?.title || 'Idle',
           profit: 0,
           status: byStage.ready_to_market.length ? 'active' : 'idle',
+        },
+        {
+          name: 'Design Agent',
+          lastProductTitle: byStage.design_ready[0]?.title || 'Idle',
+          profit: 0,
+          status: byStage.ready_to_distribute.length ? 'active' : 'idle',
         },
       ],
     }, null, 2)

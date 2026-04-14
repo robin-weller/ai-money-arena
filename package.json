@@ -11,6 +11,11 @@
     "product-agent": "node scripts/productAgent.js",
     "sales-agent": "node scripts/salesAgent.js",
     "marketing-agent": "node scripts/marketingAgent.js",
+    "design-agent": "node scripts/designAgent.js",
     "overseer": "node scripts/overseer.js"
+  },
+  "dependencies": {
+    "marked": "^12.0.0",
+    "playwright": "^1.44.0"
   }
 }

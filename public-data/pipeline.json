@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T14:38:21.900Z",
+  "generatedAt": "2026-04-14T15:04:07.698Z",
   "totalProducts": 1,
   "totalRevenue": 0,
   "totalAiCost": 0,
@@ -9,7 +9,8 @@
     "building": [],
     "ready_to_ship": [],
     "ready_to_market": [],
-    "ready_to_distribute": [
+    "ready_to_distribute": [],
+    "design_ready": [
       {
         "id": "product-1776176436218",
         "title": "30-Day Productivity Power-Up Habit Tracker",
