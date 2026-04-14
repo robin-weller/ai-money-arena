@@ -84,8 +84,8 @@
       return `<tr>
         <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
-        <td>${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>
-        <td>${p.revenue ? '$' + Number(p.revenue).toFixed(2) : '$0.00'}</td>
+        <td style="text-align:right">${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>
+        <td style="text-align:right">${p.revenue ? '$' + Number(p.revenue).toFixed(2) : '$0.00'}</td>
       </tr>`;
     }).join('');
   }
