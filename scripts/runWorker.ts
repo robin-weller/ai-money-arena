@@ -19,6 +19,10 @@ function defaultCompletedFields() {
     listingTitle: "",
     shortDescription: "",
     priceSuggestion: "",
+    price: 0,
+    description: "",
+    bullets: [],
+    publishInstructions: "",
     fileContent: "",
     confidence: 0
   };
@@ -58,6 +62,10 @@ type WorkerDecision = {
   listingTitle: string;
   shortDescription: string;
   priceSuggestion: string;
+  price: number;
+  description: string;
+  bullets: string[];
+  publishInstructions: string;
   fileContent: string;
   confidence: number;
 };
@@ -91,6 +99,7 @@ function defaultAgentState(agentName: string) {
     lastTargetBuyer: "",
     lastProductTitle: "",
     lastListingTitle: "",
+    lastPrice: 0,
     lastOutputPath: "",
     lastConfidence: 0,
     lastDuplicateStatus: "original",
@@ -103,11 +112,15 @@ function defaultAgentState(agentName: string) {
   };
 }
 
-function normalizeStage(stage: string): "idea" | "outline" | "content" | "listing" {
-  return ["idea", "outline", "content", "listing"].includes(stage) ? (stage as "idea" | "outline" | "content" | "listing") : "idea";
+function normalizeStage(stage: string): "idea" | "outline" | "content" | "listing" | "publish" {
+  return ["idea", "outline", "content", "listing", "publish"].includes(stage)
+    ? (stage as "idea" | "outline" | "content" | "listing" | "publish")
+    : "idea";
 }
 
-function nextStage(currentStage: "idea" | "outline" | "content" | "listing"): "idea" | "outline" | "content" | "listing" {
+function nextStage(
+  currentStage: "idea" | "outline" | "content" | "listing" | "publish"
+): "idea" | "outline" | "content" | "listing" | "publish" {
   if (currentStage === "idea") {
     return "outline";
   }
@@ -117,10 +130,13 @@ function nextStage(currentStage: "idea" | "outline" | "content" | "listing"): "i
   if (currentStage === "content") {
     return "listing";
   }
-  return "listing";
+  if (currentStage === "listing") {
+    return "publish";
+  }
+  return "publish";
 }
 
-function getStageGoal(stage: "idea" | "outline" | "content" | "listing"): string {
+function getStageGoal(stage: "idea" | "outline" | "content" | "listing" | "publish"): string {
   if (stage === "idea") {
     return "Create a concrete product idea and draft listing title.";
   }
@@ -130,7 +146,10 @@ function getStageGoal(stage: "idea" | "outline" | "content" | "listing"): string
   if (stage === "content") {
     return "Generate real usable product content with no placeholders.";
   }
-  return "Create or improve the listing so it is close to publish-ready.";
+  if (stage === "listing") {
+    return "Create a publish-ready listing with price, benefits, Gumroad instructions, and a human approval task.";
+  }
+  return "Keep the product publish-ready with final Gumroad instructions and a human approval task.";
 }
 
 function readJson<T>(filePath: string, fallback?: T): T {
@@ -198,6 +217,7 @@ function ensureAgentState(agentName: string, trace: string[]) {
       lastTargetBuyer: trimString(state.lastTargetBuyer || "", 200),
       lastProductTitle: trimString(state.lastProductTitle || "", 200),
       lastListingTitle: trimString(state.lastListingTitle || "", 220),
+      lastPrice: Number.isFinite(Number(state.lastPrice)) ? Number(state.lastPrice) : 0,
       lastOutputPath: trimString(state.lastOutputPath || "", 260),
       lastConfidence: Number.isFinite(Number(state.lastConfidence)) ? Number(state.lastConfidence) : 0,
       lastDuplicateStatus: trimString(state.lastDuplicateStatus || "original", 40) || "original",
@@ -271,6 +291,11 @@ function isValidDecisionShape(decision: any): boolean {
       typeof decision.listingTitle === "string" &&
       typeof decision.shortDescription === "string" &&
       typeof decision.priceSuggestion === "string" &&
+      typeof decision.price === "number" &&
+      typeof decision.description === "string" &&
+      Array.isArray(decision.bullets) &&
+      decision.bullets.every((item: unknown) => typeof item === "string") &&
+      typeof decision.publishInstructions === "string" &&
       typeof decision.fileContent === "string" &&
       typeof decision.confidence === "number" &&
       decision.confidence >= 0 &&
@@ -300,6 +325,12 @@ function sanitizeDecision(decision: any): WorkerDecision {
     listingTitle: trimString(decision?.listingTitle || "", 220),
     shortDescription: trimString(decision?.shortDescription || "", 500),
     priceSuggestion: trimString(decision?.priceSuggestion || "", 80),
+    price: Math.max(0, Math.min(999, Number(decision?.price || 0))),
+    description: trimString(decision?.description || "", 4000),
+    bullets: Array.isArray(decision?.bullets)
+      ? decision.bullets.map((item: unknown) => trimString(item, 180)).filter(Boolean).slice(0, 6)
+      : [],
+    publishInstructions: trimString(decision?.publishInstructions || "", 1200),
     fileContent: trimString(decision?.fileContent || "", 5000),
     confidence: Math.max(0, Math.min(1, Number(decision?.confidence || 0)))
   };
@@ -317,8 +348,8 @@ function isUsableCompletedDecision(decision: WorkerDecision): boolean {
 
 function validateDecision(
   decision: WorkerDecision,
-  expectedStage: "idea" | "outline" | "content" | "listing"
-): { isValid: boolean; issues: string[]; stage: "idea" | "outline" | "content" | "listing" } {
+  expectedStage: "idea" | "outline" | "content" | "listing" | "publish"
+): { isValid: boolean; issues: string[]; stage: "idea" | "outline" | "content" | "listing" | "publish" } {
   const issues: string[] = [];
   const normalizedStage = normalizeStage(expectedStage);
 
@@ -340,6 +371,9 @@ function validateDecision(
     if (decision.status === "blocked_waiting_for_human" && !decision.task) {
       issues.push("blocked_without_task");
     }
+    if ((normalizedStage === "listing" || normalizedStage === "publish") && !isPublishReadyListing(decision)) {
+      issues.push("listing_not_publish_ready");
+    }
   }
 
   return {
@@ -347,6 +381,54 @@ function validateDecision(
     issues,
     stage: normalizedStage
   };
+}
+
+function countWords(value: unknown): number {
+  return trimString(value || "", 8000)
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+function hasRequiredPublishSteps(value: string): boolean {
+  const normalized = normalizeComparisonText(value);
+  return (
+    normalized.includes("gumroad") &&
+    normalized.includes("create new product") &&
+    normalized.includes("paste title") &&
+    normalized.includes("upload file") &&
+    normalized.includes("set price") &&
+    normalized.includes("publish")
+  );
+}
+
+function isApprovalTask(task: TaskPayload | null): boolean {
+  return Boolean(
+    task &&
+      task.title === "Approve and publish product" &&
+      task.details === "Publish this listing on Gumroad" &&
+      task.priority === "high"
+  );
+}
+
+function isPublishReadyListing(decision: WorkerDecision): boolean {
+  const descriptionWords = countWords(decision.description);
+  return Boolean(
+    trimString(decision.action, 280) === "create publish-ready listing" &&
+      trimString(decision.productTitle, 200) &&
+      trimString(decision.listingTitle, 220) &&
+      Number(decision.price) >= 5 &&
+      Number(decision.price) <= 19 &&
+      descriptionWords >= 150 &&
+      descriptionWords <= 300 &&
+      Array.isArray(decision.bullets) &&
+      decision.bullets.length >= 3 &&
+      decision.bullets.length <= 6 &&
+      decision.bullets.every((item) => trimString(item, 180).length >= 8) &&
+      trimString(decision.targetBuyer, 200).length >= 8 &&
+      trimString(decision.fileContent, 5000).length >= 120 &&
+      hasRequiredPublishSteps(decision.publishInstructions) &&
+      isApprovalTask(decision.task)
+  );
 }
 
 function collectLatestOutputs(currentAgentName: string): any[] {
@@ -425,22 +507,28 @@ function shouldPivot(agentState: any): boolean {
   return Number(agentState.lastConfidence || 0) < 0.5 || Number(agentState.duplicateHits || 0) >= 2;
 }
 
-function determineExpectedStage(agentState: any): "idea" | "outline" | "content" | "listing" {
+function determineExpectedStage(agentState: any): "idea" | "outline" | "content" | "listing" | "publish" {
   const currentStage = normalizeStage(agentState.stage || "idea");
   if (!agentState.lastProductTitle || !agentState.lastListingTitle) {
     return "idea";
   }
-  if (currentStage === "listing") {
-    return shouldPivot(agentState) ? "idea" : "listing";
+  if (currentStage === "publish") {
+    return shouldPivot(agentState) ? "idea" : "publish";
   }
   return nextStage(currentStage);
 }
 
-function stageProgressMode(agentState: any, expectedStage: "idea" | "outline" | "content" | "listing"): "progressing" | "pivoting" {
+function stageProgressMode(
+  agentState: any,
+  expectedStage: "idea" | "outline" | "content" | "listing" | "publish"
+): "progressing" | "pivoting" {
   return expectedStage === "idea" && agentState.lastProductTitle ? "pivoting" : "progressing";
 }
 
-function hasSubstantiveContentForStage(decision: WorkerDecision, stage: "idea" | "outline" | "content" | "listing"): boolean {
+function hasSubstantiveContentForStage(
+  decision: WorkerDecision,
+  stage: "idea" | "outline" | "content" | "listing" | "publish"
+): boolean {
   const contentLength = trimString(decision.fileContent || "", 12000).length;
   if (stage === "content") {
     if (normalizeComparisonText(decision.productType).includes("prompt")) {
@@ -463,7 +551,10 @@ function hasSubstantiveContentForStage(decision: WorkerDecision, stage: "idea" |
     return contentLength >= 150;
   }
   if (stage === "listing") {
-    return contentLength >= 200 && trimString(decision.shortDescription || "", 500).length >= 80;
+    return isPublishReadyListing(decision);
+  }
+  if (stage === "publish") {
+    return isPublishReadyListing(decision);
   }
   return contentLength >= 80;
 }
@@ -502,13 +593,22 @@ function buildPrompt(
     "Choose exactly ONE concrete monetisation action for this run.",
     "You must either build on your previous output with a concrete improvement or pivot with a clear reason.",
     "If you already have a product, you must improve or expand it. Do NOT generate a new idea unless explicitly pivoting.",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "For listing or publish stage, you MUST create a publish-ready Gumroad listing and include the required approval task."
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? 'Set "action" to exactly "create publish-ready listing".'
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? 'Set "task" to exactly {"title":"Approve and publish product","details":"Publish this listing on Gumroad","priority":"high"}.'
+      : "",
     "",
     "Allowed actions:",
     "- create a micro-product idea and draft listing title",
     "- create a small dataset idea and draft listing title",
     "- create a product outline",
     "- create a product description",
-    "- create a listing draft",
+    "- create publish-ready listing",
     "- create a blocked task for human intervention if truly required",
     "",
     "Allowed product examples:",
@@ -522,6 +622,12 @@ function buildPrompt(
     "Do not return multiple options.",
     "Do not return markdown.",
     "Return raw JSON only.",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "Description must be 150-300 words, clearly state the buyer outcome, target a specific buyer, and focus on concrete benefits."
+      : "",
+    options.expectedStage === "listing" || options.expectedStage === "publish"
+      ? "Publish instructions must include: Go to Gumroad, create new product, paste title + description, upload file, set price, publish."
+      : "",
     "",
     "Return exactly this schema:",
     "{",
@@ -540,6 +646,10 @@ function buildPrompt(
     '  "listingTitle": "string",',
     '  "shortDescription": "string",',
     '  "priceSuggestion": "string",',
+    '  "price": "number",',
+    '  "description": "string",',
+    '  "bullets": ["string"],',
+    '  "publishInstructions": "string",',
     '  "fileContent": "string",',
     '  "confidence": 0-1',
     "}",
@@ -555,6 +665,7 @@ function buildPrompt(
     `Previous niche: ${trimString(agentState.lastNiche || "none", 160)}`,
     `Previous target buyer: ${trimString(agentState.lastTargetBuyer || "none", 200)}`,
     `Previous listing title: ${trimString(agentState.lastListingTitle || "none", 220)}`,
+    `Previous price: ${Number(agentState.lastPrice || 0) || "none"}`,
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
@@ -592,6 +703,10 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
     listingTitle: finalDecision.listingTitle,
     shortDescription: finalDecision.shortDescription,
     priceSuggestion: finalDecision.priceSuggestion,
+    price: finalDecision.price,
+    description: finalDecision.description,
+    bullets: finalDecision.bullets,
+    publishInstructions: finalDecision.publishInstructions,
     fileContent: finalDecision.fileContent,
     confidence: finalDecision.confidence,
     action: finalDecision.action,
@@ -606,7 +721,7 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
 function persistRun(agentState: any, messages: any[], tasks: any[], finalDecision: WorkerDecision, metadata: any) {
   const now = new Date().toISOString();
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
-  const latestTask = finalDecision.status === "blocked_waiting_for_human" && finalDecision.task ? finalDecision.task : null;
+  const latestTask = finalDecision.task ? finalDecision.task : null;
   const outputPath = saveOutput(agentState.name, now, finalDecision);
   const hasUsableOutput = isUsableCompletedDecision(finalDecision);
   const previousNiches = Array.isArray(agentState.uniqueNichesTried) ? [...agentState.uniqueNichesTried] : [];
@@ -624,6 +739,7 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     lastNiche: hasUsableOutput ? finalDecision.niche : agentState.lastNiche || "",
     lastTargetBuyer: hasUsableOutput ? finalDecision.targetBuyer : agentState.lastTargetBuyer || "",
     lastListingTitle: hasUsableOutput ? finalDecision.listingTitle : agentState.lastListingTitle || "",
+    lastPrice: hasUsableOutput ? Number(finalDecision.price || 0) : Number(agentState.lastPrice || 0),
     lastOutputPath: hasUsableOutput ? outputPath : agentState.lastOutputPath || "",
     lastConfidence: finalDecision.confidence || 0,
     lastDuplicateStatus: metadata.duplicateStatus || "original",
@@ -686,6 +802,10 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     niche: finalDecision.niche || "",
     targetBuyer: finalDecision.targetBuyer || "",
     listingTitle: finalDecision.listingTitle || "",
+    price: Number(finalDecision.price || 0),
+    description: finalDecision.description || "",
+    bullets: finalDecision.bullets || [],
+    publishInstructions: finalDecision.publishInstructions || "",
     confidence: finalDecision.confidence || 0,
     duplicateStatus: metadata.duplicateStatus || "original",
     outputPath,

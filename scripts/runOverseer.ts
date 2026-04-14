@@ -78,6 +78,7 @@ function buildLeaderboard(agentStates: any[]) {
           lastRunAt: agent.lastRunAt || "",
           lastProductTitle: agent.lastProductTitle || "",
           lastListingTitle: agent.lastListingTitle || "",
+          lastPrice: Number(agent.lastPrice || 0),
           lastProductType: agent.lastProductType || "",
           lastNiche: agent.lastNiche || "",
           lastConfidence: Number(agent.lastConfidence || 0),
@@ -90,21 +91,22 @@ function buildLeaderboard(agentStates: any[]) {
   };
 }
 
-function buildTelegramSummary(leaderboard: any, blockedTasks: any[]): string {
+function buildTelegramSummary(leaderboard: any, openTasks: any[]): string {
   const lines: string[] = [];
   lines.push("AI Money Arena Summary");
   lines.push("");
 
   for (const agent of leaderboard.agents) {
+    const readyFlag = agent.stage === "listing" || agent.stage === "publish" ? "READY TO PUBLISH" : "IN PROGRESS";
     lines.push(
-      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
+      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ${readyFlag} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
     );
   }
 
   lines.push("");
-  lines.push(`Blocked tasks: ${blockedTasks.length}`);
+  lines.push(`Open human tasks: ${openTasks.length}`);
 
-  for (const task of blockedTasks.slice(0, 10)) {
+  for (const task of openTasks.slice(0, 10)) {
     lines.push(`- ${task.agent}: ${task.title || task.task}`);
   }
 
@@ -116,8 +118,8 @@ async function run(): Promise<void> {
 
   const config = readJson<any>(path.join(STATE_DIR, "config.json"), {});
   const agentStates = getAgentStates();
-  const blockedTasks = agentStates
-    .filter((agent) => agent.status === "blocked_waiting_for_human" && agent.latestTask)
+  const openTasks = agentStates
+    .filter((agent) => agent.latestTask)
     .map((agent) => ({
       agent: agent.name,
       title: agent.latestTask.title,
@@ -137,15 +139,15 @@ async function run(): Promise<void> {
   });
   writeJson(path.join(PUBLIC_DIR, "tasks.json"), {
     generatedAt: new Date().toISOString(),
-    tasks: blockedTasks
+    tasks: openTasks
   });
-  writeJson(path.join(STATE_DIR, "tasks.json"), blockedTasks);
+  writeJson(path.join(STATE_DIR, "tasks.json"), openTasks);
 
   console.log("[overseer] Public data updated");
-  console.log(`[overseer] Agents: ${agentStates.length}, blocked tasks: ${blockedTasks.length}`);
+  console.log(`[overseer] Agents: ${agentStates.length}, open tasks: ${openTasks.length}`);
 
   try {
-    const summary = buildTelegramSummary(leaderboard, blockedTasks);
+    const summary = buildTelegramSummary(leaderboard, openTasks);
     const result = await sendMessage(process.env.TELEGRAM_CHAT_ID || "", summary);
     if (result?.skipped) {
       console.log("[overseer] Telegram summary skipped");
