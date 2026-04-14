@@ -8,26 +8,166 @@ const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 const OUTPUTS_DIR = path.join(__dirname, '../outputs/products');
 
 const PRODUCT_TYPES = [
-  { type: 'daily-planner', label: 'Daily Planner', keywords: ['daily', 'planner', 'schedule'] },
-  { type: 'weekly-planner', label: 'Weekly Planner', keywords: ['weekly', 'planner', 'week'] },
-  { type: 'habit-tracker', label: '30-Day Habit Tracker', keywords: ['habit', 'tracker', '30-day'] },
-  { type: 'goal-tracker', label: 'Goal Tracker & Action Planner', keywords: ['goal', 'tracker', 'action'] },
-  { type: 'time-blocking-template', label: 'Time Blocking Schedule Template', keywords: ['time', 'blocking', 'schedule'] },
-  { type: 'task-priority-system', label: 'Task Priority & To-Do System', keywords: ['task', 'priority', 'todo'] },
-  { type: 'morning-routine-checklist', label: 'Morning Routine Checklist', keywords: ['morning', 'routine', 'checklist'] },
-  { type: 'meal-planner', label: 'Weekly Meal Planner', keywords: ['meal', 'planner', 'weekly'] },
-  { type: 'study-planner', label: 'Study Schedule & Planner', keywords: ['study', 'schedule', 'student'] },
-  { type: 'project-planner', label: 'Project Planning Template', keywords: ['project', 'planning', 'template'] },
-  { type: 'fitness-habit-tracker', label: 'Fitness & Workout Habit Tracker', keywords: ['fitness', 'workout', 'habit'] },
-  { type: 'adhd-planner', label: 'ADHD-Friendly Daily Planner', keywords: ['adhd', 'daily', 'focus'] },
-  { type: 'student-study-tracker', label: 'Student Study & Grade Tracker', keywords: ['student', 'study', 'grade'] },
-  { type: 'morning-routine-habit-tracker', label: 'Morning Routine Habit Tracker', keywords: ['morning', 'habit', 'routine'] },
-  { type: 'budget-planner', label: 'Monthly Budget & Expense Tracker', keywords: ['budget', 'expense', 'monthly'] },
-  { type: 'reading-tracker', label: 'Reading Log & Book Tracker', keywords: ['reading', 'book', 'log'] },
-  { type: 'self-care-tracker', label: 'Self-Care & Wellness Tracker', keywords: ['self-care', 'wellness', 'health'] },
-  { type: 'work-from-home-planner', label: 'Work From Home Daily Planner', keywords: ['work', 'home', 'remote'] },
-  { type: 'content-creator-planner', label: 'Content Creator Weekly Planner', keywords: ['content', 'creator', 'social'] },
-  { type: 'gratitude-journal', label: 'Daily Gratitude Journal Template', keywords: ['gratitude', 'journal', 'mindset'] },
+  {
+    type: 'daily-planner',
+    label: 'Daily Planner Printable',
+    keywords: ['daily', 'planner', 'schedule'],
+    audience: 'busy professionals',
+    focus: 'plan one day at a time with priorities, time blocks, and a focused task list',
+    titleTemplate: 'Daily Planner Printable | Plan Your Day with Clarity | Instant Download PDF',
+  },
+  {
+    type: 'weekly-planner',
+    label: 'Weekly Planner Printable',
+    keywords: ['weekly', 'planner', 'week'],
+    audience: 'busy professionals',
+    focus: 'plan and review a full week with top priorities, daily tasks, and a weekly goal',
+    titleTemplate: 'Weekly Priority Planner Printable | Stay Focused & Organised | Instant Download PDF',
+  },
+  {
+    type: 'habit-tracker',
+    label: 'Habit Tracker Printable',
+    keywords: ['habit', 'tracker', '30-day'],
+    audience: 'people building new habits',
+    focus: 'track daily habits over 30 days with a simple checkbox grid — no dates pre-filled',
+    titleTemplate: 'Habit Tracker Printable | Build Better Habits in 30 Days | Instant Download PDF',
+  },
+  {
+    type: 'goal-tracker',
+    label: 'Goal Tracker Printable',
+    keywords: ['goal', 'tracker', 'action'],
+    audience: 'entrepreneurs and goal-setters',
+    focus: 'define, break down, and track progress on one meaningful goal with action steps',
+    titleTemplate: 'Goal Tracker Printable | Break Down Big Goals & Take Action | Instant Download PDF',
+  },
+  {
+    type: 'time-blocking-template',
+    label: 'Time Blocking Schedule Printable',
+    keywords: ['time', 'blocking', 'schedule'],
+    audience: 'busy professionals',
+    focus: 'block out time for tasks in a structured daily schedule with hour-by-hour slots',
+    titleTemplate: 'Time Blocking Schedule Printable | Take Control of Your Day | Instant Download PDF',
+  },
+  {
+    type: 'task-priority-system',
+    label: 'Task Priority Sheet Printable',
+    keywords: ['task', 'priority', 'todo'],
+    audience: 'overwhelmed professionals',
+    focus: 'sort tasks by urgency and importance using a simple priority matrix or ranked list',
+    titleTemplate: 'Task Priority Planner Printable | Focus on What Matters Most | Instant Download PDF',
+  },
+  {
+    type: 'morning-routine-checklist',
+    label: 'Morning Routine Checklist Printable',
+    keywords: ['morning', 'routine', 'checklist'],
+    audience: 'people building a consistent morning routine',
+    focus: 'a single-page checklist for completing a morning routine step by step',
+    titleTemplate: 'Morning Routine Checklist Printable | Win Your Morning Every Day | Instant Download PDF',
+  },
+  {
+    type: 'meal-planner',
+    label: 'Weekly Meal Planner Printable',
+    keywords: ['meal', 'planner', 'weekly'],
+    audience: 'home cooks and busy families',
+    focus: 'plan meals for the week with a simple day-by-day grid and a shopping list section',
+    titleTemplate: 'Weekly Meal Planner Printable | Eat Better & Save Time | Instant Download PDF',
+  },
+  {
+    type: 'study-planner',
+    label: 'Study Session Planner Printable',
+    keywords: ['study', 'schedule', 'student'],
+    audience: 'students',
+    focus: 'plan a focused study session with subject, goals, time blocks, and a review section',
+    titleTemplate: 'Study Planner Printable | Study Smarter Not Harder | Instant Download PDF',
+  },
+  {
+    type: 'project-planner',
+    label: 'Project Planner Printable',
+    keywords: ['project', 'planning', 'template'],
+    audience: 'freelancers and project managers',
+    focus: 'map out one project with milestones, tasks, deadlines, and a status tracker',
+    titleTemplate: 'Project Planner Printable | Plan & Deliver Projects on Time | Instant Download PDF',
+  },
+  {
+    type: 'fitness-habit-tracker',
+    label: 'Fitness Habit Tracker Printable',
+    keywords: ['fitness', 'workout', 'habit'],
+    audience: 'people starting a fitness routine',
+    focus: 'track workout habits, movement goals, and weekly progress with a simple daily grid',
+    titleTemplate: 'Fitness Habit Tracker Printable | Build Your Workout Habit | Instant Download PDF',
+  },
+  {
+    type: 'adhd-planner',
+    label: 'ADHD Daily Planner Printable',
+    keywords: ['adhd', 'daily', 'focus'],
+    audience: 'adults with ADHD',
+    focus: 'a simple, low-overwhelm daily planner with brain dump, top 3 tasks, and check-ins',
+    titleTemplate: 'ADHD Daily Planner Printable | Stay Focused One Day at a Time | Instant Download PDF',
+  },
+  {
+    type: 'student-study-tracker',
+    label: 'Student Grade & Assignment Tracker Printable',
+    keywords: ['student', 'study', 'grade'],
+    audience: 'high school and university students',
+    focus: 'track assignments, due dates, and grades by subject across a semester',
+    titleTemplate: 'Student Assignment Tracker Printable | Stay on Top of Deadlines | Instant Download PDF',
+  },
+  {
+    type: 'morning-routine-habit-tracker',
+    label: 'Morning Routine Habit Tracker Printable',
+    keywords: ['morning', 'habit', 'routine'],
+    audience: 'people building a consistent morning practice',
+    focus: 'track morning habits daily for a month with a simple grid and reflection space',
+    titleTemplate: 'Morning Routine Tracker Printable | Build Your Perfect Morning | Instant Download PDF',
+  },
+  {
+    type: 'budget-planner',
+    label: 'Monthly Budget Tracker Printable',
+    keywords: ['budget', 'expense', 'monthly'],
+    audience: 'people taking control of their finances',
+    focus: 'track monthly income, expenses by category, and savings goal in one sheet',
+    titleTemplate: 'Monthly Budget Tracker Printable | Take Control of Your Money | Instant Download PDF',
+  },
+  {
+    type: 'reading-tracker',
+    label: 'Reading Log Printable',
+    keywords: ['reading', 'book', 'log'],
+    audience: 'book lovers and reading challenge participants',
+    focus: 'log books read, track reading progress, and capture key takeaways',
+    titleTemplate: 'Reading Log Printable | Track Every Book You Read | Instant Download PDF',
+  },
+  {
+    type: 'self-care-tracker',
+    label: 'Self-Care Tracker Printable',
+    keywords: ['self-care', 'wellness', 'health'],
+    audience: 'people prioritising mental and physical wellbeing',
+    focus: 'track daily self-care habits like sleep, hydration, movement, and mood',
+    titleTemplate: 'Self-Care Tracker Printable | Prioritise Your Wellbeing Daily | Instant Download PDF',
+  },
+  {
+    type: 'work-from-home-planner',
+    label: 'Work From Home Daily Planner Printable',
+    keywords: ['work', 'home', 'remote'],
+    audience: 'remote workers',
+    focus: 'structure a productive work-from-home day with start ritual, tasks, breaks, and wrap-up',
+    titleTemplate: 'Work From Home Planner Printable | Stay Productive Working Remotely | Instant Download PDF',
+  },
+  {
+    type: 'content-creator-planner',
+    label: 'Content Creator Weekly Planner Printable',
+    keywords: ['content', 'creator', 'social'],
+    audience: 'content creators and social media managers',
+    focus: 'plan weekly content ideas, posting schedule, and creation tasks in one view',
+    titleTemplate: 'Content Creator Planner Printable | Plan & Post With Ease | Instant Download PDF',
+  },
+  {
+    type: 'gratitude-journal',
+    label: 'Daily Gratitude Journal Printable',
+    keywords: ['gratitude', 'journal', 'mindset'],
+    audience: 'people building a positive mindset practice',
+    focus: 'a daily gratitude journal with prompts for three things to be grateful for and a reflection',
+    titleTemplate: 'Daily Gratitude Journal Printable | Shift Your Mindset Every Day | Instant Download PDF',
+  },
 ];
 
 function loadProducts() {
@@ -132,6 +272,17 @@ function validateProduct(content, productType) {
   const label = productType || 'unknown';
   console.log(`[product-agent] Element count for ${label}: total=${total} tables=${breakdown.tableRows} checkboxes=${breakdown.checkboxes} numbered=${breakdown.numbered} bullets=${breakdown.plainBullets} sections=${breakdown.sections} fields=${breakdown.fieldLines}`);
 
+  // Detect multi-purpose products — too many distinct section types suggests combo product
+  const sectionHeadings = (content.match(/^#{2,3}\s+.+$/gm) || []).map(h => h.toLowerCase());
+  const hasPlanner = sectionHeadings.some(h => /planner|schedule|time.?block|daily|weekly/.test(h));
+  const hasHabitTracker = sectionHeadings.some(h => /habit.?track|tracker|streak/.test(h));
+  const hasJournal = sectionHeadings.some(h => /journal|gratitude|reflection|prompt/.test(h));
+  const hasGoalTracker = sectionHeadings.some(h => /goal.?track|goal.?set|action.?plan/.test(h));
+  const distinctToolCount = [hasPlanner, hasHabitTracker, hasJournal, hasGoalTracker].filter(Boolean).length;
+  if (distinctToolCount >= 3) {
+    return { valid: false, reason: `Product combines too many tools (${distinctToolCount} detected: planner=${hasPlanner} tracker=${hasHabitTracker} journal=${hasJournal} goal=${hasGoalTracker}) — must be single-purpose` };
+  }
+
   // Minimum threshold — lower bar since tables alone are high-value
   const min = 10;
   if (total < min) {
@@ -141,7 +292,7 @@ function validateProduct(content, productType) {
   return { valid: true, elementCount: total };
 }
 
-function buildPrompt(productType, productLabel, existingContent, brandContext) {
+function buildPrompt(productType, productLabel, audience, focus, titleTemplate, existingContent, brandContext) {
   const expansion = existingContent
     ? `EXISTING DRAFT (expand this, do NOT restart):\n${existingContent}\n\n---\n\nExpand the above to be complete and fully usable.`
     : `Create a brand new ${productLabel} from scratch.`;
@@ -159,34 +310,51 @@ function buildPrompt(productType, productLabel, existingContent, brandContext) {
 
 ${expansion}
 
-${brandSection}PRODUCT REQUIREMENTS:
+${brandSection}TARGET AUDIENCE: ${audience}
+This product is designed specifically for ${audience}. All language, structure, and features must reflect their specific needs and context. Use language that speaks directly to them.
+
+PRODUCT FOCUS (ONE PURPOSE ONLY):
+This product must solve ONE problem: ${focus}
+Do NOT combine multiple tools into one product. Do NOT create a planner + habit tracker + journal all in one.
+Every section must serve the same core purpose. If it doesn't fit the focus, leave it out.
+
+TITLE RULE (CRITICAL):
+The title (# heading at the top) must follow this exact format:
+[Primary Keyword] | [Clear Benefit for ${audience}] | [Format]
+Use this template as a guide: "${titleTemplate}"
+Do NOT start with brand name. Do NOT use a generic title. Make it specific and benefit-driven.
+
+PRODUCT REQUIREMENTS:
 - Type: ${productLabel}
-- Niche: productivity
 - Must be immediately printable and usable without any editing
 - Minimum 30 usable rows/fields/checkboxes/elements
 - Use markdown tables with clear column headers
 - Use checkboxes (- [ ]) for task/habit tracking sections
-- Include a title (# heading) at the top
-- Include a brief "How to Use" section
+- Include a brief "How to Use" section (3-5 bullet points)
 - No pre-filled dates, fixed calendar values, or sequential day labels like "Day 1, Day 2"
 - No personal pre-fills — the buyer fills everything in themselves
 - Products must be REUSABLE: not tied to a specific time period or person
 - Use blank input fields: "Day ______", "Date: ______", "Start Date: ______"
 - For habit/challenge trackers: blank rows where the user writes the habit name and fills daily checkboxes
 - For planners: include "Date: ______" at the top of each page/section
-- For challenges: include "Start Date: ______" and "End Date: ______" at the top
-- Do NOT write "January", "Monday", "Week 1", "Day 1" etc. as fixed labels
 - Column headers in tables should be structural, not date-specific (e.g. "Habit" | "M" | "T" | "W" | "Th" | "F" | "Sa" | "Su" | "✓")
 - Rows in tracker tables: blank "______" in the habit/task column, empty checkboxes in tracking columns
 - No placeholders like [topic], [fill in here], [your goal] — use "______" for user-fillable fields
 
-STRUCTURE REQUIREMENTS for ${productLabel}:
-- Header: Title + one-line benefit-driven description
-- How to Use: 3-5 bullet points explaining how to use this template
+PRINT USABILITY (CRITICAL):
+- Ensure there is enough writing space in every row and field
+- Table rows must have generous height — buyers will be writing by hand
+- Use readable font-friendly markdown: avoid cramping content
+- Blank lines between rows improve readability when printed
+- Every field should feel spacious, not squeezed
+
+STRUCTURE REQUIREMENTS for ${productLabel} (targeted at ${audience}):
+- Title: follows the [Keyword] | [Benefit] | [Format] rule above
+- How to Use: 3-5 bullet points written for ${audience}
 - Main Section: Large table or grid with 20-30 blank-but-structured rows ready to fill in
-- Secondary Section: Additional tracking or notes area with at least 10 blank fields (use "______" for fill-in lines)
-- Reflection/Review Section: Printed question prompts for the user to answer by hand (5+ items)
-- Footer: Motivational quote or tip
+- Secondary Section: Additional tracking or notes area with at least 10 blank fields (use "______")
+- Reflection/Review Section: 5+ written question prompts the user answers by hand
+- Footer: Short motivational line relevant to ${audience}
 
 OUTPUT: Return only the markdown product. No explanations. No commentary.`;
 }
@@ -205,8 +373,9 @@ async function run() {
     const id = `product-${Date.now()}`;
     product = {
       id,
-      title: chosen.label,
+      title: chosen.titleTemplate || chosen.label,
       productType: chosen.type,
+      audience: chosen.audience || 'productivity enthusiasts',
       niche: 'productivity',
       status: 'building',
       owner: 'product-agent',
@@ -254,7 +423,15 @@ async function run() {
     fontSecondary: brand.fontSecondary,
   };
 
-  const prompt = buildPrompt(product.productType, typeInfo.label, existingContent, brandContext);
+  const prompt = buildPrompt(
+    product.productType,
+    typeInfo.label,
+    typeInfo.audience || product.audience || 'productivity enthusiasts',
+    typeInfo.focus || `a focused ${typeInfo.label}`,
+    typeInfo.titleTemplate || typeInfo.label,
+    existingContent,
+    brandContext
+  );
 
   let content;
   let callCost = 0;

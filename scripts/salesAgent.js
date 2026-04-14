@@ -31,6 +31,7 @@ You must use the predefined brand. Do not invent new styles or brand names.
 
 ${brandSection}Product type: ${product.productType}
 Product title: ${product.title}
+Target audience: ${product.audience || 'productivity enthusiasts'}
 Product content preview:
 ${productContent.slice(0, 1200)}
 
@@ -46,7 +47,7 @@ Create an Etsy-optimised listing. Return ONLY valid JSON with this exact structu
 }
 
 TITLE RULES (critical — follow exactly):
-- Format: [Primary Keyword] | [Clear Benefit] | [Format]
+- Format: [Primary Keyword] | [Clear Benefit for ${product.audience || 'users'}] | [Format]
 - Examples:
     "Weekly Productivity Planner Printable | Plan Your Week in Minutes | Instant Download PDF"
     "30-Day Habit Tracker Printable | Build Better Habits Fast | Digital Download"
@@ -60,10 +61,11 @@ TITLE RULES (critical — follow exactly):
 
 OTHER RULES:
 - Exactly 13 tags, each under 20 characters
+- Include audience-specific tags for: ${product.audience || 'productivity enthusiasts'}
 - Price between 3.00 and 7.00
 - No placeholders
 - Tags should be common Etsy search terms for productivity printables
-- Description should be natural, benefit-focused language
+- Description should mention the target audience (${product.audience || 'productivity enthusiasts'}) and speak to their specific needs
 - Brand name may appear once in the description only, not the title`;
 }
 
