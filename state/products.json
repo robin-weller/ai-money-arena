@@ -171,7 +171,7 @@
     "revenue": 0,
     "createdAt": "2026-04-14T17:05:42.822Z",
     "themeId": "themeA",
-    "aiFailureCount": 1,
+    "aiFailureCount": 2,
     "lastError": "invalid_response"
   }
 ]
