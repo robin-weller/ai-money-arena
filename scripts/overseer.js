@@ -98,7 +98,7 @@ async function run() {
     }, null, 2)
   );
 
-  // Write public-data/products.json
+  // Write public-data/products.json (lightweight — dashboard source of truth)
   fs.writeFileSync(
     path.join(PUBLIC_DATA_DIR, 'products.json'),
     JSON.stringify({
@@ -106,16 +106,10 @@ async function run() {
       products: products.map(p => ({
         id: p.id,
         title: p.title || p.productType,
-        productType: p.productType,
         status: p.status,
         price: p.price || 0,
         revenue: p.revenue || 0,
-        elementCount: p.elementCount || 0,
         isPublished: p.isPublished || false,
-        publishedUrl: p.publishedUrl || '',
-        createdAt: p.createdAt,
-        completedAt: p.completedAt,
-        salesTitle: p.salesTitle || '',
       })),
     }, null, 2)
   );

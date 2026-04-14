@@ -75,15 +75,14 @@
 
     const products = Array.isArray(data.products) ? data.products : [];
     if (!products.length) {
-      body.innerHTML = '<tr><td colspan="5" class="empty">No products yet.</td></tr>';
+      body.innerHTML = '<tr><td colspan="4" class="empty">No products yet.</td></tr>';
       return;
     }
 
     body.innerHTML = products.slice().reverse().map(p => {
       const statusClass = escapeHtml((p.status || '').replace(/_/g, '-'));
       return `<tr>
-        <td>${escapeHtml(p.title || p.productType)}</td>
-        <td>${escapeHtml(p.productType || '')}</td>
+        <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
         <td>${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>
         <td>${p.revenue ? '$' + Number(p.revenue).toFixed(2) : '$0.00'}</td>
