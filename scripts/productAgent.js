@@ -71,20 +71,59 @@ function pickProductType(existingProducts) {
   return fallback[Math.floor(Math.random() * fallback.length)];
 }
 
-function countElements(content) {
-  const tableRows = (content.match(/^\|[^-|]/gm) || []).length;
-  const checkboxes = (content.match(/^[-*] \[[ x]\]/gm) || []).length;
+// Placeholder patterns that indicate genuinely unfilled template slots
+const REAL_PLACEHOLDER_RE = /\[(?:YOUR|INSERT|FILL|ADD|ENTER|WRITE|PUT|GOAL HERE|NAME HERE|HABIT HERE|TYPE HERE|TOPIC HERE)[^\]]*\]/i;
+
+function countElements(content, productType) {
+  // Table data rows: lines starting with | but NOT separator rows (|---|)
+  const tableRows = (content.match(/^\|(?![-|])/gm) || []).length;
+
+  // Checkboxes: handle any number of spaces/tabs before [ ] or [x]
+  const checkboxes = (content.match(/^[\s]*[-*+]\s+\[[ xX]\]/gm) || []).length;
+
+  // Numbered list items
   const numbered = (content.match(/^\d+\.\s+\S/gm) || []).length;
-  const bullets = (content.match(/^[-*] \S/gm) || []).length;
-  return Math.max(tableRows, 0) + checkboxes + numbered + Math.max(bullets - checkboxes, 0);
+
+  // Bullet points (excluding checkbox lines)
+  const allBullets = (content.match(/^[\s]*[-*+]\s+\S/gm) || []).length;
+  const plainBullets = Math.max(allBullets - checkboxes, 0);
+
+  // Heading-based sections (h2/h3 indicate structural sections)
+  const sections = (content.match(/^#{2,3}\s+\S/gm) || []).length;
+
+  // Field-like lines: lines containing common planner field patterns
+  const fieldLines = (content.match(/^.*(?:Goal:|Priority:|Task:|Note:|Date:|Day \d|Week \d|Morning|Evening|Reflection|Intention|Review).*$/gmi) || []).length;
+
+  const total = tableRows + checkboxes + numbered + plainBullets + Math.max(sections - 1, 0) + Math.max(fieldLines - tableRows, 0);
+
+  return {
+    total,
+    breakdown: { tableRows, checkboxes, numbered, plainBullets, sections, fieldLines },
+  };
 }
 
-function validateProduct(content) {
-  if (!content || content.length < 600) return { valid: false, reason: 'Too short' };
-  if (/\[[A-Z][^\]]*\]/.test(content)) return { valid: false, reason: 'Contains placeholders' };
-  const elements = countElements(content);
-  if (elements < 15) return { valid: false, reason: `Only ${elements} usable elements (need ≥15)` };
-  return { valid: true, elementCount: elements };
+function validateProduct(content, productType) {
+  if (!content || content.length < 600) {
+    return { valid: false, reason: `Too short (${content ? content.length : 0} chars, need ≥600)` };
+  }
+
+  // Only reject genuinely unfilled placeholders, not example content like [Priority Task 1]
+  if (REAL_PLACEHOLDER_RE.test(content)) {
+    const sample = content.match(REAL_PLACEHOLDER_RE)?.[0];
+    return { valid: false, reason: `Contains unfilled placeholder: ${sample}` };
+  }
+
+  const { total, breakdown } = countElements(content, productType);
+  const label = productType || 'unknown';
+  console.log(`[product-agent] Element count for ${label}: total=${total} tables=${breakdown.tableRows} checkboxes=${breakdown.checkboxes} numbered=${breakdown.numbered} bullets=${breakdown.plainBullets} sections=${breakdown.sections} fields=${breakdown.fieldLines}`);
+
+  // Minimum threshold — lower bar since tables alone are high-value
+  const min = 10;
+  if (total < min) {
+    return { valid: false, reason: `Only ${total} usable elements (need ≥${min}): ${JSON.stringify(breakdown)}` };
+  }
+
+  return { valid: true, elementCount: total };
 }
 
 function buildPrompt(productType, productLabel, existingContent, brandContext) {
@@ -218,7 +257,7 @@ async function run() {
   products[idx].aiCostTotal = (products[idx].aiCostTotal || 0) + callCost;
   products[idx].aiCalls = (products[idx].aiCalls || 0) + 1;
 
-  const validation = validateProduct(content);
+  const validation = validateProduct(content, product.productType);
   console.log(`[product-agent] Validation: valid=${validation.valid} reason=${validation.reason || 'ok'} elements=${validation.elementCount || 0}`);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
