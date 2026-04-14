@@ -77,7 +77,11 @@ function buildLeaderboard(agentStates: any[]) {
           lastAction: agent.lastAction || "",
           lastRunAt: agent.lastRunAt || "",
           lastProductTitle: agent.lastProductTitle || "",
-          lastListingTitle: agent.lastListingTitle || ""
+          lastListingTitle: agent.lastListingTitle || "",
+          lastProductType: agent.lastProductType || "",
+          lastNiche: agent.lastNiche || "",
+          lastConfidence: Number(agent.lastConfidence || 0),
+          lastDuplicateStatus: agent.lastDuplicateStatus || "original"
         };
       })
       .sort((a, b) => b.profit - a.profit)
@@ -91,7 +95,7 @@ function buildTelegramSummary(leaderboard: any, blockedTasks: any[]): string {
 
   for (const agent of leaderboard.agents) {
     lines.push(
-      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | listing=${agent.lastListingTitle || "-"} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
+      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
     );
   }
 

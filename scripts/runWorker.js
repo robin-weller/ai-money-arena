@@ -14,10 +14,13 @@ function defaultCompletedFields() {
   return {
     productTitle: "",
     productType: "",
+    niche: "",
     targetBuyer: "",
     listingTitle: "",
     shortDescription: "",
-    fileContent: ""
+    priceSuggestion: "",
+    fileContent: "",
+    confidence: 0
   };
 }
 
@@ -45,6 +48,14 @@ function trimString(value, maxLength) {
   return String(value || "").trim().replace(/^["']+|["']+$/g, "").slice(0, maxLength);
 }
 
+function normalizeComparisonText(value) {
+  return trimString(value || "", 240)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function defaultAgentState(agentName) {
   return {
     name: agentName,
@@ -52,7 +63,19 @@ function defaultAgentState(agentName) {
     revenue: 0,
     cost: 0,
     lastAction: "",
-    status: "idle"
+    status: "idle",
+    lastProductType: "",
+    lastNiche: "",
+    lastTargetBuyer: "",
+    lastProductTitle: "",
+    lastListingTitle: "",
+    lastOutputPath: "",
+    lastConfidence: 0,
+    lastDuplicateStatus: "original",
+    attempts: 0,
+    uniqueNichesTried: [],
+    duplicateHits: 0,
+    successfulOutputs: 0
   };
 }
 
@@ -115,7 +138,21 @@ function ensureAgentState(agentName, trace) {
       revenue: Number.isFinite(Number(state.revenue)) ? Number(state.revenue) : 0,
       cost: Number.isFinite(Number(state.cost)) ? Number(state.cost) : 0,
       lastAction: trimString(state.lastAction || "", 280),
-      status: trimString(state.status || fallback.status, 60) || fallback.status
+      status: trimString(state.status || fallback.status, 60) || fallback.status,
+      lastProductType: trimString(state.lastProductType || "", 120),
+      lastNiche: trimString(state.lastNiche || "", 160),
+      lastTargetBuyer: trimString(state.lastTargetBuyer || "", 200),
+      lastProductTitle: trimString(state.lastProductTitle || "", 200),
+      lastListingTitle: trimString(state.lastListingTitle || "", 220),
+      lastOutputPath: trimString(state.lastOutputPath || "", 260),
+      lastConfidence: Number.isFinite(Number(state.lastConfidence)) ? Number(state.lastConfidence) : 0,
+      lastDuplicateStatus: trimString(state.lastDuplicateStatus || "original", 40) || "original",
+      attempts: Number.isFinite(Number(state.attempts)) ? Number(state.attempts) : 0,
+      uniqueNichesTried: Array.isArray(state.uniqueNichesTried)
+        ? state.uniqueNichesTried.map((item) => trimString(item, 160)).filter(Boolean)
+        : [],
+      duplicateHits: Number.isFinite(Number(state.duplicateHits)) ? Number(state.duplicateHits) : 0,
+      successfulOutputs: Number.isFinite(Number(state.successfulOutputs)) ? Number(state.successfulOutputs) : 0
     };
 
     writeJson(agentFile, normalized);
@@ -173,10 +210,15 @@ function isValidDecisionShape(decision) {
       ["completed", "blocked_waiting_for_human"].includes(decision.status) &&
       typeof decision.productTitle === "string" &&
       typeof decision.productType === "string" &&
+      typeof decision.niche === "string" &&
       typeof decision.targetBuyer === "string" &&
       typeof decision.listingTitle === "string" &&
       typeof decision.shortDescription === "string" &&
+      typeof decision.priceSuggestion === "string" &&
       typeof decision.fileContent === "string" &&
+      typeof decision.confidence === "number" &&
+      decision.confidence >= 0 &&
+      decision.confidence <= 1 &&
       (decision.task === null || isValidTask(decision.task))
   );
 }
@@ -190,25 +232,104 @@ function sanitizeDecision(decision) {
       }
     : null;
 
-  const completedFields = {
-    productTitle: trimString(decision?.productTitle || "", 200),
-    productType: trimString(decision?.productType || "", 120),
-    targetBuyer: trimString(decision?.targetBuyer || "", 200),
-    listingTitle: trimString(decision?.listingTitle || "", 220),
-    shortDescription: trimString(decision?.shortDescription || "", 500),
-    fileContent: trimString(decision?.fileContent || "", 5000)
-  };
-
   return {
     action: trimString(decision?.action || "none", 280) || "none",
     status: decision?.status === "blocked_waiting_for_human" ? "blocked_waiting_for_human" : "completed",
     reason: trimString(decision?.reason || "", 500) || "Invalid model output",
     task,
-    ...completedFields
+    productTitle: trimString(decision?.productTitle || "", 200),
+    productType: trimString(decision?.productType || "", 120),
+    niche: trimString(decision?.niche || "", 160),
+    targetBuyer: trimString(decision?.targetBuyer || "", 200),
+    listingTitle: trimString(decision?.listingTitle || "", 220),
+    shortDescription: trimString(decision?.shortDescription || "", 500),
+    priceSuggestion: trimString(decision?.priceSuggestion || "", 80),
+    fileContent: trimString(decision?.fileContent || "", 5000),
+    confidence: Math.max(0, Math.min(1, Number(decision?.confidence || 0)))
   };
 }
 
-function buildPrompt(agentState, messages, tasks, config) {
+function collectLatestOutputs(currentAgentName) {
+  if (!fs.existsSync(OUTPUTS_DIR)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(OUTPUTS_DIR)
+    .filter((entry) => entry !== currentAgentName)
+    .map((entry) => path.join(OUTPUTS_DIR, entry, "latest.json"))
+    .filter((filePath) => fs.existsSync(filePath))
+    .map((filePath) => readJson(filePath, null))
+    .filter(Boolean);
+}
+
+function compareOverlap(a, b) {
+  const left = new Set(normalizeComparisonText(a).split(" ").filter(Boolean));
+  const right = new Set(normalizeComparisonText(b).split(" ").filter(Boolean));
+
+  if (!left.size || !right.size) {
+    return 0;
+  }
+
+  let shared = 0;
+  for (const item of left) {
+    if (right.has(item)) {
+      shared += 1;
+    }
+  }
+
+  return shared / Math.max(left.size, right.size);
+}
+
+function isSimilarToOutput(candidate, other) {
+  const sameType = normalizeComparisonText(candidate.productType) === normalizeComparisonText(other.productType);
+  const sameNiche = normalizeComparisonText(candidate.niche) === normalizeComparisonText(other.niche);
+  const sameBuyer = normalizeComparisonText(candidate.targetBuyer) === normalizeComparisonText(other.targetBuyer);
+  const titleOverlap = compareOverlap(candidate.productTitle, other.productTitle);
+  return (sameType && sameNiche) || (sameNiche && sameBuyer) || titleOverlap >= 0.7;
+}
+
+function isVagueOutput(decision) {
+  return (
+    normalizeComparisonText(decision.productTitle).length < 8 ||
+    normalizeComparisonText(decision.niche).length < 4 ||
+    normalizeComparisonText(decision.targetBuyer).length < 6 ||
+    normalizeComparisonText(decision.fileContent).length < 40
+  );
+}
+
+function isPureBrainstorming(decision) {
+  const action = normalizeComparisonText(decision.action);
+  return action.includes("brainstorm") || action.includes("multiple options") || action.includes("list ideas");
+}
+
+function matchesPreviousRun(decision, agentState) {
+  return (
+    normalizeComparisonText(decision.productTitle) === normalizeComparisonText(agentState.lastProductTitle) &&
+    normalizeComparisonText(decision.productType) === normalizeComparisonText(agentState.lastProductType) &&
+    normalizeComparisonText(decision.niche) === normalizeComparisonText(agentState.lastNiche) &&
+    normalizeComparisonText(decision.targetBuyer) === normalizeComparisonText(agentState.lastTargetBuyer)
+  );
+}
+
+function hasProgress(decision, agentState) {
+  if (!agentState.lastProductTitle) {
+    return true;
+  }
+
+  const reason = normalizeComparisonText(decision.reason);
+  return !matchesPreviousRun(decision, agentState) || reason.includes("pivot") || reason.includes("build") || reason.includes("continue");
+}
+
+function classifyDuplicate(candidate, otherOutputs) {
+  const match = otherOutputs.find((other) => isSimilarToOutput(candidate, other));
+  return {
+    isDuplicate: Boolean(match),
+    duplicateWith: match ? match.agent || "" : ""
+  };
+}
+
+function buildPrompt(agentState, messages, tasks, config, options = {}) {
   const recentMessages = messages.slice(-3).map((entry) => `- ${entry.agent}: ${entry.message}`).join("\n") || "- none";
   const openTasks = tasks
     .filter((task) => task.status !== "done")
@@ -219,10 +340,11 @@ function buildPrompt(agentState, messages, tasks, config) {
   const prompt = [
     "You are an autonomous agent whose goal is to generate money.",
     "Choose exactly ONE concrete monetisation action for this run.",
+    "You must either build on your previous output with a concrete improvement or pivot with a clear reason.",
     "",
     "Allowed actions:",
     "- create a micro-product idea and draft listing title",
-    "- create a small dataset product idea and draft listing title",
+    "- create a small dataset idea and draft listing title",
     "- create a product outline",
     "- create a product description",
     "- create a listing draft",
@@ -252,22 +374,31 @@ function buildPrompt(agentState, messages, tasks, config) {
     "  },",
     '  "productTitle": "string",',
     '  "productType": "string",',
+    '  "niche": "string",',
     '  "targetBuyer": "string",',
     '  "listingTitle": "string",',
     '  "shortDescription": "string",',
-    '  "fileContent": "string"',
+    '  "priceSuggestion": "string",',
+    '  "fileContent": "string",',
+    '  "confidence": 0-1',
     "}",
     "",
     `Agent: ${trimString(agentState.name, 80) || "agent"}`,
     `Strategy: ${trimString(agentState.strategy, 200) || "generate digital products"}`,
+    `Previous product title: ${trimString(agentState.lastProductTitle || "none", 200)}`,
+    `Previous product type: ${trimString(agentState.lastProductType || "none", 120)}`,
+    `Previous niche: ${trimString(agentState.lastNiche || "none", 160)}`,
+    `Previous target buyer: ${trimString(agentState.lastTargetBuyer || "none", 200)}`,
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
     `Open tasks:\n${openTasks}`,
+    options.latestOutputsText ? `Other agents latest outputs:\n${options.latestOutputsText}` : "Other agents latest outputs:\n- none",
+    options.retryInstruction || "",
     `Keep it short and practical. Max ${config.maxActionChars || 140} chars for action.`
   ].join("\n");
 
-  return trimString(prompt, 6000);
+  return trimString(prompt, 7000);
 }
 
 function writeLog(agentName, payload) {
@@ -290,10 +421,13 @@ function saveOutput(agentName, now, finalDecision) {
     agent: agentName,
     productTitle: finalDecision.productTitle,
     productType: finalDecision.productType,
+    niche: finalDecision.niche,
     targetBuyer: finalDecision.targetBuyer,
     listingTitle: finalDecision.listingTitle,
     shortDescription: finalDecision.shortDescription,
+    priceSuggestion: finalDecision.priceSuggestion,
     fileContent: finalDecision.fileContent,
+    confidence: finalDecision.confidence,
     action: finalDecision.action,
     reason: finalDecision.reason
   };
@@ -307,21 +441,35 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
   const now = new Date().toISOString();
   const profit = Number((Number(agentState.revenue || 0) - Number(agentState.cost || 0)).toFixed(2));
   const latestTask = finalDecision.status === "blocked_waiting_for_human" && finalDecision.task ? finalDecision.task : null;
-  const completedFields = finalDecision.status === "completed" ? defaultCompletedFields() : defaultCompletedFields();
   const outputPath = saveOutput(agentState.name, now, finalDecision);
+  const previousNiches = Array.isArray(agentState.uniqueNichesTried) ? [...agentState.uniqueNichesTried] : [];
+  const nextUniqueNiches =
+    finalDecision.status === "completed" && finalDecision.niche && !previousNiches.includes(finalDecision.niche)
+      ? [...previousNiches, finalDecision.niche]
+      : previousNiches;
+
   const nextAgentState = {
     ...agentState,
     lastAction: finalDecision.action,
     lastReason: finalDecision.reason,
     lastProductTitle: finalDecision.status === "completed" ? finalDecision.productTitle : "",
+    lastProductType: finalDecision.status === "completed" ? finalDecision.productType : "",
+    lastNiche: finalDecision.status === "completed" ? finalDecision.niche : "",
+    lastTargetBuyer: finalDecision.status === "completed" ? finalDecision.targetBuyer : "",
     lastListingTitle: finalDecision.status === "completed" ? finalDecision.listingTitle : "",
     lastOutputPath: outputPath,
+    lastConfidence: finalDecision.confidence || 0,
+    lastDuplicateStatus: metadata.duplicateStatus || "original",
     lastRunAt: now,
     status: finalDecision.status,
     latestTask,
     revenue: Number(agentState.revenue || 0),
     cost: Number(agentState.cost || 0),
-    profit
+    profit,
+    attempts: Number(agentState.attempts || 0) + 1,
+    uniqueNichesTried: nextUniqueNiches,
+    duplicateHits: Number(agentState.duplicateHits || 0) + (metadata.duplicateStatus === "duplicate" ? 1 : 0),
+    successfulOutputs: Number(agentState.successfulOutputs || 0) + (finalDecision.status === "completed" ? 1 : 0)
   };
 
   writeJson(getAgentFile(agentState.name), nextAgentState);
@@ -362,7 +510,12 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     parsedObject: metadata.parsedObject,
     finalObject: finalDecision,
     productTitle: finalDecision.productTitle || "",
+    productType: finalDecision.productType || "",
+    niche: finalDecision.niche || "",
+    targetBuyer: finalDecision.targetBuyer || "",
     listingTitle: finalDecision.listingTitle || "",
+    confidence: finalDecision.confidence || 0,
+    duplicateStatus: metadata.duplicateStatus || "original",
     outputPath,
     finalStatus: finalDecision.status,
     errorMessage: metadata.error ? trimString(metadata.error.message || metadata.error, 500) : "",
@@ -379,6 +532,7 @@ async function runWorker(agentName) {
   let geminiResponseStatus = null;
   let rawGeminiText = "";
   let parsedObject = null;
+  let duplicateStatus = "original";
   let agentState = defaultAgentState(agentName);
   let messages = [];
   let tasks = [];
@@ -393,28 +547,68 @@ async function runWorker(agentName) {
     agentState = ensureAgentState(agentName, trace);
     messages = safeReadArray(MESSAGES_PATH);
     tasks = safeReadArray(TASKS_PATH);
+    const latestOutputs = collectLatestOutputs(agentName);
+    const latestOutputsText =
+      latestOutputs
+        .map((item) => `- ${item.agent}: ${item.productTitle} | ${item.productType} | ${item.niche} | ${item.targetBuyer}`)
+        .join("\n") || "- none";
 
     stepReached = "prompt";
     trace.push("prompt");
-    const prompt = buildPrompt(agentState, messages, tasks, config);
+    let prompt = buildPrompt(agentState, messages, tasks, config, { latestOutputsText });
     if (!prompt || !prompt.trim()) {
       throw new Error("Generated prompt is empty.");
     }
 
     stepReached = "gemini";
     trace.push("gemini");
-    const geminiResult = await callGemini(prompt, {
-      timeoutMs: config.geminiTimeoutMs || 20000
-    });
-    rawGeminiText = typeof geminiResult?.text === "string" ? geminiResult.text : "";
-    geminiResponseStatus = geminiResult?.status ?? null;
+    let finalDecision = { ...FALLBACK_INVALID_MODEL_OUTPUT };
 
-    stepReached = "parse";
-    trace.push("parse");
-    parsedObject = extractJson(rawGeminiText);
-    const finalDecision = isValidDecisionShape(parsedObject)
-      ? sanitizeDecision(parsedObject)
-      : FALLBACK_INVALID_MODEL_OUTPUT;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const geminiResult = await callGemini(prompt, {
+        timeoutMs: config.geminiTimeoutMs || 20000
+      });
+      rawGeminiText = typeof geminiResult?.text === "string" ? geminiResult.text : "";
+      geminiResponseStatus = geminiResult?.status ?? null;
+
+      stepReached = "parse";
+      trace.push(`parse:${attempt + 1}`);
+      parsedObject = extractJson(rawGeminiText);
+      finalDecision = isValidDecisionShape(parsedObject) ? sanitizeDecision(parsedObject) : { ...FALLBACK_INVALID_MODEL_OUTPUT };
+
+      const progressOkay =
+        finalDecision.status !== "completed" ||
+        (hasProgress(finalDecision, agentState) && !isVagueOutput(finalDecision) && !isPureBrainstorming(finalDecision));
+      const duplicateCheck =
+        finalDecision.status === "completed" ? classifyDuplicate(finalDecision, latestOutputs) : { isDuplicate: false, duplicateWith: "" };
+
+      if (finalDecision.status === "completed" && progressOkay && !duplicateCheck.isDuplicate) {
+        duplicateStatus = "original";
+        break;
+      }
+
+      if (finalDecision.status === "completed" && duplicateCheck.isDuplicate && attempt === 0) {
+        duplicateStatus = "retry";
+        prompt = buildPrompt(agentState, messages, tasks, config, {
+          latestOutputsText,
+          retryInstruction: `Retry once. Your last output was too similar to ${duplicateCheck.duplicateWith || "another agent"}. Choose a different niche or product type and return a distinct sellable draft.`
+        });
+        continue;
+      }
+
+      if (finalDecision.status === "completed" && duplicateCheck.isDuplicate) {
+        duplicateStatus = "duplicate";
+        finalDecision.confidence = Math.min(finalDecision.confidence || 0.35, 0.35);
+        finalDecision.reason = trimString(`${finalDecision.reason} Duplicate risk remained after retry.`, 500);
+      } else if (finalDecision.status === "completed" && !progressOkay) {
+        finalDecision = {
+          ...FALLBACK_INVALID_MODEL_OUTPUT,
+          reason: "Invalid model output"
+        };
+        duplicateStatus = "original";
+      }
+      break;
+    }
 
     stepReached = "save";
     trace.push("save");
@@ -424,6 +618,7 @@ async function runWorker(agentName) {
       geminiResponseStatus,
       rawGeminiText,
       parsedObject,
+      duplicateStatus,
       error: null
     });
 
@@ -432,6 +627,7 @@ async function runWorker(agentName) {
     console.log(`[worker] gemini.status=${geminiResponseStatus}`);
     console.log(`[worker] parsed=${JSON.stringify(parsedObject)}`);
     console.log(`[worker] final=${JSON.stringify(finalDecision)}`);
+    console.log(`[worker] duplicateStatus=${duplicateStatus}`);
     console.log(`[worker] output=${nextAgentState.lastOutputPath || ""}`);
     console.log(`[worker] saved=${nextAgentState.status}`);
     return finalDecision;
@@ -448,6 +644,7 @@ async function runWorker(agentName) {
         geminiResponseStatus,
         rawGeminiText,
         parsedObject,
+        duplicateStatus,
         error
       });
     } catch (persistError) {
