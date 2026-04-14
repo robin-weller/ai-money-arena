@@ -152,5 +152,26 @@
     "qaFailureReason": "",
     "nextOwner": "human",
     "publishReadyAt": "2026-04-14T16:56:37.734Z"
+  },
+  {
+    "id": "product-1776186342822",
+    "title": "Habit Tracker Printable | Build Better Habits in 30 Days | Instant Download PDF",
+    "productType": "habit-tracker",
+    "audience": "people building new habits",
+    "niche": "productivity",
+    "status": "building",
+    "owner": "product-agent",
+    "isPublished": false,
+    "publishedUrl": "",
+    "price": 0,
+    "productOutputPath": "outputs/products/product-1776186342822/product.md",
+    "salesOutputPath": "outputs/products/product-1776186342822/sales.json",
+    "marketingOutputPath": "outputs/products/product-1776186342822/marketing.json",
+    "distributionAttempts": 0,
+    "revenue": 0,
+    "createdAt": "2026-04-14T17:05:42.822Z",
+    "themeId": "themeA",
+    "aiFailureCount": 1,
+    "lastError": "invalid_response"
   }
 ]
