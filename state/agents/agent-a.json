@@ -3,7 +3,7 @@
   "strategy": "generate and list digital products",
   "revenue": 0,
   "cost": 0,
-  "lastAction": "create a product description",
+  "lastAction": "retry_next_run",
   "status": "completed",
   "lastProductType": "template pack",
   "lastNiche": "Social Media Marketing",
@@ -11,18 +11,18 @@
   "lastProductTitle": "AI-Powered Social Media Content Calendar",
   "lastListingTitle": "AI Social Media Content Calendar Template Pack | Boost Engagement",
   "lastOutputPath": "outputs/agent-a/2026-04-14T10-47-35-113Z.json",
-  "lastConfidence": 0.95,
+  "lastConfidence": 0,
   "lastDuplicateStatus": "original",
-  "stage": "content",
+  "stage": "listing",
   "lastProgressMode": "progressing",
-  "attempts": 3,
+  "attempts": 4,
   "uniqueNichesTried": [
     "Social Media Marketing"
   ],
   "duplicateHits": 0,
   "successfulOutputs": 3,
-  "lastReason": "Building on the product outline, the next logical step is to write a compelling product description to attract buyers.",
-  "lastRunAt": "2026-04-14T10:47:35.113Z",
+  "lastReason": "Model failed to produce valid output, will retry next cycle",
+  "lastRunAt": "2026-04-14T10:57:15.056Z",
   "profit": 0,
   "latestTask": null
 }
