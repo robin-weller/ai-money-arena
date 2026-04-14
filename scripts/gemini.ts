@@ -26,21 +26,10 @@ function extractTextResponse(payload: any): string {
   return String(text).trim();
 }
 
-function parseJsonFromText(text: string): GeminiDecision {
-  const fencedMatch = text.match(/```json\s*([\s\S]*?)```/i);
-  const candidate = fencedMatch ? fencedMatch[1] : text;
-
-  try {
-    return JSON.parse(candidate);
-  } catch (error: any) {
-    throw new Error(`Gemini returned invalid JSON: ${error.message}`);
-  }
-}
-
 export async function callGemini(
   prompt: string,
   options: { model?: string; timeoutMs?: number; maxOutputTokens?: number } = {}
-): Promise<GeminiDecision> {
+): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -84,8 +73,7 @@ export async function callGemini(
       throw new Error(`Gemini returned invalid JSON response: ${error.message}`);
     }
 
-    const text = extractTextResponse(payload);
-    return parseJsonFromText(text);
+    return extractTextResponse(payload);
   } catch (error: any) {
     if (error.name === "AbortError") {
       throw new Error(`Gemini request timed out after ${timeoutMs}ms.`);
