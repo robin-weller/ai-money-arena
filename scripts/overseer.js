@@ -6,7 +6,7 @@ const { sendMessage } = require('./telegram.js');
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 const PUBLIC_DATA_DIR = path.join(__dirname, '../public-data');
 
-const STAGES = ['idea', 'building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'live'];
+const STAGES = ['idea', 'building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'qa_pending', 'publish_ready', 'live'];
 const STAGE_LABELS = {
   idea: 'Idea',
   building: 'Building',
@@ -14,6 +14,8 @@ const STAGE_LABELS = {
   ready_to_market: 'Ready to Market',
   ready_to_distribute: 'Ready to Distribute',
   design_ready: 'Design Ready',
+  qa_pending: 'QA Pending',
+  publish_ready: 'Publish Ready',
   live: 'Live',
 };
 
@@ -75,6 +77,23 @@ function buildTelegramSummary(products, totalAiCost) {
     byStage.design_ready.forEach(p => lines.push(`  • ${p.title}`));
   }
 
+  if (byStage.qa_pending.length) {
+    lines.push('\n🔍 QA Pending:');
+    byStage.qa_pending.forEach(p => lines.push(`  • ${p.title}`));
+  }
+
+  if (byStage.publish_ready.length) {
+    lines.push('\n✅ Publish Ready:');
+    byStage.publish_ready.forEach(p => lines.push(`  • ${p.title}`));
+  }
+
+  // QA failures (products routed back from QA)
+  const qaFailed = products.filter(p => p.qaStatus === 'failed' && p.status !== 'qa_pending');
+  if (qaFailed.length) {
+    lines.push('\n⚠️ QA Failed (re-queued):');
+    qaFailed.forEach(p => lines.push(`  • ${p.title} → ${p.qaFailureStage || '?'} (${p.qaFailureReason || '?'})`));
+  }
+
   if (byStage.live.length) {
     lines.push('\n✅ Live:');
     byStage.live.forEach(p => lines.push(`  • ${p.title} | $${Number(p.price || 0).toFixed(2)} | revenue=$${Number(p.revenue || 0).toFixed(2)}`));
@@ -82,6 +101,7 @@ function buildTelegramSummary(products, totalAiCost) {
 
   lines.push(`\n📊 Summary:`);
   lines.push(`  Total products: ${products.length}`);
+  lines.push(`  Publish Ready: ${(byStage.publish_ready || []).length}`);
   lines.push(`  Live: ${liveCount}`);
   lines.push(`  Revenue: $${totalRevenue.toFixed(2)}`);
   lines.push(`  AI cost: $${formatMoney(totalAiCost)}`);
@@ -108,7 +128,9 @@ async function run() {
       generatedAt: new Date().toISOString(),
       totalProducts: products.length,
       liveProducts: (byStage.live || []).length,
-      uploadReady: (byStage.design_ready || []).length,
+      publishReady: (byStage.publish_ready || []).length,
+      uploadReady: (byStage.publish_ready || []).length,
+      qaFailed: products.filter(p => p.qaStatus === 'failed').length,
       totalRevenue,
       totalAiCost,
       totalProfit,
@@ -146,6 +168,11 @@ async function run() {
         themeId: p.themeId || null,
         designReady: p.designReady || false,
         designOutputPaths: p.designOutputPaths || null,
+        qaStatus: p.qaStatus || null,
+        qaFailureStage: p.qaFailureStage || null,
+        qaFailureReason: p.qaFailureReason || null,
+        qaRetryCount: p.qaRetryCount || 0,
+        needsHumanReview: p.needsHumanReview || false,
       })),
     }, null, 2)
   );

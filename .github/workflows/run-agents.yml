@@ -68,6 +68,9 @@ jobs:
       - name: Run Design Agent
         run: node scripts/designAgent.js
 
+      - name: Run Quality Agent
+        run: node scripts/qualityAgent.js
+
       - name: Run Overseer
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

@@ -54,9 +54,11 @@
     ready_to_market: '📣 Ready to Market',
     ready_to_distribute: '🚀 Ready to Distribute',
     design_ready: '🎨 Design Ready',
+    qa_pending: '🔍 QA Pending',
+    publish_ready: '✅ Publish Ready',
     live: '✅ Live',
   };
-  const STAGES = ['building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'live', 'idea'];
+  const STAGES = ['building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'design_ready', 'qa_pending', 'publish_ready', 'live', 'idea'];
 
   async function loadPipeline() {
     const [data, dash] = await Promise.all([
@@ -107,14 +109,22 @@
 
     body.innerHTML = products.slice().reverse().map(p => {
       const statusClass = escapeHtml((p.status || '').replace(/_/g, '-'));
-      const designBadge = p.designReady
-        ? '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#D1FAE5;color:#065F46">🎨 Ready</span>'
-        : '<span style="color:#999">—</span>';
+      let qaBadge;
+      if (p.needsHumanReview) {
+        qaBadge = '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#FEE2E2;color:#991B1B">👤 Review</span>';
+      } else if (p.qaStatus === 'passed') {
+        qaBadge = '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#D1FAE5;color:#065F46">✓ Passed</span>';
+      } else if (p.qaStatus === 'failed') {
+        const reason = escapeHtml(p.qaFailureReason || p.qaFailureStage || 'failed');
+        qaBadge = `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:#FEF3C7;color:#92400E" title="${reason}">⚠️ ${escapeHtml(p.qaFailureStage || 'failed')}</span>`;
+      } else {
+        qaBadge = '<span style="color:#999">—</span>';
+      }
       return `<tr>
         <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
         <td>${renderThemeBadge(p.themeId)}</td>
-        <td>${designBadge}</td>
+        <td>${qaBadge}</td>
         <td style="text-align:right">$${formatMoney(p.aiCostTotal)}</td>
         <td style="text-align:right">${p.aiCalls || 0}</td>
         <td style="text-align:right">${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>

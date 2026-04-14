@@ -188,7 +188,7 @@ async function run() {
         // Update product state
         const idx = products.findIndex(p => p.id === product.id);
         if (idx !== -1) {
-          products[idx].status = 'design_ready';
+          products[idx].status = 'qa_pending';
           products[idx].designReady = true;
           products[idx].designOutputPaths = {
             html: `${relBase}/product.html`,
@@ -199,7 +199,7 @@ async function run() {
           products[idx].designCompletedAt = new Date().toISOString();
         }
         saveProducts(products);
-        console.log(`[design-agent]   Status → design_ready`);
+        console.log(`[design-agent]   Status → qa_pending`);
         successCount++;
       } catch (err) {
         console.error(`[design-agent] ERROR: Playwright rendering failed for ${product.id}: ${err.message}`);

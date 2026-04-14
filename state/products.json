@@ -4,7 +4,7 @@
     "title": "30-Day Productivity Power-Up Habit Tracker",
     "productType": "habit-tracker",
     "niche": "productivity",
-    "status": "design_ready",
+    "status": "publish_ready",
     "owner": "product-agent",
     "isPublished": false,
     "publishedUrl": "",
@@ -28,6 +28,13 @@
       "cover": "outputs/products/product-1776176436218/cover.png",
       "mockup": "outputs/products/product-1776176436218/mockup-1.png"
     },
-    "designCompletedAt": "2026-04-14T15:04:01.843Z"
+    "designCompletedAt": "2026-04-14T15:04:01.843Z",
+    "qaStatus": "passed",
+    "qaFailureStage": "",
+    "qaFailureReason": "",
+    "qaRetryCount": 0,
+    "needsHumanReview": false,
+    "nextOwner": "human",
+    "publishReadyAt": "2026-04-14T15:13:56.204Z"
   }
 ]
