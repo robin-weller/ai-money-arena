@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Study Schedule &amp; Planner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, sans-serif;
+      color: #344E41;
+      background: #FDF6EC;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover-page {
+      width: 210mm;
+      height: 297mm;
+      background: #FDF6EC;
+      display: flex;
+      flex-direction: column;
+      padding: 22mm 22mm 18mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8mm;
+      height: 100%;
+      background: #A5A58D;
+    }
+
+    .cover-top-rule {
+      height: 2px;
+      background: #A5A58D;
+      margin-bottom: 16mm;
+      opacity: 0.25;
+    }
+
+    .cover-category {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #A5A58D;
+      margin-bottom: 10mm;
+    }
+
+    .cover-title {
+      font-family: Playfair Display, serif;
+      font-size: 34pt;
+      font-weight: 700;
+      color: #6B705C;
+      line-height: 1.1;
+      margin: 0 0 8mm;
+      max-width: 155mm;
+    }
+
+    .cover-divider {
+      width: 18mm;
+      height: 3px;
+      background: #A5A58D;
+      border-radius: 2px;
+      margin-bottom: 8mm;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #344E41;
+      opacity: 0.7;
+      line-height: 1.55;
+      max-width: 135mm;
+      margin-bottom: 14mm;
+      font-weight: 300;
+    }
+
+    .cover-instructions {
+      flex: 1;
+      background: #FFE8D6;
+      border-radius: 4px;
+      padding: 8mm 10mm;
+      margin-bottom: 10mm;
+    }
+
+    .cover-instructions h3 {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A5A58D;
+      margin: 0 0 5mm;
+    }
+
+    .cover-instructions ul {
+      margin: 0;
+      padding-left: 4mm;
+      list-style: none;
+    }
+
+    .cover-instructions li {
+      font-size: 10pt;
+      color: #344E41;
+      line-height: 1.6;
+      margin-bottom: 2.5mm;
+      padding-left: 4mm;
+      position: relative;
+    }
+
+    .cover-instructions li::before {
+      content: '→';
+      position: absolute;
+      left: -2mm;
+      color: #A5A58D;
+      font-weight: 600;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 5mm;
+      border-top: 1px solid #A5A58D;
+      opacity: 0.4;
+    }
+
+    .cover-footer-brand {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-footer-format {
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CONTENT PAGES ─── */
+    .content-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      page-break-before: always;
+      background: #FDF6EC;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+      padding-bottom: 3mm;
+      border-bottom: 1.5px solid #A5A58D;
+    }
+
+    .content-header-title {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A5A58D;
+    }
+
+    .content-header-page {
+      font-size: 8pt;
+      color: #344E41;
+      opacity: 0.4;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #6B705C;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.15;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-family: Inter, sans-serif;
+      color: #6B705C;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10mm 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1.5px solid #A5A58D;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #6B705C;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin: 7mm 0 2mm;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 4mm;
+    }
+
+    ul, ol {
+      margin: 0 0 4mm;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+      line-height: 1.6;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5mm 0 8mm;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #6B705C;
+      color: #FDF6EC;
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+      padding: 2.5mm 3.5mm;
+      text-align: left;
+      border: none;
+    }
+
+    td {
+      padding: 3mm 3.5mm;
+      min-height: 8mm;
+      border-bottom: 1px solid #FFE8D6;
+      border-right: none;
+      border-left: none;
+      vertical-align: middle;
+    }
+
+    /* Blank fill-in underlines: text like "______" rendered as a visible line */
+    td:empty::after,
+    td:has(> br:only-child)::after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid #A5A58D;
+      min-height: 5mm;
+    }
+
+    tr:nth-child(even) td {
+      background: #FFE8D6;
+    }
+
+    tr:nth-child(odd) td {
+      background: #FDF6EC;
+    }
+
+    /* ─── CHECKBOXES ─── */
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 4mm;
+      height: 4mm;
+      min-width: 4mm;
+      border: 1.5px solid #A5A58D;
+      border-radius: 1px;
+      margin-top: 0.8mm;
+      display: inline-block;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 8mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* ─── BLANK FILL-IN LINES ─── */
+    .fill-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1.2px solid #A5A58D;
+      margin: 0 1mm;
+      vertical-align: bottom;
+      opacity: 0.6;
+    }
+
+    /* ─── MISC ─── */
+    blockquote {
+      border-left: 3px solid #A5A58D;
+      margin: 5mm 0;
+      padding: 3mm 5mm;
+      background: #FFE8D6;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #FFE8D6;
+      margin: 6mm 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #FFE8D6;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #344E41;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Convert ______ sequences to styled fill-in lines -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node) {
+        if (/_{3,}/.test(node.nodeValue)) {
+          const span = document.createElement('span');
+          span.innerHTML = node.nodeValue.replace(/_{3,}/g, function(m) {
+            return '<span class="fill-line">&nbsp;</span>';
+          });
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    });
+  </script>
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <div class="cover-page">
+    <div class="cover-accent-bar"></div>
+    <div class="cover-top-rule"></div>
+    <div class="cover-category">Productivity · Instant Download</div>
+    <h1 class="cover-title">Study Schedule &amp; Planner</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle">Organize your studies and boost productivity.</p>
+
+    <div class="cover-instructions">
+      <h3>How to Use</h3>
+      <ul><li>Fill in the &quot;Date:&quot; for each study session.</li><li>Use the main table to block out your study times, subjects, and specific tasks.</li><li>Utilize the Habit Tracker to monitor your study-related habits.</li><li>Answer the Reflection Questions at the end of each study period to assess progress.</li></ul>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-brand">Lazy Whippet</span>
+      <span class="cover-footer-format">Print-Ready PDF · Warm Calm</span>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 2+: CONTENT ═══ -->
+  <div class="content-page">
+    <div class="content-header">
+      <span class="content-header-title">Study Schedule &amp; Planner</span>
+      <span class="content-header-page">Lazy Whippet</span>
+    </div>
+
+    <style>
+body {
+  background-color: #FDF6EC;
+  color: #344E41;
+  font-family: 'Inter', sans-serif;
+}
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: #6B705C;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  border: 1px solid #A5A58D;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #A5A58D;
+  color: #FDF6EC;
+}
+.checkbox {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #A5A58D;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.filled-checkbox::before {
+  content: '✔';
+  color: #6B705C;
+  display: block;
+  text-align: center;
+}
+.footer {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 20px;
+  color: #6B705C;
+}
+</style>
+
+<h1>Study Schedule &amp; Planner</h1>
+<p>Simple tools for better productivity</p>
+<h1></h1>
+<div class="section">
+<h2>Study Plan</h2>
+<p>Date: ______</p>
+<div class="page-break"></div><table>
+<thead>
+<tr>
+<th>Time Slot</th>
+<th>Subject</th>
+<th>Topic/Task</th>
+<th>Priority (High/Med/Low)</th>
+<th>Notes/Resources</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+<tr>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+<td>______</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Study Habit Tracker</h2>
+<p>Start Date: ______
+End Date: ______</p>
+<table>
+<thead>
+<tr>
+<th>Habit/Task</th>
+<th>______</th>
+<th>______</th>
+<th>______</th>
+<th>______</th>
+<th>______</th>
+<th>______</th>
+<th>______</th>
+<th>✓</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+<tr>
+<td>______</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td>- [ ]</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Study Notes &amp; Goals</h2>
+<p><strong>Key Takeaways from this Session:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>Areas for Improvement:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>Next Steps:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>Overall Goal for this Study Period:</strong></p>
+<hr>
+<hr>
+</div>
+<div class="section">
+<h2>Reflection &amp; Review</h2>
+<ol>
+<li>What was the most productive part of this study session?<hr>
+</li>
+<li>What challenges did you face, and how can you overcome them next time?<hr>
+<hr>
+</li>
+<li>Did you meet your planned objectives for this session? Why or why not?<hr>
+<hr>
+</li>
+<li>What did you learn today that was particularly interesting or useful?<hr>
+</li>
+<li>How can you adjust your study approach for the next session based on this review?<hr>
+<hr>
+</li>
+</ol>
+<div class="footer">A Lazy Whippet productivity tool</div>
+</div>
+
+    <div class="page-footer">
+      <span>Lazy Whippet &mdash; Study Schedule &amp; Planner</span>
+      <span>Print &amp; Use · lazywh.com</span>
+    </div>
+  </div>
+
+</body>
+</html>

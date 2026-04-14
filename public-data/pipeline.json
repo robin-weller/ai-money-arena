@@ -1,5 +1,29 @@
 {
-  "generatedAt": "2026-04-14T16:28:41.249Z",
-  "stages": {},
-  "products": []
+  "generatedAt": "2026-04-14T16:30:08.135Z",
+  "totalProducts": 1,
+  "totalRevenue": 0,
+  "totalAiCost": 0.0010327,
+  "totalProfit": -0.0010327,
+  "byStage": {
+    "idea": [],
+    "building": [],
+    "ready_to_ship": [],
+    "ready_to_market": [],
+    "ready_to_distribute": [],
+    "design_ready": [],
+    "qa_pending": [],
+    "publish_ready": [
+      {
+        "id": "product-1776184194633",
+        "title": "Study Schedule & Planner",
+        "productType": "study-planner",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 55,
+        "createdAt": "2026-04-14T16:29:54.633Z",
+        "completedAt": "2026-04-14T16:30:01.151Z"
+      }
+    ],
+    "live": []
+  }
 }

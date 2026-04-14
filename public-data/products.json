@@ -1,17 +1,34 @@
 {
-  "generatedAt": "2026-04-14T16:28:41.249Z",
-  "products": [],
-  "counts": {
-    "total": 0,
-    "building": 0,
-    "ready_to_ship": 0,
-    "ready_to_market": 0,
-    "ready_to_distribute": 0,
-    "qa_pending": 0,
-    "publish_ready": 0,
-    "qa_failed": 0,
-    "live": 0
-  },
-  "totalRevenue": 0,
-  "totalAiCost": 0
+  "generatedAt": "2026-04-14T16:30:08.135Z",
+  "products": [
+    {
+      "id": "product-1776184194633",
+      "title": "Study Schedule & Planner",
+      "status": "publish_ready",
+      "price": 4.99,
+      "revenue": 0,
+      "isPublished": false,
+      "marketplace": null,
+      "publishedUrl": null,
+      "publishedAt": null,
+      "listingId": null,
+      "aiCostTotal": 0.0010327,
+      "aiCalls": 3,
+      "themeId": "themeC",
+      "designReady": true,
+      "designOutputPaths": {
+        "html": "outputs/products/product-1776184194633/product.html",
+        "pdf": "outputs/products/product-1776184194633/product.pdf",
+        "cover": "outputs/products/product-1776184194633/cover.png",
+        "mockup": "outputs/products/product-1776184194633/mockup-1.png"
+      },
+      "qaStatus": "passed",
+      "qaFailureStage": null,
+      "qaFailureReason": null,
+      "qaRetryCount": 0,
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
+    }
+  ]
 }
