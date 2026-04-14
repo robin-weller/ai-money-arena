@@ -1,0 +1,7 @@
+{
+  "maxActionChars": 140,
+  "maxGeminiOutputTokens": 220,
+  "geminiTimeoutMs": 20000,
+  "latestRunsLimit": 15,
+  "telegramEnabled": true
+}

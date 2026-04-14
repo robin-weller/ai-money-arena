@@ -1,0 +1,13 @@
+name: Weekly Maintenance Placeholder
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "43 9 * * 1"
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "Weekly maintenance placeholder. Add reporting or cleanup here later."

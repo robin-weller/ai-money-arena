@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2026-04-14T09:13:23.964Z",
+    "agent": "agent-a",
+    "type": "blocked_waiting_for_human",
+    "message": "Paused due to API/runtime error (Missing GEMINI_API_KEY environment variable.)"
+  },
+  {
+    "timestamp": "2026-04-14T09:13:23.997Z",
+    "agent": "agent-c",
+    "type": "blocked_waiting_for_human",
+    "message": "Paused due to API/runtime error (Missing GEMINI_API_KEY environment variable.)"
+  },
+  {
+    "timestamp": "2026-04-14T09:13:23.998Z",
+    "agent": "agent-b",
+    "type": "blocked_waiting_for_human",
+    "message": "Paused due to API/runtime error (Missing GEMINI_API_KEY environment variable.)"
+  }
+]

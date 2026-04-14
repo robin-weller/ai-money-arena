@@ -1,0 +1,16 @@
+{
+  "name": "ai-money-arena",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal autonomous agent system for GitHub Actions using Gemini and Telegram.",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "worker:a": "node scripts/runWorker.js agent-a",
+    "worker:b": "node scripts/runWorker.js agent-b",
+    "worker:c": "node scripts/runWorker.js agent-c",
+    "overseer": "node scripts/runOverseer.js"
+  }
+}

@@ -1,0 +1,78 @@
+name: Run Agents
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  run-workers:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        agent:
+          - agent-a
+          - agent-b
+          - agent-c
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run worker
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/runWorker.js ${{ matrix.agent }}
+
+      - name: Upload worker artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: worker-state-${{ matrix.agent }}
+          path: |
+            state
+            logs
+
+  run-overseer:
+    runs-on: ubuntu-latest
+    needs: run-workers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download worker artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: worker-artifacts
+
+      - name: Merge worker outputs
+        run: node .github/workflows/merge-worker-artifacts.js
+
+      - name: Run overseer
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/runOverseer.js
+
+      - name: Commit updated state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state public-data logs
+          git diff --cached --quiet || git commit -m "chore: update agent state"
+          git push

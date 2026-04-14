@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-04-14T09:14:04.677Z",
+  "tasks": [
+    {
+      "id": "agent-a-1776158003966",
+      "createdAt": "2026-04-14T09:13:23.964Z",
+      "agent": "agent-a",
+      "task": "Check Gemini API key, quota, or workflow logs",
+      "reason": "Missing GEMINI_API_KEY environment variable.",
+      "status": "open"
+    },
+    {
+      "id": "agent-c-1776158003998",
+      "createdAt": "2026-04-14T09:13:23.997Z",
+      "agent": "agent-c",
+      "task": "Check Gemini API key, quota, or workflow logs",
+      "reason": "Missing GEMINI_API_KEY environment variable.",
+      "status": "open"
+    },
+    {
+      "id": "agent-b-1776158003999",
+      "createdAt": "2026-04-14T09:13:23.998Z",
+      "agent": "agent-b",
+      "task": "Check Gemini API key, quota, or workflow logs",
+      "reason": "Missing GEMINI_API_KEY environment variable.",
+      "status": "open"
+    }
+  ]
+}
