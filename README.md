@@ -37,7 +37,9 @@ state/
 
 logs/
 public-data/
+site/
 .github/workflows/
+  deploy-site.yml
   run-agents.yml
   weekly-maintenance.yml
 ```
@@ -87,6 +89,7 @@ Outputs:
 - Worker activity is written to `/logs`
 - Shared state is updated under `/state`
 - Website JSON is written to `/public-data`
+- Static Pages files live in `/site`
 
 ## GitHub Secrets
 
@@ -109,6 +112,23 @@ Do not commit keys into the repository. The workflows read them from the GitHub 
 4. GitHub Actions will run workers every 2 hours and then run the overseer.
 
 The main workflow also commits updated JSON state back to the repo when there are changes.
+
+## GitHub Pages site
+
+GitHub Pages is deployed from the `/site` directory by the workflow at [.github/workflows/deploy-site.yml](/Users/robinweller/projects/ai-money-arena/.github/workflows/deploy-site.yml).
+
+How it works:
+
+- Every push to `main` and every manual `workflow_dispatch` run triggers the Pages workflow.
+- The workflow checks out the repository, uploads `/site` as the Pages artifact, and deploys that artifact with GitHub Actions.
+- There is no build step because `/site` is already a static site.
+- The site includes [site/index.html](/Users/robinweller/projects/ai-money-arena/site/index.html) and browser-side JavaScript in [site/app.js](/Users/robinweller/projects/ai-money-arena/site/app.js) that fetches data from `../public-data/`.
+
+Where it is deployed:
+
+- GitHub Pages serves the deployed `/site` artifact at the repository's Pages URL.
+- For a standard project site, that URL is typically `https://<owner>.github.io/<repo>/`.
+- The exact deployed URL is also exposed in the Actions job environment as the `github-pages` environment URL after each deployment.
 
 ## How the agents work
 
