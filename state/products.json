@@ -42,11 +42,11 @@
     "title": "ADHD-Friendly Daily Planner",
     "productType": "adhd-planner",
     "niche": "productivity",
-    "status": "building",
+    "status": "publish_ready",
     "owner": "product-agent",
     "isPublished": false,
     "publishedUrl": "",
-    "price": 0,
+    "price": 4.99,
     "productOutputPath": "outputs/products/product-1776180829723/product.md",
     "salesOutputPath": "outputs/products/product-1776180829723/sales.json",
     "marketingOutputPath": "outputs/products/product-1776180829723/marketing.json",
@@ -54,7 +54,25 @@
     "revenue": 0,
     "createdAt": "2026-04-14T15:33:49.723Z",
     "themeId": "themeC",
-    "aiCostTotal": 0.0063658,
-    "aiCalls": 4
+    "aiCostTotal": 0.009920499999999999,
+    "aiCalls": 7,
+    "elementCount": 18,
+    "completedAt": "2026-04-14T15:49:34.912Z",
+    "salesTitle": "ADHD Daily Planner Printable | Focus & Conquer Your Day | Instant Download PDF",
+    "salesCompletedAt": "2026-04-14T15:49:42.221Z",
+    "marketingCompletedAt": "2026-04-14T15:49:47.914Z",
+    "designReady": true,
+    "designOutputPaths": {
+      "html": "outputs/products/product-1776180829723/product.html",
+      "pdf": "outputs/products/product-1776180829723/product.pdf",
+      "cover": "outputs/products/product-1776180829723/cover.png",
+      "mockup": "outputs/products/product-1776180829723/mockup-1.png"
+    },
+    "designCompletedAt": "2026-04-14T15:49:50.343Z",
+    "qaStatus": "passed",
+    "qaFailureStage": "",
+    "qaFailureReason": "",
+    "nextOwner": "human",
+    "publishReadyAt": "2026-04-14T15:49:50.417Z"
   }
 ]

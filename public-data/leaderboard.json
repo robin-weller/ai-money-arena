@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-04-14T15:47:42.423Z",
+  "generatedAt": "2026-04-14T15:49:50.454Z",
   "agents": [
     {
       "name": "Product Agent",
-      "lastProductTitle": "ADHD-Friendly Daily Planner",
+      "lastProductTitle": "Idle",
       "profit": 0,
-      "status": "building"
+      "status": "idle"
     },
     {
       "name": "Sales Agent",

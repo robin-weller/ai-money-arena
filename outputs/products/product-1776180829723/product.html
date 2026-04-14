@@ -1,19 +1,209 @@
-# ADHD-Friendly Daily Planner
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADHD-Friendly Daily Planner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
 
-Simple tools for better productivity
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
 
-## How to Use
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-*   **Start with Intention:** Each morning, quickly jot down your top 3 priorities and any scheduled appointments to set a clear direction for your day.
-*   **Chunk Your Tasks:** Break down larger projects into smaller, manageable steps in the "Tasks to Conquer" section. This makes them feel less overwhelming.
-*   **Build Momentum with Habits:** Use the habit checkboxes to build consistent, positive routines that support your well-being and productivity.
-*   **Fuel Your Body:** Keep track of your hydration and meal times to ensure you're energized throughout the day.
-*   **Reflect & Recharge:** At the end of your day, take a few moments to review what went well, what was challenging, and what you can carry forward to tomorrow.
+    body {
+      font-family: Inter, sans-serif;
+      background: #FDF6EC;
+      color: #344E41;
+      font-size: 11pt;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
 
+    .page {
+      max-width: 170mm;
+      margin: 0 auto;
+      padding: 10mm 0 20mm;
+    }
+
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #6B705C;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-family: Playfair Display, serif;
+      color: #6B705C;
+      font-size: 14pt;
+      margin: 8mm 0 3mm;
+      padding-left: 4mm;
+      border-left: 3px solid #A5A58D;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #6B705C;
+      font-size: 11pt;
+      font-weight: 600;
+      margin: 6mm 0 2mm;
+    }
+
+    p {
+      margin: 0 0 3mm;
+    }
+
+    ul, ol {
+      margin: 0 0 3mm;
+      padding-left: 6mm;
+    }
+
+    li {
+      margin-bottom: 1mm;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4mm 0;
+      font-size: 9.5pt;
+    }
+
+    th {
+      background: #FFE8D6;
+      color: #344E41;
+      font-weight: 600;
+      padding: 2mm 3mm;
+      text-align: left;
+      border: 1px solid #A5A58D;
+    }
+
+    td {
+      padding: 2mm 3mm;
+      border: 1px solid #A5A58D;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #FFE8D6;
+    }
+
+    h1, h2, h3 {
+      page-break-after: avoid;
+    }
+
+    table {
+      page-break-inside: avoid;
+    }
+
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 6mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    blockquote {
+      border-left: 3px solid #A5A58D;
+      margin: 4mm 0;
+      padding: 2mm 4mm;
+      color: #344E41;
+      opacity: 0.85;
+    }
+
+    code {
+      font-family: monospace;
+      font-size: 9pt;
+      background: #FFE8D6;
+      padding: 0.5mm 1.5mm;
+      border-radius: 2px;
+    }
+
+    pre {
+      background: #FFE8D6;
+      border: 1px solid #A5A58D;
+      border-radius: 3px;
+      padding: 3mm 4mm;
+      overflow: auto;
+      font-size: 9pt;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #A5A58D;
+      margin: 5mm 0;
+    }
+
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 3.5mm;
+      height: 3.5mm;
+      border: 1.5px solid #A5A58D;
+      border-radius: 1px;
+      margin-right: 2mm;
+      vertical-align: middle;
+      position: relative;
+      top: -0.3mm;
+      display: inline-block;
+    }
+
+    .task-list-item input[type="checkbox"]:checked {
+      background: #A5A58D;
+    }
+
+    .footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #A5A58D;
+      font-size: 8pt;
+      color: #344E41;
+      opacity: 0.5;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>ADHD-Friendly Daily Planner</h1>
+    <h1>ADHD-Friendly Daily Planner</h1>
+<p>Simple tools for better productivity</p>
+<div class="section">
+<h2>How to Use</h2>
+<ul>
+<li><strong>Start with Intention:</strong> Each morning, quickly jot down your top 3 priorities and any scheduled appointments to set a clear direction for your day.</li>
+<li><strong>Chunk Your Tasks:</strong> Break down larger projects into smaller, manageable steps in the &quot;Tasks to Conquer&quot; section. This makes them feel less overwhelming.</li>
+<li><strong>Build Momentum with Habits:</strong> Use the habit checkboxes to build consistent, positive routines that support your well-being and productivity.</li>
+<li><strong>Fuel Your Body:</strong> Keep track of your hydration and meal times to ensure you&#39;re energized throughout the day.</li>
+<li><strong>Reflect &amp; Recharge:</strong> At the end of your day, take a few moments to review what went well, what was challenging, and what you can carry forward to tomorrow.</li>
+</ul>
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+</div>
+<div class="section">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Your Daily Command Center</h2>
 <p style="color: #344E41; font-family: 'Inter', sans-serif;">Focus on what matters, one block at a time.</p>
-<table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
+<div class="page-break"></div><table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
   <thead>
     <tr style="background-color: #A5A58D;">
       <th style="padding: 8px; text-align: left; color: #FDF6EC;">Time Block</th>
@@ -136,9 +326,10 @@ Simple tools for better productivity
 </table>
 </div>
 
----
-
+<hr>
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+</div>
+<div class="section">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Tasks to Conquer Today</h2>
 <ul style="color: #344E41; font-family: 'Inter', sans-serif;">
   <li>[ ] Drink 8 glasses of water</li>
@@ -181,9 +372,10 @@ Simple tools for better productivity
 </ul>
 </div>
 
----
-
+<hr>
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+</div>
+<div class="section">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Habit Tracker</h2>
 <p style="color: #344E41; font-family: 'Inter', sans-serif;">Build consistency with these daily habits.</p>
 <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
@@ -334,9 +526,10 @@ Simple tools for better productivity
 </table>
 </div>
 
----
-
+<hr>
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+</div>
+<div class="section">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Focus & Energy Log</h2>
 <p style="color: #344E41; font-family: 'Inter', sans-serif;">Track your focus and energy to understand your peak times and challenges.</p>
 <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
@@ -395,9 +588,10 @@ Simple tools for better productivity
 </table>
 </div>
 
----
-
+<hr>
 <div style="background-color: #FFE8D6; padding: 15px; border-radius: 5px;">
+</div>
+<div class="section">
 <h2 style="color: #344E41; font-family: 'Playfair Display', serif;">Daily Review & Reflection</h2>
 <ul style="color: #344E41; font-family: 'Inter', sans-serif;">
   <li><strong>What went well today?</strong></li>
@@ -412,6 +606,10 @@ Simple tools for better productivity
 </ul>
 </div>
 
----
-
+<hr>
 <p style="text-align: center; color: #6B705C; font-family: 'Inter', sans-serif;">A Lazy Whippet productivity tool</p>
+</div>
+    <div class="footer">A Lazy Whippet productivity tool &middot; Warm Calm</div>
+  </div>
+</body>
+</html>

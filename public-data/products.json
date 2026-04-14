@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T15:47:42.423Z",
+  "generatedAt": "2026-04-14T15:49:50.453Z",
   "products": [
     {
       "id": "product-1776179802088",
@@ -33,20 +33,25 @@
     {
       "id": "product-1776180829723",
       "title": "ADHD-Friendly Daily Planner",
-      "status": "building",
-      "price": 0,
+      "status": "publish_ready",
+      "price": 4.99,
       "revenue": 0,
       "isPublished": false,
       "marketplace": null,
       "publishedUrl": null,
       "publishedAt": null,
       "listingId": null,
-      "aiCostTotal": 0.0063658,
-      "aiCalls": 4,
+      "aiCostTotal": 0.009920499999999999,
+      "aiCalls": 7,
       "themeId": "themeC",
-      "designReady": false,
-      "designOutputPaths": null,
-      "qaStatus": null,
+      "designReady": true,
+      "designOutputPaths": {
+        "html": "outputs/products/product-1776180829723/product.html",
+        "pdf": "outputs/products/product-1776180829723/product.pdf",
+        "cover": "outputs/products/product-1776180829723/cover.png",
+        "mockup": "outputs/products/product-1776180829723/mockup-1.png"
+      },
+      "qaStatus": "passed",
       "qaFailureStage": null,
       "qaFailureReason": null,
       "qaRetryCount": 0,

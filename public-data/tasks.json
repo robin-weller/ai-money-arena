@@ -1,14 +1,9 @@
 {
-  "generatedAt": "2026-04-14T15:47:42.424Z",
+  "generatedAt": "2026-04-14T15:49:50.454Z",
   "tasks": [
     {
       "agent": "Pipeline",
-      "title": "1 product(s) in Building",
-      "priority": "high"
-    },
-    {
-      "agent": "Pipeline",
-      "title": "1 product(s) in Publish Ready",
+      "title": "2 product(s) in Publish Ready",
       "priority": "medium"
     }
   ]
