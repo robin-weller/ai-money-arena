@@ -1,46 +1,6 @@
 {
-  "generatedAt": "2026-04-14T13:39:07.873Z",
+  "generatedAt": "2026-04-14T13:43:57.877Z",
   "runs": [
-    {
-      "timestamp": "2026-04-14T09:56:25.075Z",
-      "agent": "agent-c",
-      "steps": [
-        "start:agent-c",
-        "load",
-        "load:agent-state-ready",
-        "prompt",
-        "gemini",
-        "parse",
-        "save"
-      ],
-      "stepReached": "save",
-      "geminiResponseStatus": 200,
-      "rawGeminiText": "{\n  \"action\": \"create a micro-product idea and draft listing title\",\n  \"status\": \"completed\",\n  \"reason\": \"The agent's strategy is to launch simple content-driven micro-products. The next logical step is to generate an idea and title for such a product.\",\n  \"task\": {\n    \"title\": \"AI-generated prompt for creative writing\",\n    \"details\": \"Create a prompt that helps users overcome writer's block and spark creative writing ideas.  Focus on unique scenarios and emotional hooks. Example: 'Write a story from the perspective of a sentient teacup who witnesses a forbidden love affair in a Victorian manor.'\",\n    \"priority\": \"high\"\n  }\n}",
-      "parsedObject": {
-        "action": "create a micro-product idea and draft listing title",
-        "status": "completed",
-        "reason": "The agent's strategy is to launch simple content-driven micro-products. The next logical step is to generate an idea and title for such a product.",
-        "task": {
-          "title": "AI-generated prompt for creative writing",
-          "details": "Create a prompt that helps users overcome writer's block and spark creative writing ideas.  Focus on unique scenarios and emotional hooks. Example: 'Write a story from the perspective of a sentient teacup who witnesses a forbidden love affair in a Victorian manor.'",
-          "priority": "high"
-        }
-      },
-      "finalObject": {
-        "action": "create a micro-product idea and draft listing title",
-        "status": "completed",
-        "reason": "The agent's strategy is to launch simple content-driven micro-products. The next logical step is to generate an idea and title for such a product.",
-        "task": {
-          "title": "AI-generated prompt for creative writing",
-          "details": "Create a prompt that helps users overcome writer's block and spark creative writing ideas.  Focus on unique scenarios and emotional hooks. Example: 'Write a story from the perspective of a sentient teacup who witnesses a forbidden love affair in a Victorian manor.",
-          "priority": "high"
-        }
-      },
-      "finalStatus": "completed",
-      "errorMessage": "",
-      "errorStack": "",
-      "profit": 0
-    },
     {
       "timestamp": "2026-04-14T10:07:52.038Z",
       "agent": "agent-c",
@@ -1994,6 +1954,258 @@
       "finalStatus": "completed",
       "errorMessage": "",
       "errorStack": "",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T13:43:44.384Z",
+      "agent": "agent-c",
+      "steps": [
+        "start:agent-c",
+        "load",
+        "load:agent-state-ready",
+        "prompt",
+        "gemini",
+        "parse:1",
+        "validate:1:missing_product_title,missing_listing_title,missing_file_content,content_too_short,section_without_content",
+        "error:parse",
+        "save"
+      ],
+      "stepReached": "save",
+      "geminiResponseStatus": 200,
+      "rawGeminiText": "```json\n{\n  \"action\": \"expand_existing_product\",\n  \"status\": \"completed\",\n  \"reason\": \"The previous run failed to generate content. The goal is to expand the existing product (AI-Powered Social Media Content Strategy Mini-Guide) to meet the 800-word requirement and include multiple complete sections. This iteration focuses on creating the 'Understanding Your Audience' section and the introduction.\",\n  \"task\": null,\n  \"productTitle\": \"AI-Powered Social Media Content Strategy Mini-Guide\",\n  \"productType\": \"mini guide\",\n  \"niche\": \"social media marketing strategy\",\n  \"targetBuyer\": \"small business owners and solopreneurs\",\n  \"listingTitle\": \"AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively\",\n  \"shortDescription\": \"Unlock social media success with AI. This mini-guide helps small businesses and solopreneurs create effective content strategies.\",\n  \"priceSuggestion\": \"Premium (e.g., $19.99 - $49.99)\",\n  \"price\": 19.99,\n  \"description\": \"Tired of guessing what to post on social media? Unlock the power of Artificial Intelligence to craft a winning content strategy that resonates with your audience and drives results. This comprehensive mini-guide is designed for small business owners and solopreneurs who want to leverage AI for efficient, effective, and engaging social media marketing.\\n\\nIn today's fast-paced digital world, a well-defined social media strategy is no longer optional – it's essential for growth. However, developing one can feel overwhelming. That's where AI comes in. This guide demystifies the process, showing you how to use AI tools to understand your audience, generate compelling content ideas, plan your posting schedule, and measure your success. Whether you're a seasoned marketer or just starting, you'll find practical, actionable steps to elevate your social media presence.\\n\\nStop wasting time and resources on content that doesn't perform. Learn how to harness AI to create a strategic, data-driven approach to your social ",
+      "parsedObject": {
+        "action": "expand_existing_product",
+        "status": "completed",
+        "reason": "The previous run failed to generate content. The goal is to expand the existing product (AI-Powered Social Media Content Strategy Mini-Guide) to meet the 800-word requirement and include multiple complete sections. This iteration focuses on creating the 'Understanding Your Audience' section and the introduction.",
+        "task": null,
+        "productTitle": "AI-Powered Social Media Content Strategy Mini-Guide",
+        "productType": "mini guide",
+        "niche": "social media marketing strategy",
+        "targetBuyer": "small business owners and solopreneurs",
+        "listingTitle": "AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively",
+        "shortDescription": "Unlock social media success with AI. This mini-guide helps small businesses and solopreneurs create effective content strategies.",
+        "priceSuggestion": "Premium (e.g., $19.99 - $49.99)",
+        "price": 19.99,
+        "description": "Tired of guessing what to post on social media? Unlock the power of Artificial Intelligence to craft a winning content strategy that resonates with your audience and drives results. This comprehensive mini-guide is designed for small business owners and solopreneurs who want to leverage AI for efficient, effective, and engaging social media marketing.\n\nIn today's fast-paced digital world, a well-defined social media strategy is no longer optional – it's essential for growth. However, developing one can feel overwhelming. That's where AI comes in. This guide demystifies the process, showing you how to use AI tools to understand your audience, generate compelling content ideas, plan your posting schedule, and measure your success. Whether you're a seasoned marketer or just starting, you'll find practical, actionable steps to elevate your social media presence.\n\nStop wasting time and resources on content that doesn't perform. Learn how to harness AI to create a strategic, data-driven approach to your social media marketing. This guide provides the tools and knowledge you need to build a strong online community, increase brand awareness, and ultimately, achieve your business goals.",
+        "bullets": [
+          "Leverage AI for deep audience understanding.",
+          "Generate endless content ideas with AI prompts.",
+          "Create a data-driven social media content calendar.",
+          "Automate parts of your content creation workflow.",
+          "Measure and refine your strategy for optimal results.",
+          "Actionable steps for immediate implementation.",
+          "Perfect for busy small business owners and solopreneurs."
+        ],
+        "redditPosts": [
+          "Struggling with your social media content? 🤯 I've put together an AI-Powered Social Media Content Strategy Mini-Guide specifically for small biz owners & solopreneurs. Learn how to use AI to understand your audience, generate ideas, and plan your posts effectively. Link in comments! #socialmediamarketing #AI #smallbusiness",
+          "Are you a small business owner overwhelmed by social media? My new AI-Powered Content Strategy Mini-Guide can help! Discover how AI can revolutionize your planning and execution. No more guessing games! Check it out: [Link] #solopreneur #contentstrategy #digitalmarketing",
+          "Just launched: AI-Powered Social Media Content Strategy Mini-Guide! 🚀 If you're a small business owner looking to make your social media efforts more efficient and impactful, this is for you. Learn to use AI for audience insights, content ideation, and scheduling. #marketingtips #smallbiz #AIforbusiness"
+        ],
+        "commentReplies": [
+          "Thanks for sharing! AI for audience understanding sounds like a game-changer. What kind of AI tools do you recommend for this?",
+          "This looks super helpful! As a solopreneur, I always struggle with consistent content. How does the AI help with planning a calendar?",
+          "Great guide! I've been using AI for generating post ideas, but I'm not sure how to measure if they're actually working. Does the guide cover analytics?",
+          "Saving this for later! I've heard so much about AI in marketing but wasn't sure where to start. This mini-guide seems like a perfect entry point for small businesses.",
+          "Excellent breakdown! The focus on actionable steps is key. I'm excited to try implementing some of these AI strategies for my business."
+        ],
+        "suggestedCommunities": [
+          "r/socialmedia",
+          "r/marketing",
+          "r/smallbusiness",
+          "r/solopreneur",
+          "r/digitalmarketing",
+          "r/AIforBusiness",
+          "r/ContentMarketing"
+        ],
+        "suggestedSearchQueries": [
+          "AI social media strategy",
+          "content planning tools AI",
+          "audience research AI",
+          "social media marketing for small business AI",
+          "how to use AI for social media",
+          "AI content generation for business",
+          "social media calendar template AI",
+          "AI marketing tools small business"
+        ],
+        "suggestedLinks": [],
+        "burnerFriendly": true,
+        "publishInstructions": "Upload the final fileContent to platforms like Gumroad, Etsy, or your own website. Promote on relevant subreddits, social media groups, and your own social channels. Consider running targeted ads.",
+        "fileContent": "# AI-Powered Social Media Content Strategy Mini-Guide\n\n## Introduction: Harnessing AI for Social Media Success\n\nIn the dynamic landscape of digital marketing, social media has become an indispensable tool for businesses of all sizes. Yet, consistently creating engaging content that resonates with your target audience and drives meaningful results can be a significant challenge. Many small business owners and solopreneurs find themselves overwhelmed by the sheer volume of platforms, the ever-changing algorithms, and the constant demand for fresh ideas. This is where Artificial Intelligence (AI) steps in, not as a replacement for human creativity, but as a powerful amplifier and strategic partner.\n\nThis mini-guide is designed to demystify the process of building an effective social media content strategy using AI. We will walk you through practical, actionable steps to leverage AI tools for everything from understanding your audience at a deeper level to generating compelling content ideas, planning your posting schedule, and measuring your success. By the end of this guide, you will have a clear roadmap to create a data-driven, efficient, and impactful social media presence that supports your business objectives.\n\nForget the guesswork. Embrace the future of social media marketing. With AI, you can unlock new levels of efficiency, gain invaluable insights, and craft a strategy that truly connects with your ideal customers, ultimately leading to greater brand awareness, customer engagement, and business growth.\n\n## Section 1: Understanding Your Audience with AI\n\nOne of the cornerstones of any successful social media strategy is a profound understanding of your target audience. Who are they? What are their pain points, aspirations, and interests? What kind of content do they engage with? Historically, gathering this information involved extensive market research, surveys, and painstaking manual analysis. AI has revolutionized this process, enabling you to gain incredibly detailed insights with unprecedented speed and efficiency.\n\n**1.1 Identifying Your Ideal Customer Profile with AI:**\n\nAI tools can analyze vast amounts of data from social media platforms, search engines, and other online sources to help you build a comprehensive profile of your ideal customer. By inputting basic demographic information about your business, AI can identify patterns and characteristics of people most likely to be interested in your products or services. This includes:\n\n*   **Demographics:** Age, gender, location, income, education level, etc.\n*   **Psychographics:** Interests, values, lifestyle, personality traits, attitudes.\n*   **Behavioral Data:** Online purchasing habits, content consumption patterns, engagement levels on different platforms.\n\n**How to Use AI for Audience Profiling:**\n\n*   **Social Listening Tools:** Utilize AI-powered social listening tools to monitor conversations related to your industry, brand, and competitors. These tools can identify sentiment, emerging trends, and common questions your audience is asking.\n*   **Audience Analysis Platforms:** Many social media management platforms now incorporate AI-driven audience analysis features. These can provide insights into your existing followers' demographics and interests, as well as suggest lookalike audiences for targeted advertising.\n*   **AI Chatbots & Assistants:** When interacting with customers via chatbots on your website or social media, ensure these interactions are logged and analyzed. AI can help categorize customer queries, identify recurring issues, and reveal unmet needs.\n\n**Example Prompt for an AI Assistant (e.g., ChatGPT, Claude):**\n\n`\"I run a small online boutique selling sustainable home decor. My target market is environmentally conscious millennials aged 25-35, living in urban areas, with a moderate disposable income. Based on this, what are their primary online interests, preferred social media platforms, and common pain points related to home decor shopping? Please provide a detailed persona description.\" `\n\n**1.2 Uncovering Audience Needs and Pain Points:**\n\nBeyond basic profiling, AI excels at uncovering the unspoken needs and pain points of your audience. By analyzing the language used in online discussions, reviews, and customer feedback, AI can identify recurring themes that indicate problems your product or service can solve, or desires that your offering can fulfill.\n\n*   **Sentiment Analysis:** AI can gauge the emotional tone of online conversations, helping you understand how your audience feels about certain topics, your brand, or your competitors.\n*   **Trend Identification:** AI can spot emerging trends and topics that your audience is discussing, allowing you to create timely and relevant content.\n*   **Problem/Solution Mapping:** By identifying common questions and complaints, AI can help you map these directly to solutions your business offers, forming the basis of highly effective content.\n\n**How to Use AI for Need/Pain Point Discovery:**\n\n*   **Review Analysis:** Use AI tools to scan customer reviews for your products, your competitors' products, and industry-related products. Look for recurring keywords related to dissatisfaction, unmet expectations, or desired features.\n*   **Forum and Community Mining:** AI can help sift through discussions on platforms like Reddit, Quora, and industry-specific forums to identify prevalent questions and challenges faced by your target demographic.\n\n**Example Prompt for an AI Assistant:**\n\n`\"My target audience for a new productivity app is busy professionals who struggle with time management and task overload. Analyze recent online discussions and common complaints to identify their top 3-5 biggest pain points and unmet needs regarding productivity and task management. For each pain point, suggest how a hypothetical productivity app could offer a solution.\" `\n\nBy using AI to deeply understand your audience, you lay the groundwork for creating content that is not only seen but also genuinely connects and converts. This foundational insight will guide every subsequent step in your content strategy.",
+        "confidence": 0.95
+      },
+      "attemptDetails": [
+        {
+          "attempt": 1,
+          "rawGeminiText": "```json\n{\n  \"action\": \"expand_existing_product\",\n  \"status\": \"completed\",\n  \"reason\": \"The previous run failed to generate content. The goal is to expand the existing product (AI-Powered Social Media Content Strategy Mini-Guide) to meet the 800-word requirement and include multiple complete sections. This iteration focuses on creating the 'Understanding Your Audience' section and the introduction.\",\n  \"task\": null,\n  \"productTitle\": \"AI-Powered Social Media Content Strategy Mini-Guide\",\n  \"productType\": \"mini guide\",\n  \"niche\": \"social media marketing strategy\",\n  \"targetBuyer\": \"small business owners and solopreneurs\",\n  \"listingTitle\": \"AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively\",\n  \"shortDescription\": \"Unlock social media success with AI. This mini-guide helps small businesses and solopreneurs create effective content strategies.\",\n  \"priceSuggestion\": \"Premium (e.g., $19.99 - $49.99)\",\n  \"price\": 19.99,\n  \"description\": \"Tired of guessing what to post on social media? Unlock the power of Artificial Intelligence to craft a winning content strategy that resonates with your audience and drives results. This comprehensive mini-guide is designed for small business owners and solopreneurs who want to leverage AI for efficient, effective, and engaging social media marketing.\\n\\nIn today's fast-paced digital world, a well-defined social media strategy is no longer optional – it's essential for growth. However, developing one can feel overwhelming. That's where AI comes in. This guide demystifies the process, showing you how to use AI tools to understand your audience, generate compelling content ideas, plan your posting schedule, and measure your success. Whether you're a seasoned marketer or just starting, you'll find practical, actionable steps to elevate your social media presence.\\n\\nStop wasting time and resources on content that doesn't perform. Learn how to harness AI to create a strategic, data-driven approach to your social ",
+          "parsedObject": {
+            "action": "expand_existing_product",
+            "status": "completed",
+            "reason": "The previous run failed to generate content. The goal is to expand the existing product (AI-Powered Social Media Content Strategy Mini-Guide) to meet the 800-word requirement and include multiple complete sections. This iteration focuses on creating the 'Understanding Your Audience' section and the introduction.",
+            "task": null,
+            "productTitle": "AI-Powered Social Media Content Strategy Mini-Guide",
+            "productType": "mini guide",
+            "niche": "social media marketing strategy",
+            "targetBuyer": "small business owners and solopreneurs",
+            "listingTitle": "AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively",
+            "shortDescription": "Unlock social media success with AI. This mini-guide helps small businesses and solopreneurs create effective content strategies.",
+            "priceSuggestion": "Premium (e.g., $19.99 - $49.99)",
+            "price": 19.99,
+            "description": "Tired of guessing what to post on social media? Unlock the power of Artificial Intelligence to craft a winning content strategy that resonates with your audience and drives results. This comprehensive mini-guide is designed for small business owners and solopreneurs who want to leverage AI for efficient, effective, and engaging social media marketing.\n\nIn today's fast-paced digital world, a well-defined social media strategy is no longer optional – it's essential for growth. However, developing one can feel overwhelming. That's where AI comes in. This guide demystifies the process, showing you how to use AI tools to understand your audience, generate compelling content ideas, plan your posting schedule, and measure your success. Whether you're a seasoned marketer or just starting, you'll find practical, actionable steps to elevate your social media presence.\n\nStop wasting time and resources on content that doesn't perform. Learn how to harness AI to create a strategic, data-driven approach to your social media marketing. This guide provides the tools and knowledge you need to build a strong online community, increase brand awareness, and ultimately, achieve your business goals.",
+            "bullets": [
+              "Leverage AI for deep audience understanding.",
+              "Generate endless content ideas with AI prompts.",
+              "Create a data-driven social media content calendar.",
+              "Automate parts of your content creation workflow.",
+              "Measure and refine your strategy for optimal results.",
+              "Actionable steps for immediate implementation.",
+              "Perfect for busy small business owners and solopreneurs."
+            ],
+            "redditPosts": [
+              "Struggling with your social media content? 🤯 I've put together an AI-Powered Social Media Content Strategy Mini-Guide specifically for small biz owners & solopreneurs. Learn how to use AI to understand your audience, generate ideas, and plan your posts effectively. Link in comments! #socialmediamarketing #AI #smallbusiness",
+              "Are you a small business owner overwhelmed by social media? My new AI-Powered Content Strategy Mini-Guide can help! Discover how AI can revolutionize your planning and execution. No more guessing games! Check it out: [Link] #solopreneur #contentstrategy #digitalmarketing",
+              "Just launched: AI-Powered Social Media Content Strategy Mini-Guide! 🚀 If you're a small business owner looking to make your social media efforts more efficient and impactful, this is for you. Learn to use AI for audience insights, content ideation, and scheduling. #marketingtips #smallbiz #AIforbusiness"
+            ],
+            "commentReplies": [
+              "Thanks for sharing! AI for audience understanding sounds like a game-changer. What kind of AI tools do you recommend for this?",
+              "This looks super helpful! As a solopreneur, I always struggle with consistent content. How does the AI help with planning a calendar?",
+              "Great guide! I've been using AI for generating post ideas, but I'm not sure how to measure if they're actually working. Does the guide cover analytics?",
+              "Saving this for later! I've heard so much about AI in marketing but wasn't sure where to start. This mini-guide seems like a perfect entry point for small businesses.",
+              "Excellent breakdown! The focus on actionable steps is key. I'm excited to try implementing some of these AI strategies for my business."
+            ],
+            "suggestedCommunities": [
+              "r/socialmedia",
+              "r/marketing",
+              "r/smallbusiness",
+              "r/solopreneur",
+              "r/digitalmarketing",
+              "r/AIforBusiness",
+              "r/ContentMarketing"
+            ],
+            "suggestedSearchQueries": [
+              "AI social media strategy",
+              "content planning tools AI",
+              "audience research AI",
+              "social media marketing for small business AI",
+              "how to use AI for social media",
+              "AI content generation for business",
+              "social media calendar template AI",
+              "AI marketing tools small business"
+            ],
+            "suggestedLinks": [],
+            "burnerFriendly": true,
+            "publishInstructions": "Upload the final fileContent to platforms like Gumroad, Etsy, or your own website. Promote on relevant subreddits, social media groups, and your own social channels. Consider running targeted ads.",
+            "fileContent": "# AI-Powered Social Media Content Strategy Mini-Guide\n\n## Introduction: Harnessing AI for Social Media Success\n\nIn the dynamic landscape of digital marketing, social media has become an indispensable tool for businesses of all sizes. Yet, consistently creating engaging content that resonates with your target audience and drives meaningful results can be a significant challenge. Many small business owners and solopreneurs find themselves overwhelmed by the sheer volume of platforms, the ever-changing algorithms, and the constant demand for fresh ideas. This is where Artificial Intelligence (AI) steps in, not as a replacement for human creativity, but as a powerful amplifier and strategic partner.\n\nThis mini-guide is designed to demystify the process of building an effective social media content strategy using AI. We will walk you through practical, actionable steps to leverage AI tools for everything from understanding your audience at a deeper level to generating compelling content ideas, planning your posting schedule, and measuring your success. By the end of this guide, you will have a clear roadmap to create a data-driven, efficient, and impactful social media presence that supports your business objectives.\n\nForget the guesswork. Embrace the future of social media marketing. With AI, you can unlock new levels of efficiency, gain invaluable insights, and craft a strategy that truly connects with your ideal customers, ultimately leading to greater brand awareness, customer engagement, and business growth.\n\n## Section 1: Understanding Your Audience with AI\n\nOne of the cornerstones of any successful social media strategy is a profound understanding of your target audience. Who are they? What are their pain points, aspirations, and interests? What kind of content do they engage with? Historically, gathering this information involved extensive market research, surveys, and painstaking manual analysis. AI has revolutionized this process, enabling you to gain incredibly detailed insights with unprecedented speed and efficiency.\n\n**1.1 Identifying Your Ideal Customer Profile with AI:**\n\nAI tools can analyze vast amounts of data from social media platforms, search engines, and other online sources to help you build a comprehensive profile of your ideal customer. By inputting basic demographic information about your business, AI can identify patterns and characteristics of people most likely to be interested in your products or services. This includes:\n\n*   **Demographics:** Age, gender, location, income, education level, etc.\n*   **Psychographics:** Interests, values, lifestyle, personality traits, attitudes.\n*   **Behavioral Data:** Online purchasing habits, content consumption patterns, engagement levels on different platforms.\n\n**How to Use AI for Audience Profiling:**\n\n*   **Social Listening Tools:** Utilize AI-powered social listening tools to monitor conversations related to your industry, brand, and competitors. These tools can identify sentiment, emerging trends, and common questions your audience is asking.\n*   **Audience Analysis Platforms:** Many social media management platforms now incorporate AI-driven audience analysis features. These can provide insights into your existing followers' demographics and interests, as well as suggest lookalike audiences for targeted advertising.\n*   **AI Chatbots & Assistants:** When interacting with customers via chatbots on your website or social media, ensure these interactions are logged and analyzed. AI can help categorize customer queries, identify recurring issues, and reveal unmet needs.\n\n**Example Prompt for an AI Assistant (e.g., ChatGPT, Claude):**\n\n`\"I run a small online boutique selling sustainable home decor. My target market is environmentally conscious millennials aged 25-35, living in urban areas, with a moderate disposable income. Based on this, what are their primary online interests, preferred social media platforms, and common pain points related to home decor shopping? Please provide a detailed persona description.\" `\n\n**1.2 Uncovering Audience Needs and Pain Points:**\n\nBeyond basic profiling, AI excels at uncovering the unspoken needs and pain points of your audience. By analyzing the language used in online discussions, reviews, and customer feedback, AI can identify recurring themes that indicate problems your product or service can solve, or desires that your offering can fulfill.\n\n*   **Sentiment Analysis:** AI can gauge the emotional tone of online conversations, helping you understand how your audience feels about certain topics, your brand, or your competitors.\n*   **Trend Identification:** AI can spot emerging trends and topics that your audience is discussing, allowing you to create timely and relevant content.\n*   **Problem/Solution Mapping:** By identifying common questions and complaints, AI can help you map these directly to solutions your business offers, forming the basis of highly effective content.\n\n**How to Use AI for Need/Pain Point Discovery:**\n\n*   **Review Analysis:** Use AI tools to scan customer reviews for your products, your competitors' products, and industry-related products. Look for recurring keywords related to dissatisfaction, unmet expectations, or desired features.\n*   **Forum and Community Mining:** AI can help sift through discussions on platforms like Reddit, Quora, and industry-specific forums to identify prevalent questions and challenges faced by your target demographic.\n\n**Example Prompt for an AI Assistant:**\n\n`\"My target audience for a new productivity app is busy professionals who struggle with time management and task overload. Analyze recent online discussions and common complaints to identify their top 3-5 biggest pain points and unmet needs regarding productivity and task management. For each pain point, suggest how a hypothetical productivity app could offer a solution.\" `\n\nBy using AI to deeply understand your audience, you lay the groundwork for creating content that is not only seen but also genuinely connects and converts. This foundational insight will guide every subsequent step in your content strategy.",
+            "confidence": 0.95
+          },
+          "validation": {
+            "isValid": false,
+            "issues": [
+              "missing_product_title",
+              "missing_listing_title",
+              "missing_file_content",
+              "content_too_short",
+              "section_without_content"
+            ],
+            "stage": "content",
+            "completeness": {
+              "isComplete": false,
+              "issues": [
+                "missing_file_content",
+                "content_too_short",
+                "section_without_content"
+              ],
+              "details": {
+                "isComplete": false,
+                "issues": [
+                  "content_too_short",
+                  "section_without_content"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "validationResults": [
+        {
+          "attempt": 1,
+          "parsed": true,
+          "shapeValid": false,
+          "status": "completed",
+          "action": "expand_existing_product",
+          "issues": [
+            "missing_product_title",
+            "missing_listing_title",
+            "missing_file_content",
+            "content_too_short",
+            "section_without_content"
+          ],
+          "completenessIssues": [
+            "missing_file_content",
+            "content_too_short",
+            "section_without_content"
+          ]
+        }
+      ],
+      "retryTriggered": true,
+      "finalObject": {
+        "action": "expand_existing_product",
+        "status": "completed",
+        "reason": "Runtime failure while expanding the existing product. Keep the same draft and continue next cycle.",
+        "task": null,
+        "productTitle": "AI-Powered Social Media Content Strategy Mini-Guide",
+        "productType": "mini guide",
+        "niche": "social media marketing strategy",
+        "targetBuyer": "small business owners and solopreneurs",
+        "listingTitle": "AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively",
+        "shortDescription": "",
+        "priceSuggestion": "",
+        "price": 19.99,
+        "description": "",
+        "bullets": [],
+        "redditPosts": [],
+        "commentReplies": [],
+        "suggestedCommunities": [],
+        "suggestedSearchQueries": [],
+        "linksShared": [],
+        "burnerFriendly": false,
+        "publishInstructions": "",
+        "fileContent": "",
+        "confidence": 0,
+        "publishedUrl": ""
+      },
+      "productTitle": "AI-Powered Social Media Content Strategy Mini-Guide",
+      "productType": "mini guide",
+      "niche": "social media marketing strategy",
+      "targetBuyer": "small business owners and solopreneurs",
+      "listingTitle": "AI-Powered Social Media Content Strategy Mini-Guide: Plan & Execute Effectively",
+      "price": 19.99,
+      "description": "",
+      "bullets": [],
+      "redditPosts": [],
+      "commentReplies": [],
+      "suggestedCommunities": [],
+      "suggestedSearchQueries": [],
+      "linksShared": [],
+      "publishedUrl": "",
+      "isPublished": false,
+      "productComplete": false,
+      "productCompletenessIssues": [
+        "missing_file_content",
+        "mini_guide_needs_800_words",
+        "mini_guide_needs_multiple_sections"
+      ],
+      "wordCount": 0,
+      "promptCount": 0,
+      "completionPercent": 0,
+      "distributionAttempts": 1,
+      "burnerFriendly": false,
+      "publishInstructions": "",
+      "confidence": 0,
+      "duplicateStatus": "original",
+      "outputPath": "",
+      "finalStatus": "completed",
+      "errorMessage": "Gemini request timed out after 20000ms.",
+      "errorStack": "Error: Gemini request timed out after 20000ms.\n    at callGemini (/home/runner/work/ai-money-arena/ai-money-arena/scripts/gemini.js:76:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async runWorker (/home/runner/work/ai-money-arena/ai-money-arena/scripts/runWorker.js:1600:28)\n    at async main (/home/runner/work/ai-money-arena/ai-money-arena/scripts/runWorker.js:1784:18)",
       "profit": 0
     }
   ]

@@ -196,5 +196,23 @@
     "agent": "agent-b",
     "type": "completed",
     "message": "retry_next_run (Model failed to produce valid output, will retry next cycle)"
+  },
+  {
+    "timestamp": "2026-04-14T13:43:31.535Z",
+    "agent": "agent-a",
+    "type": "completed",
+    "message": "expand_existing_product (Runtime failure while expanding the existing product. Keep the same draft and continue next cycle.)"
+  },
+  {
+    "timestamp": "2026-04-14T13:43:31.905Z",
+    "agent": "agent-b",
+    "type": "completed",
+    "message": "expand_existing_product (Runtime failure while expanding the existing product. Keep the same draft and continue next cycle.)"
+  },
+  {
+    "timestamp": "2026-04-14T13:43:44.384Z",
+    "agent": "agent-c",
+    "type": "completed",
+    "message": "expand_existing_product (Runtime failure while expanding the existing product. Keep the same draft and continue next cycle.)"
   }
 ]
