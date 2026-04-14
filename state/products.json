@@ -1,1 +1,40 @@
-[]
+[
+  {
+    "id": "product-1776184019287",
+    "title": "30-Day Habit Tracker",
+    "productType": "habit-tracker",
+    "niche": "productivity",
+    "status": "publish_ready",
+    "owner": "product-agent",
+    "isPublished": false,
+    "publishedUrl": "",
+    "price": 4.99,
+    "productOutputPath": "outputs/products/product-1776184019287/product.md",
+    "salesOutputPath": "outputs/products/product-1776184019287/sales.json",
+    "marketingOutputPath": "outputs/products/product-1776184019287/marketing.json",
+    "distributionAttempts": 0,
+    "revenue": 0,
+    "createdAt": "2026-04-14T16:26:59.287Z",
+    "themeId": "themeB",
+    "aiCostTotal": 0.0013785,
+    "aiCalls": 3,
+    "elementCount": 10,
+    "completedAt": "2026-04-14T16:27:07.645Z",
+    "salesTitle": "30-Day Habit Tracker Printable | Build Lasting Habits | Digital Download",
+    "salesCompletedAt": "2026-04-14T16:27:09.250Z",
+    "marketingCompletedAt": "2026-04-14T16:27:11.589Z",
+    "designReady": true,
+    "designOutputPaths": {
+      "html": "outputs/products/product-1776184019287/product.html",
+      "pdf": "outputs/products/product-1776184019287/product.pdf",
+      "cover": "outputs/products/product-1776184019287/cover.png",
+      "mockup": "outputs/products/product-1776184019287/mockup-1.png"
+    },
+    "designCompletedAt": "2026-04-14T16:27:12.388Z",
+    "qaStatus": "passed",
+    "qaFailureStage": "",
+    "qaFailureReason": "",
+    "nextOwner": "human",
+    "publishReadyAt": "2026-04-14T16:27:12.459Z"
+  }
+]

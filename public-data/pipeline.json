@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-14T16:17:15.527Z",
-  "totalProducts": 3,
+  "generatedAt": "2026-04-14T16:27:12.497Z",
+  "totalProducts": 1,
   "totalRevenue": 0,
-  "totalAiCost": 0.011697599999999999,
-  "totalProfit": -0.011697599999999999,
+  "totalAiCost": 0.0013785,
+  "totalProfit": -0.0013785,
   "byStage": {
     "idea": [],
     "building": [],
@@ -14,34 +14,14 @@
     "qa_pending": [],
     "publish_ready": [
       {
-        "id": "product-1776179802088",
-        "title": "Lazy Whippet Weekly Planner",
-        "productType": "weekly-planner",
+        "id": "product-1776184019287",
+        "title": "30-Day Habit Tracker",
+        "productType": "habit-tracker",
         "price": 4.99,
         "revenue": 0,
-        "elementCount": 21,
-        "createdAt": "2026-04-14T15:16:42.088Z",
-        "completedAt": "2026-04-14T15:16:48.393Z"
-      },
-      {
-        "id": "product-1776180829723",
-        "title": "ADHD-Friendly Daily Planner",
-        "productType": "adhd-planner",
-        "price": 4.99,
-        "revenue": 0,
-        "elementCount": 18,
-        "createdAt": "2026-04-14T15:33:49.723Z",
-        "completedAt": "2026-04-14T15:49:34.912Z"
-      },
-      {
-        "id": "product-1776183423980",
-        "title": "Goal Tracker & Action Planner",
-        "productType": "goal-tracker",
-        "price": 4.99,
-        "revenue": 0,
-        "elementCount": 44,
-        "createdAt": "2026-04-14T16:17:03.980Z",
-        "completedAt": "2026-04-14T16:17:09.869Z"
+        "elementCount": 10,
+        "createdAt": "2026-04-14T16:26:59.287Z",
+        "completedAt": "2026-04-14T16:27:07.645Z"
       }
     ],
     "live": []

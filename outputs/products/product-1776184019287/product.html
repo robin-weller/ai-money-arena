@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>30-Day Habit Tracker</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, sans-serif;
+      color: #F8FAFC;
+      background: #0F172A;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover-page {
+      width: 210mm;
+      height: 297mm;
+      background: #0F172A;
+      display: flex;
+      flex-direction: column;
+      padding: 22mm 22mm 18mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8mm;
+      height: 100%;
+      background: #F59E0B;
+    }
+
+    .cover-top-rule {
+      height: 2px;
+      background: #F59E0B;
+      margin-bottom: 16mm;
+      opacity: 0.25;
+    }
+
+    .cover-category {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #F59E0B;
+      margin-bottom: 10mm;
+    }
+
+    .cover-title {
+      font-family: Playfair Display, serif;
+      font-size: 34pt;
+      font-weight: 700;
+      color: #22C55E;
+      line-height: 1.1;
+      margin: 0 0 8mm;
+      max-width: 155mm;
+    }
+
+    .cover-divider {
+      width: 18mm;
+      height: 3px;
+      background: #F59E0B;
+      border-radius: 2px;
+      margin-bottom: 8mm;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #F8FAFC;
+      opacity: 0.7;
+      line-height: 1.55;
+      max-width: 135mm;
+      margin-bottom: 14mm;
+      font-weight: 300;
+    }
+
+    .cover-instructions {
+      flex: 1;
+      background: #1E293B;
+      border-radius: 4px;
+      padding: 8mm 10mm;
+      margin-bottom: 10mm;
+    }
+
+    .cover-instructions h3 {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #F59E0B;
+      margin: 0 0 5mm;
+    }
+
+    .cover-instructions ul {
+      margin: 0;
+      padding-left: 4mm;
+      list-style: none;
+    }
+
+    .cover-instructions li {
+      font-size: 10pt;
+      color: #F8FAFC;
+      line-height: 1.6;
+      margin-bottom: 2.5mm;
+      padding-left: 4mm;
+      position: relative;
+    }
+
+    .cover-instructions li::before {
+      content: '→';
+      position: absolute;
+      left: -2mm;
+      color: #F59E0B;
+      font-weight: 600;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 5mm;
+      border-top: 1px solid #F59E0B;
+      opacity: 0.4;
+    }
+
+    .cover-footer-brand {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-footer-format {
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CONTENT PAGES ─── */
+    .content-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      page-break-before: always;
+      background: #0F172A;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+      padding-bottom: 3mm;
+      border-bottom: 1.5px solid #F59E0B;
+    }
+
+    .content-header-title {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #F59E0B;
+    }
+
+    .content-header-page {
+      font-size: 8pt;
+      color: #F8FAFC;
+      opacity: 0.4;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #22C55E;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.15;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-family: Inter, sans-serif;
+      color: #22C55E;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10mm 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1.5px solid #F59E0B;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #22C55E;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin: 7mm 0 2mm;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 4mm;
+    }
+
+    ul, ol {
+      margin: 0 0 4mm;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+      line-height: 1.6;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5mm 0 8mm;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #22C55E;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+      padding: 2.5mm 3.5mm;
+      text-align: left;
+      border: none;
+    }
+
+    td {
+      padding: 3mm 3.5mm;
+      min-height: 8mm;
+      border-bottom: 1px solid #1E293B;
+      border-right: none;
+      border-left: none;
+      vertical-align: middle;
+    }
+
+    /* Blank fill-in underlines: text like "______" rendered as a visible line */
+    td:empty::after,
+    td:has(> br:only-child)::after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid #F59E0B;
+      min-height: 5mm;
+    }
+
+    tr:nth-child(even) td {
+      background: #1E293B;
+    }
+
+    tr:nth-child(odd) td {
+      background: #0F172A;
+    }
+
+    /* ─── CHECKBOXES ─── */
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 4mm;
+      height: 4mm;
+      min-width: 4mm;
+      border: 1.5px solid #F59E0B;
+      border-radius: 1px;
+      margin-top: 0.8mm;
+      display: inline-block;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 8mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* ─── BLANK FILL-IN LINES ─── */
+    .fill-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1.2px solid #F59E0B;
+      margin: 0 1mm;
+      vertical-align: bottom;
+      opacity: 0.6;
+    }
+
+    /* ─── MISC ─── */
+    blockquote {
+      border-left: 3px solid #F59E0B;
+      margin: 5mm 0;
+      padding: 3mm 5mm;
+      background: #1E293B;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #1E293B;
+      margin: 6mm 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #1E293B;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #F8FAFC;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Convert ______ sequences to styled fill-in lines -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node) {
+        if (/_{3,}/.test(node.nodeValue)) {
+          const span = document.createElement('span');
+          span.innerHTML = node.nodeValue.replace(/_{3,}/g, function(m) {
+            return '<span class="fill-line">&nbsp;</span>';
+          });
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    });
+  </script>
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <div class="cover-page">
+    <div class="cover-accent-bar"></div>
+    <div class="cover-top-rule"></div>
+    <div class="cover-category">Productivity · Instant Download</div>
+    <h1 class="cover-title">30-Day Habit Tracker</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle">30-Day Habit Tracker for building better habits.</p>
+
+    <div class="cover-instructions">
+      <h3>How to Use</h3>
+      <ul><li>Choose Your Habits: In the &quot;Habit/Goal&quot; column, write down the 3-5 habits you want to track for the next 30 days.</li><li>Fill in the Dates: At the top of each day&#39;s column (M, T, W, etc.), write the actual date.</li><li>Track Daily: Each day, check the box for each habit you successfully completed.</li><li>Review Weekly: Use the &quot;Weekly Review&quot; section to reflect on your progress.</li><li>Reflect Monthly: At the end of the 30 days, use the &quot;30-Day Reflection&quot; prompts to assess your journey.</li></ul>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-brand">Lazy Whippet</span>
+      <span class="cover-footer-format">Print-Ready PDF · Bold Focus</span>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 2+: CONTENT ═══ -->
+  <div class="content-page">
+    <div class="content-header">
+      <span class="content-header-title">30-Day Habit Tracker</span>
+      <span class="content-header-page">Lazy Whippet</span>
+    </div>
+
+    <pre><code class="language-markdown"># 30-Day Habit Tracker
+*Simple tools for better productivity*
+</code></pre>
+
+
+    <div class="page-footer">
+      <span>Lazy Whippet &mdash; 30-Day Habit Tracker</span>
+      <span>Print &amp; Use · lazywh.com</span>
+    </div>
+  </div>
+
+</body>
+</html>
