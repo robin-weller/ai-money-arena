@@ -58,6 +58,10 @@ function getLatestRuns(limit) {
     .map((fileName) => readJson(path.join(LOGS_DIR, fileName)));
 }
 
+function outputFileName(outputPath) {
+  return path.basename(String(outputPath || ""));
+}
+
 function buildLeaderboard(agentStates) {
   return {
     generatedAt: new Date().toISOString(),
@@ -79,6 +83,9 @@ function buildLeaderboard(agentStates) {
           lastProductTitle: agent.lastProductTitle || "",
           lastListingTitle: agent.lastListingTitle || "",
           lastPrice: Number(agent.lastPrice || 0),
+          lastOutputPath: agent.lastOutputPath || "",
+          lastOutputFile: outputFileName(agent.lastOutputPath || ""),
+          assetReady: Boolean(agent.lastOutputPath),
           lastProductType: agent.lastProductType || "",
           lastNiche: agent.lastNiche || "",
           lastConfidence: Number(agent.lastConfidence || 0),
@@ -99,7 +106,7 @@ function buildTelegramSummary(leaderboard, openTasks) {
   for (const agent of leaderboard.agents) {
     const readyFlag = agent.stage === "listing" || agent.stage === "publish" ? "READY TO PUBLISH" : "IN PROGRESS";
     lines.push(
-      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ${readyFlag} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
+      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | file=${agent.lastOutputFile || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ready=${agent.assetReady ? "yes" : "no"} | ${readyFlag} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
     );
   }
 

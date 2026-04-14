@@ -325,7 +325,11 @@ function sanitizeDecision(decision: any): WorkerDecision {
     listingTitle: trimString(decision?.listingTitle || "", 220),
     shortDescription: trimString(decision?.shortDescription || "", 500),
     priceSuggestion: trimString(decision?.priceSuggestion || "", 80),
-    price: Math.max(0, Math.min(999, Number(decision?.price || 0))),
+    price: normalizePriceValue({
+      ...decision,
+      price: Number(decision?.price || 0),
+      priceSuggestion: trimString(decision?.priceSuggestion || "", 80)
+    } as WorkerDecision),
     description: trimString(decision?.description || "", 4000),
     bullets: Array.isArray(decision?.bullets)
       ? decision.bullets.map((item: unknown) => trimString(item, 180)).filter(Boolean).slice(0, 6)
@@ -678,6 +682,182 @@ function buildPrompt(
   return trimString(prompt, 7000);
 }
 
+function slugify(value: unknown): string {
+  const slug = normalizeComparisonText(value).replace(/\s+/g, "-");
+  return slug || `product-${Date.now()}`;
+}
+
+function normalizePriceValue(decision: WorkerDecision): number {
+  const directPrice = Number(decision?.price || 0);
+  const suggestion = trimString(decision?.priceSuggestion || "", 80);
+  const matched = suggestion.match(/(\d+(?:\.\d+)?)/);
+  const parsedSuggestion = matched ? Number(matched[1]) : NaN;
+  const candidate = directPrice > 0 ? directPrice : Number.isFinite(parsedSuggestion) ? parsedSuggestion : 9.99;
+  return Math.min(19.99, Math.max(5, Number(candidate.toFixed(2))));
+}
+
+function buildFallbackPrompts(decision: WorkerDecision): string[] {
+  const product = trimString(decision.productTitle || "Digital Product", 200);
+  const niche = trimString(decision.niche || "your niche", 160);
+  const buyer = trimString(decision.targetBuyer || "your buyer", 200);
+  const prompts: string[] = [];
+
+  for (let index = 1; index <= 24; index += 1) {
+    prompts.push(`Prompt ${index}: Create a practical ${niche} asset for ${buyer} that delivers a clear result related to ${product}. Include specific constraints, examples, and next steps.`);
+  }
+
+  return prompts;
+}
+
+function extractPromptCandidates(text: string): string[] {
+  const lines = trimString(text || "", 12000)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const candidates = lines
+    .map((line) => line.replace(/^\s*(?:[-*]|\d+\.)\s+/, "").trim())
+    .filter((line) => line.length >= 20);
+
+  return Array.from(new Set(candidates));
+}
+
+function buildPromptSections(prompts: string[]): Array<{ label: string; prompts: string[] }> {
+  const labels = ["Research And Positioning", "Creation And Delivery", "Marketing And Optimization", "Scaling And Retention"];
+  const perSection = Math.ceil(prompts.length / labels.length);
+  return labels.map((label, index) => ({
+    label,
+    prompts: prompts.slice(index * perSection, (index + 1) * perSection)
+  }));
+}
+
+function renderPromptPackMarkdown(decision: WorkerDecision, assetFileName: string): string {
+  const extractedPrompts = extractPromptCandidates(decision.fileContent);
+  const prompts = extractedPrompts.length >= 20 ? extractedPrompts.slice(0, 24) : buildFallbackPrompts(decision);
+  const sections = buildPromptSections(prompts);
+  const intro = trimString(
+    decision.description ||
+      `This pack helps ${decision.targetBuyer} get faster, more consistent results in ${decision.niche} with ready-to-run prompts.`,
+    600
+  );
+  const howToUse = [
+    "1. Pick the prompt category that matches your immediate goal.",
+    "2. Paste the prompt into your AI tool and replace placeholders with your own context.",
+    "3. Save the best outputs, refine them, and repeat with the follow-up prompts."
+  ];
+  const tips = [
+    "Be specific about your audience, offer, and constraints before running a prompt.",
+    "Reuse strong outputs as source material for the next prompt in the pack.",
+    "Keep a swipe file of the best responses so you can improve them over time."
+  ];
+
+  return [
+    `# ${decision.productTitle}`,
+    "",
+    intro,
+    "",
+    "## How To Use",
+    ...howToUse,
+    "",
+    ...sections.flatMap((section) => [
+      `## ${section.label}`,
+      ...section.prompts.map((prompt, index) => `${index + 1}. ${prompt}`),
+      ""
+    ]),
+    "## Final Tips",
+    ...tips.map((tip) => `- ${tip}`),
+    "",
+    `File to upload: ${assetFileName}`
+  ]
+    .join("\n")
+    .trim();
+}
+
+function renderGenericMarkdown(decision: WorkerDecision, assetFileName: string): string {
+  const description = trimString(
+    decision.description || decision.shortDescription || `A practical asset for ${decision.targetBuyer} in ${decision.niche}.`,
+    4000
+  );
+  const bullets = Array.isArray(decision.bullets) && decision.bullets.length
+    ? decision.bullets
+    : [
+        `Built for ${decision.targetBuyer}`,
+        `Focused on a clear ${decision.niche} outcome`,
+        "Ready to use immediately after download"
+      ];
+
+  return [
+    `# ${decision.productTitle}`,
+    "",
+    description,
+    "",
+    "## What Is Included",
+    ...bullets.map((bullet) => `- ${bullet}`),
+    "",
+    "## How To Use",
+    `1. Open the asset and review the material for ${decision.targetBuyer}.`,
+    "2. Customize any placeholders with your own business or audience context.",
+    "3. Apply the asset immediately and save your preferred version.",
+    "",
+    "## Final Asset",
+    trimString(decision.fileContent || "", 12000),
+    "",
+    `File to upload: ${assetFileName}`
+  ]
+    .join("\n")
+    .trim();
+}
+
+function markdownToText(markdown: string): string {
+  return markdown
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\-\s+/gm, "* ")
+    .replace(/^\d+\.\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1");
+}
+
+function buildPublishInstructions(decision: WorkerDecision, uploadFileName: string, price: number): string {
+  const lines = [
+    "1. Go to Gumroad.",
+    "2. Create a new product.",
+    `3. Use the title: ${decision.listingTitle || decision.productTitle}.`,
+    `4. Set the price to $${price.toFixed(2)}.`,
+    `5. Upload the file: ${uploadFileName}.`,
+    "6. Paste the sales description and publish."
+  ];
+
+  return lines.join("\n");
+}
+
+function renderPublishAssets(decision: WorkerDecision): {
+  slug: string;
+  markdownFileName: string;
+  textFileName: string;
+  markdown: string;
+  text: string;
+  price: number;
+  publishInstructions: string;
+} {
+  const price = normalizePriceValue(decision);
+  const slug = slugify(decision.productTitle || decision.listingTitle || "product");
+  const markdownFileName = `${slug}.md`;
+  const textFileName = `${slug}.txt`;
+  const markdown = normalizeComparisonText(decision.productType).includes("prompt")
+    ? renderPromptPackMarkdown(decision, markdownFileName)
+    : renderGenericMarkdown(decision, markdownFileName);
+  const text = markdownToText(markdown);
+
+  return {
+    slug,
+    markdownFileName,
+    textFileName,
+    markdown,
+    text,
+    price,
+    publishInstructions: buildPublishInstructions(decision, markdownFileName, price)
+  };
+}
+
 function writeLog(agentName: string, payload: unknown): void {
   ensureDir(LOGS_DIR);
   const logPath = path.join(LOGS_DIR, `${agentName}-${Date.now()}.json`);
@@ -694,6 +874,13 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
   const fileName = `${now.replace(/[:.]/g, "-")}.json`;
   const outputPath = path.join(agentOutputDir, fileName);
   const latestPath = path.join(agentOutputDir, "latest.json");
+  const renderedAssets = renderPublishAssets(finalDecision);
+  finalDecision.price = renderedAssets.price;
+  finalDecision.priceSuggestion = String(renderedAssets.price.toFixed(2));
+  finalDecision.publishInstructions = renderedAssets.publishInstructions;
+  finalDecision.fileContent = renderedAssets.markdown;
+  const markdownPath = path.join(agentOutputDir, renderedAssets.markdownFileName);
+  const textPath = path.join(agentOutputDir, renderedAssets.textFileName);
   const outputPayload = {
     generatedAt: now,
     agent: agentName,
@@ -709,6 +896,8 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
     bullets: finalDecision.bullets,
     publishInstructions: finalDecision.publishInstructions,
     fileContent: finalDecision.fileContent,
+    markdownFile: path.relative(ROOT_DIR, markdownPath),
+    textFile: path.relative(ROOT_DIR, textPath),
     confidence: finalDecision.confidence,
     action: finalDecision.action,
     reason: finalDecision.reason
@@ -718,13 +907,15 @@ function saveOutput(agentName: string, now: string, finalDecision: WorkerDecisio
     console.log(`[worker] writing output to ${outputPath}`);
     writeJson(outputPath, outputPayload);
     writeJson(latestPath, outputPayload);
+    fs.writeFileSync(markdownPath, `${renderedAssets.markdown}\n`, "utf8");
+    fs.writeFileSync(textPath, `${renderedAssets.text}\n`, "utf8");
 
-    if (!fs.existsSync(outputPath) || !fs.existsSync(latestPath)) {
+    if (!fs.existsSync(outputPath) || !fs.existsSync(latestPath) || !fs.existsSync(markdownPath) || !fs.existsSync(textPath)) {
       throw new Error("Output file verification failed after write.");
     }
 
-    console.log(`[worker] output write success ${outputPath}`);
-    return path.relative(ROOT_DIR, outputPath);
+    console.log(`[worker] output write success ${markdownPath}`);
+    return path.relative(ROOT_DIR, markdownPath);
   } catch (error: any) {
     console.error(`[worker] output write failed ${outputPath}`);
     console.error(`[worker] output write error=${error.message}`);
