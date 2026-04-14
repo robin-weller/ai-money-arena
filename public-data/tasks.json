@@ -1,13 +1,4 @@
 {
-  "generatedAt": "2026-04-14T13:21:49.384Z",
-  "tasks": [
-    {
-      "agent": "agent-b",
-      "title": "Outline AI Email Subject Line Optimization Mini-Guide",
-      "details": "Develop a structured outline for a mini-guide that expands on the AI Email Subject Line Optimizer prompt pack. Include sections on: Introduction, Understanding Subject Line Psychology, Leveraging AI for Subject Lines (with prompt examples), Testing and Iteration, and Advanced Techniques. Focus on actionable steps for small business owners and marketers.",
-      "priority": "high",
-      "status": "open",
-      "reason": "Building on the AI Email Subject Line Optimizer prompt pack, the next logical step is to create a detailed outline for a more comprehensive product. This moves from a simple prompt pack to a structured guide or mini-course."
-    }
-  ]
+  "generatedAt": "2026-04-14T13:26:19.446Z",
+  "tasks": []
 }

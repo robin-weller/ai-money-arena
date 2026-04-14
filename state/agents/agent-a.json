@@ -18,7 +18,7 @@
   "lastDuplicateStatus": "original",
   "stage": "listing",
   "lastProgressMode": "progressing",
-  "attempts": 10,
+  "attempts": 11,
   "distributionAttempts": 0,
   "linksShared": [],
   "uniqueNichesTried": [
@@ -28,8 +28,11 @@
   ],
   "duplicateHits": 2,
   "successfulOutputs": 6,
-  "lastReason": "Runtime failure, will retry next cycle",
-  "lastRunAt": "2026-04-14T13:08:03.334Z",
+  "isProductComplete": false,
+  "productCompletenessIssues": [],
+  "publishReady": false,
+  "lastReason": "Model failed to produce valid output, will retry next cycle",
+  "lastRunAt": "2026-04-14T13:26:04.962Z",
   "profit": 0,
   "latestTask": null
 }

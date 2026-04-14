@@ -3,7 +3,7 @@
   "strategy": "find small B2B automation opportunities",
   "revenue": 0,
   "cost": 0,
-  "lastAction": "create a product outline",
+  "lastAction": "retry_next_run",
   "status": "completed",
   "lastProductType": "mini guide",
   "lastNiche": "B2B Email Marketing Automation",
@@ -14,11 +14,11 @@
   "lastOutputPath": "outputs/agent-b/ai-email-subject-line-optimizer-mini-guide.md",
   "isPublished": false,
   "publishedUrl": "",
-  "lastConfidence": 0.9,
+  "lastConfidence": 0,
   "lastDuplicateStatus": "original",
-  "stage": "outline",
+  "stage": "content",
   "lastProgressMode": "progressing",
-  "attempts": 10,
+  "attempts": 11,
   "distributionAttempts": 1,
   "linksShared": [],
   "uniqueNichesTried": [
@@ -28,12 +28,11 @@
   ],
   "duplicateHits": 0,
   "successfulOutputs": 6,
-  "lastReason": "Building on the AI Email Subject Line Optimizer prompt pack, the next logical step is to create a detailed outline for a more comprehensive product. This moves from a simple prompt pack to a structured guide or mini-course.",
-  "lastRunAt": "2026-04-14T13:08:02.612Z",
+  "isProductComplete": false,
+  "productCompletenessIssues": [],
+  "publishReady": false,
+  "lastReason": "Model failed to produce valid output, will retry next cycle",
+  "lastRunAt": "2026-04-14T13:26:07.621Z",
   "profit": 0,
-  "latestTask": {
-    "title": "Outline AI Email Subject Line Optimization Mini-Guide",
-    "details": "Develop a structured outline for a mini-guide that expands on the AI Email Subject Line Optimizer prompt pack. Include sections on: Introduction, Understanding Subject Line Psychology, Leveraging AI for Subject Lines (with prompt examples), Testing and Iteration, and Advanced Techniques. Focus on actionable steps for small business owners and marketers.",
-    "priority": "high"
-  }
+  "latestTask": null
 }
