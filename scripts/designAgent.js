@@ -223,7 +223,7 @@ async function run() {
         const page = await browser.newPage();
 
         // Render PDF
-        await page.setContent(productHtml, { waitUntil: 'domcontentloaded' });
+        await page.setContent(productHtml, { waitUntil: 'load' });
         await page.pdf({
           path: pdfPath,
           format: 'A4',

@@ -113,6 +113,21 @@ function validateProduct(content, productType) {
     return { valid: false, reason: `Contains unfilled placeholder: ${sample}` };
   }
 
+  // Reject fixed dates — months, specific day names used as row labels
+  const FIXED_DATE_RE = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b/i;
+  if (FIXED_DATE_RE.test(content)) {
+    const sample = content.match(FIXED_DATE_RE)?.[0];
+    return { valid: false, reason: `Contains fixed date/month: "${sample}" — products must be reusable` };
+  }
+
+  // Reject sequential day labels used as fixed structure (e.g. "| Day 1 |" or "Day 1:" repeated)
+  // Allow "Day ______" (blank fill-in) but not "Day 1", "Day 2", "Day 15" etc.
+  const SEQUENTIAL_DAY_RE = /\bDay\s+\d+\b/gi;
+  const dayMatches = content.match(SEQUENTIAL_DAY_RE) || [];
+  if (dayMatches.length >= 3) {
+    return { valid: false, reason: `Contains sequential day labels (${dayMatches.slice(0,3).join(', ')}…) — use blank rows instead` };
+  }
+
   const { total, breakdown } = countElements(content, productType);
   const label = productType || 'unknown';
   console.log(`[product-agent] Element count for ${label}: total=${total} tables=${breakdown.tableRows} checkboxes=${breakdown.checkboxes} numbered=${breakdown.numbered} bullets=${breakdown.plainBullets} sections=${breakdown.sections} fields=${breakdown.fieldLines}`);
@@ -153,15 +168,24 @@ ${brandSection}PRODUCT REQUIREMENTS:
 - Use checkboxes (- [ ]) for task/habit tracking sections
 - Include a title (# heading) at the top
 - Include a brief "How to Use" section
-- No placeholders like [topic], [fill in here], [your goal], [date]
-- Write actual example content — use generic-but-real values like "Monday", "Week 1", "Exercise", "Read 20 pages"
+- No pre-filled dates, fixed calendar values, or sequential day labels like "Day 1, Day 2"
+- No personal pre-fills — the buyer fills everything in themselves
+- Products must be REUSABLE: not tied to a specific time period or person
+- Use blank input fields: "Day ______", "Date: ______", "Start Date: ______"
+- For habit/challenge trackers: blank rows where the user writes the habit name and fills daily checkboxes
+- For planners: include "Date: ______" at the top of each page/section
+- For challenges: include "Start Date: ______" and "End Date: ______" at the top
+- Do NOT write "January", "Monday", "Week 1", "Day 1" etc. as fixed labels
+- Column headers in tables should be structural, not date-specific (e.g. "Habit" | "M" | "T" | "W" | "Th" | "F" | "Sa" | "Su" | "✓")
+- Rows in tracker tables: blank "______" in the habit/task column, empty checkboxes in tracking columns
+- No placeholders like [topic], [fill in here], [your goal] — use "______" for user-fillable fields
 
 STRUCTURE REQUIREMENTS for ${productLabel}:
-- Header: Title + one-line description
+- Header: Title + one-line benefit-driven description
 - How to Use: 3-5 bullet points explaining how to use this template
-- Main Section: Large table or grid with 20-30 rows of real structure (days, tasks, habits, etc.)
-- Secondary Section: Additional tracking or notes area with at least 10 more fields
-- Reflection/Review Section: Weekly or daily review prompts (5+ items)
+- Main Section: Large table or grid with 20-30 blank-but-structured rows ready to fill in
+- Secondary Section: Additional tracking or notes area with at least 10 blank fields (use "______" for fill-in lines)
+- Reflection/Review Section: Printed question prompts for the user to answer by hand (5+ items)
 - Footer: Motivational quote or tip
 
 OUTPUT: Return only the markdown product. No explanations. No commentary.`;

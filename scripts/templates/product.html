@@ -251,11 +251,21 @@
     }
 
     td {
-      padding: 2.5mm 3.5mm;
+      padding: 3mm 3.5mm;
+      min-height: 8mm;
       border-bottom: 1px solid {{ACCENT}};
       border-right: none;
       border-left: none;
-      vertical-align: top;
+      vertical-align: middle;
+    }
+
+    /* Blank fill-in underlines: text like "______" rendered as a visible line */
+    td:empty::after,
+    td:has(> br:only-child)::after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid {{SECONDARY}};
+      min-height: 5mm;
     }
 
     tr:nth-child(even) td {
@@ -298,6 +308,16 @@
       page-break-before: always;
     }
 
+    /* ─── BLANK FILL-IN LINES ─── */
+    .fill-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1.2px solid {{SECONDARY}};
+      margin: 0 1mm;
+      vertical-align: bottom;
+      opacity: 0.6;
+    }
+
     /* ─── MISC ─── */
     blockquote {
       border-left: 3px solid {{SECONDARY}};
@@ -329,6 +349,24 @@
   </style>
 </head>
 <body>
+
+  <!-- Convert ______ sequences to styled fill-in lines -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node) {
+        if (/_{3,}/.test(node.nodeValue)) {
+          const span = document.createElement('span');
+          span.innerHTML = node.nodeValue.replace(/_{3,}/g, function(m) {
+            return '<span class="fill-line">&nbsp;</span>';
+          });
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    });
+  </script>
 
   <!-- ═══ PAGE 1: COVER ═══ -->
   <div class="cover-page">
