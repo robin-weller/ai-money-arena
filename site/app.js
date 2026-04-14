@@ -1,7 +1,14 @@
 (function () {
   const REFRESH_INTERVAL_MS = 45000;
+  const BASE = window.location.pathname.split("/")[1] ? `/${window.location.pathname.split("/")[1]}` : "";
 
-  async function fetchJson(url) {
+  function buildDataUrl(fileName) {
+    return `${BASE}/public-data/${fileName}`;
+  }
+
+  async function fetchJson(fileName) {
+    const url = buildDataUrl(fileName);
+    console.log("Fetching:", url);
     const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`Failed to load ${url}: ${response.status}`);
@@ -39,7 +46,7 @@
   }
 
   async function loadLeaderboard() {
-    const data = await fetchJson("./public-data/leaderboard.json");
+    const data = await fetchJson("leaderboard.json");
     const body = document.getElementById("leaderboard-body");
     setUpdatedText("leaderboard-updated", data.generatedAt);
 
@@ -70,7 +77,7 @@
   }
 
   async function loadRuns() {
-    const data = await fetchJson("./public-data/latest-runs.json");
+    const data = await fetchJson("latest-runs.json");
     const list = document.getElementById("runs-list");
     setUpdatedText("runs-updated", data.generatedAt);
 
@@ -119,7 +126,7 @@
   }
 
   async function loadTasks() {
-    const data = await fetchJson("./public-data/tasks.json");
+    const data = await fetchJson("tasks.json");
     const body = document.getElementById("tasks-body");
     setUpdatedText("tasks-updated", data.generatedAt);
 
