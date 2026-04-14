@@ -645,6 +645,7 @@ function saveOutput(agentName, now, finalDecision) {
   ensureDir(agentOutputDir);
   const fileName = `${now.replace(/[:.]/g, "-")}.json`;
   const outputPath = path.join(agentOutputDir, fileName);
+  const latestPath = path.join(agentOutputDir, "latest.json");
   const outputPayload = {
     generatedAt: now,
     agent: agentName,
@@ -665,9 +666,22 @@ function saveOutput(agentName, now, finalDecision) {
     reason: finalDecision.reason
   };
 
-  writeJson(outputPath, outputPayload);
-  writeJson(path.join(agentOutputDir, "latest.json"), outputPayload);
-  return path.relative(ROOT_DIR, outputPath);
+  try {
+    console.log(`[worker] writing output to ${outputPath}`);
+    writeJson(outputPath, outputPayload);
+    writeJson(latestPath, outputPayload);
+
+    if (!fs.existsSync(outputPath) || !fs.existsSync(latestPath)) {
+      throw new Error("Output file verification failed after write.");
+    }
+
+    console.log(`[worker] output write success ${outputPath}`);
+    return path.relative(ROOT_DIR, outputPath);
+  } catch (error) {
+    console.error(`[worker] output write failed ${outputPath}`);
+    console.error(`[worker] output write error=${error.message}`);
+    return "";
+  }
 }
 
 function persistRun(agentState, messages, tasks, finalDecision, metadata) {

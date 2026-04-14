@@ -5,6 +5,7 @@ const ROOT_DIR = path.join(__dirname, "..", "..");
 const ARTIFACTS_DIR = path.join(ROOT_DIR, "worker-artifacts");
 const TARGET_STATE_DIR = path.join(ROOT_DIR, "state");
 const TARGET_LOGS_DIR = path.join(ROOT_DIR, "logs");
+const TARGET_OUTPUTS_DIR = path.join(ROOT_DIR, "outputs");
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
@@ -124,6 +125,34 @@ function mergeLogs() {
   }
 }
 
+function mergeOutputs() {
+  ensureDir(TARGET_OUTPUTS_DIR);
+
+  for (const artifactDir of fs.readdirSync(ARTIFACTS_DIR)) {
+    const outputsDir = path.join(ARTIFACTS_DIR, artifactDir, "outputs");
+    if (!fs.existsSync(outputsDir)) {
+      continue;
+    }
+
+    for (const agentName of fs.readdirSync(outputsDir)) {
+      const sourceAgentDir = path.join(outputsDir, agentName);
+      const targetAgentDir = path.join(TARGET_OUTPUTS_DIR, agentName);
+
+      if (!fs.statSync(sourceAgentDir).isDirectory()) {
+        continue;
+      }
+
+      ensureDir(targetAgentDir);
+
+      for (const fileName of fs.readdirSync(sourceAgentDir)) {
+        const source = path.join(sourceAgentDir, fileName);
+        const target = path.join(targetAgentDir, fileName);
+        fs.copyFileSync(source, target);
+      }
+    }
+  }
+}
+
 function run() {
   if (!fs.existsSync(ARTIFACTS_DIR)) {
     throw new Error("worker-artifacts directory not found.");
@@ -133,6 +162,7 @@ function run() {
   mergeMessages();
   rebuildTasksFromAgents();
   mergeLogs();
+  mergeOutputs();
 
   console.log("[merge-worker-artifacts] Worker outputs merged");
 }
