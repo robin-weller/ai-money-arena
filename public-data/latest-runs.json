@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-04-14T12:54:59.999Z",
+  "generatedAt": "2026-04-14T13:08:22.268Z",
   "runs": [
-    {
-      "timestamp": "2026-04-14T09:35:37.271Z",
-      "agent": "agent-c",
-      "action": "Identify 3 niche content ideas for micro-products.",
-      "status": "completed",
-      "reason": "The agent's strategy is to launch simple content-driven micro-products. Identifying relevant content ideas is the logical first step to operationalize this strategy.",
-      "profit": 0,
-      "errorMessage": ""
-    },
     {
       "timestamp": "2026-04-14T09:46:25.617Z",
       "agent": "agent-c",
@@ -1475,6 +1466,284 @@
       "commentReplies": [],
       "suggestedCommunities": [],
       "suggestedSearchQueries": [],
+      "burnerFriendly": false,
+      "publishInstructions": "",
+      "confidence": 0,
+      "duplicateStatus": "original",
+      "outputPath": "",
+      "finalStatus": "completed",
+      "errorMessage": "",
+      "errorStack": "",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T13:08:08.644Z",
+      "agent": "agent-c",
+      "steps": [
+        "start:agent-c",
+        "load",
+        "load:agent-state-ready",
+        "prompt",
+        "gemini",
+        "parse:1",
+        "validate:1:listing_not_publish_ready",
+        "parse:2",
+        "validate:2:listing_not_publish_ready",
+        "save"
+      ],
+      "stepReached": "save",
+      "geminiResponseStatus": 200,
+      "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"Building on the previous prompt pack, this iteration focuses on a specific application (email subject lines) and targets a clear buyer persona. The next logical step is to prepare this for Gumroad.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI Email Subject Line Optimizer Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Email Marketing Automation\",\n  \"targetBuyer\": \"Small Business Owners & Marketers\",\n  \"listingTitle\": \"Boost Your Open Rates: AI Email Subject Line Optimizer Prompts\",\n  \"shortDescription\": \"Unlock higher email engagement with AI-powered subject line prompts. Stop guessing and start converting with irresistible subject lines.\",\n  \"priceSuggestion\": \"This is a niche product addressing a specific pain point. Pricing it competitively while reflecting the value of improved open rates is key.\",\n  \"price\": 12,\n  \"description\": \"Are your emails getting lost in the inbox? This AI Email Subject Line Optimizer Prompt Pack is designed for small business owners and marketers struggling to craft compelling subject lines that grab attention and drive opens. Stop wasting time on generic phrases and start leveraging the power of AI. This pack provides meticulously crafted prompts that will help you generate subject lines tailored to your specific audience and campaign goals. You'll discover how to create urgency, curiosity, and value propositions that resonate, leading to a significant boost in your email open rates and overall campaign effectiveness. Save time, reduce frustration, and see a tangible improvement in your marketing ROI with these ready-to-use prompts.\",\n  \"bullets\": [\n    \"Generate high-converting email subject lines with AI.\",\n    \"Target specific audience segments for maximum impact.\",\n    \"Craft subject lines that create urgency and curiosity.\"",
+      "parsedObject": {
+        "action": "create publish-ready listing",
+        "status": "completed",
+        "reason": "Building on the previous prompt pack, this iteration focuses on a specific application (email subject lines) and targets a clear buyer persona. The next logical step is to prepare this for Gumroad.",
+        "task": {
+          "title": "Approve and publish product",
+          "details": "Publish this listing on Gumroad",
+          "priority": "high"
+        },
+        "productTitle": "AI Email Subject Line Optimizer Prompt Pack",
+        "productType": "prompt pack",
+        "niche": "B2B Email Marketing Automation",
+        "targetBuyer": "Small Business Owners & Marketers",
+        "listingTitle": "Boost Your Open Rates: AI Email Subject Line Optimizer Prompts",
+        "shortDescription": "Unlock higher email engagement with AI-powered subject line prompts. Stop guessing and start converting with irresistible subject lines.",
+        "priceSuggestion": "This is a niche product addressing a specific pain point. Pricing it competitively while reflecting the value of improved open rates is key.",
+        "price": 12,
+        "description": "Are your emails getting lost in the inbox? This AI Email Subject Line Optimizer Prompt Pack is designed for small business owners and marketers struggling to craft compelling subject lines that grab attention and drive opens. Stop wasting time on generic phrases and start leveraging the power of AI. This pack provides meticulously crafted prompts that will help you generate subject lines tailored to your specific audience and campaign goals. You'll discover how to create urgency, curiosity, and value propositions that resonate, leading to a significant boost in your email open rates and overall campaign effectiveness. Save time, reduce frustration, and see a tangible improvement in your marketing ROI with these ready-to-use prompts.",
+        "bullets": [
+          "Generate high-converting email subject lines with AI.",
+          "Target specific audience segments for maximum impact.",
+          "Craft subject lines that create urgency and curiosity.",
+          "Boost your email open rates and engagement.",
+          "Save time and eliminate guesswork in your email marketing."
+        ],
+        "redditPosts": [
+          "Struggling with email open rates? I've put together an AI prompt pack to help craft irresistible subject lines that get noticed. Check it out! [Link]",
+          "Small biz owners, marketers: Tired of emails going unread? This AI Subject Line Optimizer Prompt Pack is a game-changer for boosting your engagement. Details here: [Link]"
+        ],
+        "commentReplies": [
+          "To anyone struggling with email marketing: a good subject line is half the battle! I've found AI prompts to be incredibly helpful for this. Might be worth exploring if you're stuck.",
+          "For those looking to improve their B2B outreach, focusing on clear and compelling subject lines can make a huge difference. AI tools can really streamline this process."
+        ],
+        "suggestedCommunities": [
+          "r/emailmarketing",
+          "r/marketing",
+          "r/smallbusiness",
+          "r/SaaS",
+          "r/digitalmarketing"
+        ],
+        "suggestedSearchQueries": [
+          "best email subject line prompts",
+          "AI email subject line generator",
+          "increase email open rates",
+          "B2B email marketing tips",
+          "email subject line optimization"
+        ],
+        "linksShared": [],
+        "burnerFriendly": true,
+        "publishInstructions": "Go to Gumroad, create a new product, paste the title 'Boost Your Open Rates: AI Email Subject Line Optimizer Prompts' and the description provided. Upload the prompt pack file. Set the price to 12. Set it to 'Limited availability' and then publish.",
+        "fileContent": "Here are some prompts to help you generate effective email subject lines:\n\n**General Engagement Prompts:**\n\n1.  'Generate 5 catchy email subject lines for a [product/service] that creates curiosity about its [key benefit]. Target audience: [audience].'\n2.  'Write 3 urgent email subject lines for a limited-time offer on [product/service]. Emphasize scarcity and the deadline: [deadline].'\n3.  'Create 4 personalized email subject lines for a follow-up email regarding [previous interaction/interest]. Include the recipient's name if possible.'\n4.  'Suggest 5 benefit-driven email subject lines for our new [feature/product update]. Highlight how it solves [customer pain point].'\n5.  'Develop 3 question-based email subject lines that encourage opens by hinting at a solution to [common problem].'\n\n**B2B Specific Prompts:**\n\n6.  'Craft 5 professional email subject lines for a B2B outreach targeting [industry] professionals about our [solution/service]. Focus on ROI and efficiency.'\n7.  'Write 3 direct and impactful email subject lines for a proposal submission for [project/company].'\n8.  'Generate 4 email subject lines for a demo invitation for our [software/tool], highlighting its ability to streamline [specific business process].'\n9.  'Create 5 email subject lines for a case study announcement, showcasing how [client company] achieved [specific result] using our [product/service].'\n10. 'Suggest 3 scarcity-driven subject lines for a webinar registration, emphasizing limited spots for our B2B audience.'\n\n**Prompts for Specific Outcomes:**\n\n11. 'Write 3 subject lines designed to re-engage inactive subscribers for our [newsletter/service].'\n12. 'Generate 4 subject lines that clearly state the value of a free resource like an e-book or guide on [topic].'\n13. 'Create 5 subject lines that are highly specific and cater to a niche interest: [niche interest].'\n14. 'Develop 3 subject lines for a customer feedback request that encourage honest responses.'\n15. 'Suggest 4 subject lines for announcing a referral program, highlighting benefits for both the referrer and the referred.'",
+        "confidence": 1
+      },
+      "attemptDetails": [
+        {
+          "attempt": 1,
+          "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"The previous product iteration was a social media prompt pack. To build on this, I'm creating a new, complementary product focused on B2B email marketing, specifically subject lines, as indicated by agent-b's suggestion. This offers a direct expansion of the AI content generation theme to a related, high-impact area for businesses.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI Email Subject Line Optimizer\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Email Marketing Automation\",\n  \"targetBuyer\": \"Small Business Owners & Marketers\",\n  \"listingTitle\": \"AI Email Subject Line Optimizer: Boost Open Rates\",\n  \"shortDescription\": \"Stop guessing. Get AI-generated, high-converting email subject lines tailored for your B2B audience. Save time and increase engagement.\",\n  \"priceSuggestion\": \"Consider a price point between $12-$25 based on value and competition.\",\n  \"price\": 15,\n  \"description\": \"Struggling to craft email subject lines that actually get opened? This AI Email Subject Line Optimizer prompt pack is designed for busy small business owners and marketers looking to cut through the noise. Leverage the power of AI to generate compelling, attention-grabbing subject lines that speak directly to your B2B audience. \\n\\nThis pack provides you with a curated collection of expertly crafted prompts to feed into your favorite AI language model. Simply input your email's core message and target audience, and receive a variety of optimized subject line suggestions. Say goodbye to writer's block and hello to significantly improved open rates, more qualified leads, and better campaign performance. \\n\\nWith this prompt pack, you will:\\n- Save hours of brainstorming and testing.\\n- Generate unique subject lines that resonate with professionals.\\n- Increase your email open rates consisten",
+          "parsedObject": {
+            "action": "create publish-ready listing",
+            "status": "completed",
+            "reason": "The previous product iteration was a social media prompt pack. To build on this, I'm creating a new, complementary product focused on B2B email marketing, specifically subject lines, as indicated by agent-b's suggestion. This offers a direct expansion of the AI content generation theme to a related, high-impact area for businesses.",
+            "task": {
+              "title": "Approve and publish product",
+              "details": "Publish this listing on Gumroad",
+              "priority": "high"
+            },
+            "productTitle": "AI Email Subject Line Optimizer",
+            "productType": "prompt pack",
+            "niche": "B2B Email Marketing Automation",
+            "targetBuyer": "Small Business Owners & Marketers",
+            "listingTitle": "AI Email Subject Line Optimizer: Boost Open Rates",
+            "shortDescription": "Stop guessing. Get AI-generated, high-converting email subject lines tailored for your B2B audience. Save time and increase engagement.",
+            "priceSuggestion": "Consider a price point between $12-$25 based on value and competition.",
+            "price": 15,
+            "description": "Struggling to craft email subject lines that actually get opened? This AI Email Subject Line Optimizer prompt pack is designed for busy small business owners and marketers looking to cut through the noise. Leverage the power of AI to generate compelling, attention-grabbing subject lines that speak directly to your B2B audience. \n\nThis pack provides you with a curated collection of expertly crafted prompts to feed into your favorite AI language model. Simply input your email's core message and target audience, and receive a variety of optimized subject line suggestions. Say goodbye to writer's block and hello to significantly improved open rates, more qualified leads, and better campaign performance. \n\nWith this prompt pack, you will:\n- Save hours of brainstorming and testing.\n- Generate unique subject lines that resonate with professionals.\n- Increase your email open rates consistently.\n- Drive more traffic and conversions from your email campaigns.\n- Unlock new creative angles for your email marketing.",
+            "bullets": [
+              "Generate 10+ high-converting B2B email subject lines per prompt.",
+              "Tailored prompts for different industries and campaign goals.",
+              "Save hours of creative effort with instant AI suggestions.",
+              "Boost email open rates and engagement effectively.",
+              "Easy to use with any AI writing assistant."
+            ],
+            "redditPosts": [
+              "Tired of low email open rates? 📧 I've created an AI prompt pack to help B2B marketers craft subject lines that get noticed. Save time and boost engagement! [Link]",
+              "Small business owners: Struggling with email subject lines? Check out this AI prompt pack designed to optimize your outreach and drive results. [Link]",
+              "AI-powered marketing hack: Generate killer B2B email subject lines in seconds. My new prompt pack makes it easy. Details here: [Link]"
+            ],
+            "commentReplies": [
+              "Great question! For this prompt pack, I recommend using models like GPT-3.5 or GPT-4 for best results. You can tweak the prompts further based on the model's output to refine the subject lines.",
+              "That's a common challenge. This prompt pack focuses specifically on crafting subject lines that are concise, benefit-driven, and curiosity-piquing, which tend to perform well in B2B.",
+              "Absolutely! The goal is to give you a solid starting point. You can then personalize the AI-generated suggestions further with your specific brand voice and offer details."
+            ],
+            "suggestedCommunities": [
+              "r/marketing",
+              "r/smallbusiness",
+              "r/emailmarketing",
+              "r/b2bmarketing",
+              "r/digitalmarketing"
+            ],
+            "suggestedSearchQueries": [
+              "best email subject lines for b2b",
+              "ai email subject line generator",
+              "improve email open rates",
+              "b2b marketing automation tools",
+              "email marketing tips for small business"
+            ],
+            "linksShared": [],
+            "burnerFriendly": true,
+            "publishInstructions": "Go to Gumroad, create a new product, paste the listing title and description, upload the 'AI_Email_Subject_Line_Optimizer_Prompt_Pack.txt' file, set the price to 15, and publish.",
+            "fileContent": "# AI Email Subject Line Optimizer Prompt Pack\n\n## General Purpose Subject Line Prompts:\n\n1.  \"Generate 5 compelling email subject lines for a B2B SaaS product that helps businesses automate their social media posting. Focus on benefits like time-saving and increased efficiency.\"\n2.  \"Create 7 attention-grabbing email subject lines for a new online course on AI for small business owners. Highlight learning outcomes and the competitive advantage it offers.\"\n3.  \"Develop 10 concise and curiosity-piquing email subject lines for a webinar about the future of remote work. Target HR professionals and team leads.\"\n4.  \"Suggest 8 benefit-driven email subject lines for a service that provides customized market research reports for tech startups. Emphasize actionable insights.\"\n5.  \"Craft 6 professional and direct email subject lines for a follow-up email after a B2B sales meeting. Aim to re-engage and prompt a next step.\"\n\n## Industry-Specific Subject Line Prompts:\n\n6.  **For a Financial Services Company:** \"Generate 5 email subject lines for a B2B service offering cybersecurity solutions to financial institutions. Focus on trust, security, and compliance.\"\n7.  **For a Healthcare Technology Provider:** \"Create 7 email subject lines for a new AI-powered diagnostic tool for radiologists. Highlight accuracy, speed, and improved patient outcomes.\"\n8.  **For a Logistics & Supply Chain Firm:** \"Develop 10 email subject lines for a B2B offering that optimizes supply chain visibility. Focus on efficiency, cost reduction, and real-time tracking.\"\n\n## Goal-Oriented Subject Line Prompts:\n\n9.  **To Increase Open Rates:** \"Generate 5 email subject lines designed to maximize open rates for a newsletter about industry trends in renewable energy. Use intrigue and urgency.\"\n10. **To Drive Webinar Registrations:** \"Create 7 email subject lines for a B2B webinar on cloud migration strategies. Focus on the value proposition and the ease of registration.\"\n11. **To Promote a Free Trial:** \"Suggest 8 enticing email subject lines for a free trial offer of a project management tool for creative agencies. Highlight ease of use and team collaboration features.\"\n12. **For Cold Outreach:** \"Craft 6 powerful email subject lines for cold outreach to potential clients in the e-commerce space, promoting a service that boosts online sales.\"\n\n## Advanced & Creative Subject Line Prompts:\n\n13. **Using Questions:** \"Generate 5 email subject lines that use questions to engage busy B2B decision-makers in the manufacturing sector.\"\n14. **Using Urgency/Scarcity:** \"Create 7 email subject lines that create a sense of urgency or scarcity for a limited-time offer on CRM software upgrades.\"\n15. **Personalization Focus:** \"Develop 10 email subject lines that encourage personalization, prompting the recipient to open to learn something specific about their business/role.\"\n\n---",
+            "confidence": 0.95
+          },
+          "validation": {
+            "isValid": false,
+            "issues": [
+              "listing_not_publish_ready"
+            ],
+            "stage": "publish"
+          }
+        },
+        {
+          "attempt": 2,
+          "rawGeminiText": "{\n  \"action\": \"create publish-ready listing\",\n  \"status\": \"completed\",\n  \"reason\": \"Building on the previous prompt pack, this iteration focuses on a specific application (email subject lines) and targets a clear buyer persona. The next logical step is to prepare this for Gumroad.\",\n  \"task\": {\n    \"title\": \"Approve and publish product\",\n    \"details\": \"Publish this listing on Gumroad\",\n    \"priority\": \"high\"\n  },\n  \"productTitle\": \"AI Email Subject Line Optimizer Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"niche\": \"B2B Email Marketing Automation\",\n  \"targetBuyer\": \"Small Business Owners & Marketers\",\n  \"listingTitle\": \"Boost Your Open Rates: AI Email Subject Line Optimizer Prompts\",\n  \"shortDescription\": \"Unlock higher email engagement with AI-powered subject line prompts. Stop guessing and start converting with irresistible subject lines.\",\n  \"priceSuggestion\": \"This is a niche product addressing a specific pain point. Pricing it competitively while reflecting the value of improved open rates is key.\",\n  \"price\": 12,\n  \"description\": \"Are your emails getting lost in the inbox? This AI Email Subject Line Optimizer Prompt Pack is designed for small business owners and marketers struggling to craft compelling subject lines that grab attention and drive opens. Stop wasting time on generic phrases and start leveraging the power of AI. This pack provides meticulously crafted prompts that will help you generate subject lines tailored to your specific audience and campaign goals. You'll discover how to create urgency, curiosity, and value propositions that resonate, leading to a significant boost in your email open rates and overall campaign effectiveness. Save time, reduce frustration, and see a tangible improvement in your marketing ROI with these ready-to-use prompts.\",\n  \"bullets\": [\n    \"Generate high-converting email subject lines with AI.\",\n    \"Target specific audience segments for maximum impact.\",\n    \"Craft subject lines that create urgency and curiosity.\"",
+          "parsedObject": {
+            "action": "create publish-ready listing",
+            "status": "completed",
+            "reason": "Building on the previous prompt pack, this iteration focuses on a specific application (email subject lines) and targets a clear buyer persona. The next logical step is to prepare this for Gumroad.",
+            "task": {
+              "title": "Approve and publish product",
+              "details": "Publish this listing on Gumroad",
+              "priority": "high"
+            },
+            "productTitle": "AI Email Subject Line Optimizer Prompt Pack",
+            "productType": "prompt pack",
+            "niche": "B2B Email Marketing Automation",
+            "targetBuyer": "Small Business Owners & Marketers",
+            "listingTitle": "Boost Your Open Rates: AI Email Subject Line Optimizer Prompts",
+            "shortDescription": "Unlock higher email engagement with AI-powered subject line prompts. Stop guessing and start converting with irresistible subject lines.",
+            "priceSuggestion": "This is a niche product addressing a specific pain point. Pricing it competitively while reflecting the value of improved open rates is key.",
+            "price": 12,
+            "description": "Are your emails getting lost in the inbox? This AI Email Subject Line Optimizer Prompt Pack is designed for small business owners and marketers struggling to craft compelling subject lines that grab attention and drive opens. Stop wasting time on generic phrases and start leveraging the power of AI. This pack provides meticulously crafted prompts that will help you generate subject lines tailored to your specific audience and campaign goals. You'll discover how to create urgency, curiosity, and value propositions that resonate, leading to a significant boost in your email open rates and overall campaign effectiveness. Save time, reduce frustration, and see a tangible improvement in your marketing ROI with these ready-to-use prompts.",
+            "bullets": [
+              "Generate high-converting email subject lines with AI.",
+              "Target specific audience segments for maximum impact.",
+              "Craft subject lines that create urgency and curiosity.",
+              "Boost your email open rates and engagement.",
+              "Save time and eliminate guesswork in your email marketing."
+            ],
+            "redditPosts": [
+              "Struggling with email open rates? I've put together an AI prompt pack to help craft irresistible subject lines that get noticed. Check it out! [Link]",
+              "Small biz owners, marketers: Tired of emails going unread? This AI Subject Line Optimizer Prompt Pack is a game-changer for boosting your engagement. Details here: [Link]"
+            ],
+            "commentReplies": [
+              "To anyone struggling with email marketing: a good subject line is half the battle! I've found AI prompts to be incredibly helpful for this. Might be worth exploring if you're stuck.",
+              "For those looking to improve their B2B outreach, focusing on clear and compelling subject lines can make a huge difference. AI tools can really streamline this process."
+            ],
+            "suggestedCommunities": [
+              "r/emailmarketing",
+              "r/marketing",
+              "r/smallbusiness",
+              "r/SaaS",
+              "r/digitalmarketing"
+            ],
+            "suggestedSearchQueries": [
+              "best email subject line prompts",
+              "AI email subject line generator",
+              "increase email open rates",
+              "B2B email marketing tips",
+              "email subject line optimization"
+            ],
+            "linksShared": [],
+            "burnerFriendly": true,
+            "publishInstructions": "Go to Gumroad, create a new product, paste the title 'Boost Your Open Rates: AI Email Subject Line Optimizer Prompts' and the description provided. Upload the prompt pack file. Set the price to 12. Set it to 'Limited availability' and then publish.",
+            "fileContent": "Here are some prompts to help you generate effective email subject lines:\n\n**General Engagement Prompts:**\n\n1.  'Generate 5 catchy email subject lines for a [product/service] that creates curiosity about its [key benefit]. Target audience: [audience].'\n2.  'Write 3 urgent email subject lines for a limited-time offer on [product/service]. Emphasize scarcity and the deadline: [deadline].'\n3.  'Create 4 personalized email subject lines for a follow-up email regarding [previous interaction/interest]. Include the recipient's name if possible.'\n4.  'Suggest 5 benefit-driven email subject lines for our new [feature/product update]. Highlight how it solves [customer pain point].'\n5.  'Develop 3 question-based email subject lines that encourage opens by hinting at a solution to [common problem].'\n\n**B2B Specific Prompts:**\n\n6.  'Craft 5 professional email subject lines for a B2B outreach targeting [industry] professionals about our [solution/service]. Focus on ROI and efficiency.'\n7.  'Write 3 direct and impactful email subject lines for a proposal submission for [project/company].'\n8.  'Generate 4 email subject lines for a demo invitation for our [software/tool], highlighting its ability to streamline [specific business process].'\n9.  'Create 5 email subject lines for a case study announcement, showcasing how [client company] achieved [specific result] using our [product/service].'\n10. 'Suggest 3 scarcity-driven subject lines for a webinar registration, emphasizing limited spots for our B2B audience.'\n\n**Prompts for Specific Outcomes:**\n\n11. 'Write 3 subject lines designed to re-engage inactive subscribers for our [newsletter/service].'\n12. 'Generate 4 subject lines that clearly state the value of a free resource like an e-book or guide on [topic].'\n13. 'Create 5 subject lines that are highly specific and cater to a niche interest: [niche interest].'\n14. 'Develop 3 subject lines for a customer feedback request that encourage honest responses.'\n15. 'Suggest 4 subject lines for announcing a referral program, highlighting benefits for both the referrer and the referred.'",
+            "confidence": 1
+          },
+          "validation": {
+            "isValid": false,
+            "issues": [
+              "listing_not_publish_ready"
+            ],
+            "stage": "publish"
+          }
+        }
+      ],
+      "validationResults": [
+        {
+          "attempt": 1,
+          "parsed": true,
+          "shapeValid": true,
+          "status": "completed",
+          "action": "create publish-ready listing",
+          "issues": [
+            "listing_not_publish_ready"
+          ]
+        },
+        {
+          "attempt": 2,
+          "parsed": true,
+          "shapeValid": true,
+          "status": "completed",
+          "action": "create publish-ready listing",
+          "issues": [
+            "listing_not_publish_ready"
+          ]
+        }
+      ],
+      "retryTriggered": true,
+      "finalObject": {
+        "action": "retry_next_run",
+        "status": "completed",
+        "reason": "Model failed to produce valid output, will retry next cycle",
+        "task": null,
+        "productTitle": "",
+        "productType": "",
+        "niche": "",
+        "targetBuyer": "",
+        "listingTitle": "",
+        "shortDescription": "",
+        "priceSuggestion": "",
+        "price": 0,
+        "description": "",
+        "bullets": [],
+        "redditPosts": [],
+        "commentReplies": [],
+        "suggestedCommunities": [],
+        "suggestedSearchQueries": [],
+        "linksShared": [],
+        "burnerFriendly": false,
+        "publishInstructions": "",
+        "fileContent": "",
+        "confidence": 0,
+        "publishedUrl": ""
+      },
+      "productTitle": "",
+      "productType": "",
+      "niche": "",
+      "targetBuyer": "",
+      "listingTitle": "",
+      "price": 0,
+      "description": "",
+      "bullets": [],
+      "redditPosts": [],
+      "commentReplies": [],
+      "suggestedCommunities": [],
+      "suggestedSearchQueries": [],
+      "linksShared": [],
+      "publishedUrl": "",
+      "isPublished": false,
+      "distributionAttempts": 0,
       "burnerFriendly": false,
       "publishInstructions": "",
       "confidence": 0,

@@ -12,18 +12,22 @@
   "lastListingTitle": "AI Social Media Post Prompts: Effortless Content Ideas",
   "lastPrice": 17,
   "lastOutputPath": "outputs/agent-c/ai-social-media-post-prompt-pack.md",
+  "isPublished": false,
+  "publishedUrl": "",
   "lastConfidence": 0,
   "lastDuplicateStatus": "original",
-  "stage": "listing",
+  "stage": "publish",
   "lastProgressMode": "progressing",
-  "attempts": 9,
+  "attempts": 10,
+  "distributionAttempts": 0,
+  "linksShared": [],
   "uniqueNichesTried": [
     "social media marketing"
   ],
   "duplicateHits": 1,
   "successfulOutputs": 5,
   "lastReason": "Model failed to produce valid output, will retry next cycle",
-  "lastRunAt": "2026-04-14T12:54:48.179Z",
+  "lastRunAt": "2026-04-14T13:08:08.644Z",
   "profit": 0,
   "latestTask": null
 }

@@ -12,11 +12,15 @@
   "lastListingTitle": "AI Social Media Post Generator Prompt Pack | Effortless Content Creation",
   "lastPrice": 19.99,
   "lastOutputPath": "outputs/agent-a/ai-powered-social-media-post-generator-prompt-pack.md",
+  "isPublished": false,
+  "publishedUrl": "",
   "lastConfidence": 0,
   "lastDuplicateStatus": "original",
   "stage": "listing",
   "lastProgressMode": "progressing",
-  "attempts": 9,
+  "attempts": 10,
+  "distributionAttempts": 0,
+  "linksShared": [],
   "uniqueNichesTried": [
     "Social Media Marketing",
     "AI Content Generation",
@@ -24,8 +28,8 @@
   ],
   "duplicateHits": 2,
   "successfulOutputs": 6,
-  "lastReason": "Model failed to produce valid output, will retry next cycle",
-  "lastRunAt": "2026-04-14T12:54:49.386Z",
+  "lastReason": "Runtime failure, will retry next cycle",
+  "lastRunAt": "2026-04-14T13:08:03.334Z",
   "profit": 0,
   "latestTask": null
 }
