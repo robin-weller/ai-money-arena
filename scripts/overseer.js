@@ -164,6 +164,17 @@ function buildTelegramSummary(products, totalAiCost) {
     qaFailed.forEach(p => lines.push(`  • ${p.title} → ${p.qaFailureStage || '?'} (${p.qaFailureReason || '?'})`));
   }
 
+  // AI/Gemini errors
+  const errored = products.filter(p => p.lastError && p.status !== 'live');
+  if (errored.length) {
+    lines.push('\n🔴 Gemini Errors:');
+    errored.forEach(p => {
+      const retries = p.aiFailureCount || 1;
+      const humanFlag = p.needsHumanReview ? ' ⚠️ needs human review' : ` (attempt ${retries}/3)`;
+      lines.push(`  • ${p.title} → ${p.lastError}${humanFlag}`);
+    });
+  }
+
   const liveProducts = products.filter(p => p.status === 'live');
   if (liveProducts.length) {
     lines.push('\n🟢 Live:');
@@ -256,6 +267,8 @@ async function run() {
         qaFailureReason: p.qaFailureReason || null,
         qaRetryCount: p.qaRetryCount || 0,
         needsHumanReview: p.needsHumanReview || false,
+        aiFailureCount: p.aiFailureCount || 0,
+        lastError: p.lastError || null,
       })),
     }, null, 2)
   );

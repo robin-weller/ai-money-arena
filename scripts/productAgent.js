@@ -195,18 +195,26 @@ async function run() {
 
   let content;
   let callCost = 0;
-  try {
-    const result = await callGemini(prompt, { timeoutMs: 90000 });
-    content = result.text;
-    callCost = result.usage?.cost || 0;
-    console.log(`[product-agent] Generated: ${content.length} chars cost=$${callCost.toFixed(5)}`);
-  } catch (err) {
-    console.error(`[product-agent] Gemini error: ${err.message}`);
-    process.exit(1);
+  const result = await callGemini(prompt, { timeoutMs: 90000 });
+
+  const idx = products.findIndex(p => p.id === product.id);
+
+  if (result.success === false) {
+    console.error(`[product-agent] Gemini failed: ${result.error} — ${result.message}`);
+    const failureCount = (products[idx].aiFailureCount || 0) + 1;
+    products[idx].aiFailureCount = failureCount;
+    products[idx].lastError = result.error;
+    if (failureCount > 3) {
+      products[idx].needsHumanReview = true;
+      console.error(`[product-agent] Product ${product.id} exceeded failure limit, flagged for human review`);
+    }
+    saveProducts(products);
+    return;
   }
 
-  // Always persist cost regardless of validation outcome
-  const idx = products.findIndex(p => p.id === product.id);
+  content = result.text;
+  callCost = result.usage?.cost || 0;
+  console.log(`[product-agent] Generated: ${content.length} chars cost=$${callCost.toFixed(5)}`);
   products[idx].aiCostTotal = (products[idx].aiCostTotal || 0) + callCost;
   products[idx].aiCalls = (products[idx].aiCalls || 0) + 1;
 

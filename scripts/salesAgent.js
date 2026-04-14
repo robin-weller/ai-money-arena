@@ -85,13 +85,29 @@ async function run() {
 
     let salesData;
     let callCost = 0;
+    const result = await callGemini(prompt, { timeoutMs: 30000 });
+
+    if (result.success === false) {
+      console.error(`[sales-agent] Gemini failed for ${product.id}: ${result.error} — ${result.message}`);
+      const idx0 = products.findIndex(p => p.id === product.id);
+      products[idx0].aiFailureCount = (products[idx0].aiFailureCount || 0) + 1;
+      products[idx0].lastError = result.error;
+      if (products[idx0].aiFailureCount > 3) {
+        products[idx0].needsHumanReview = true;
+        console.error(`[sales-agent] Product ${product.id} exceeded failure limit, flagged for human review`);
+      }
+      continue;
+    }
+
     try {
-      const result = await callGemini(prompt, { timeoutMs: 30000 });
       callCost = result.usage?.cost || 0;
       const text = result.text.replace(/```json\n?|\n?```/g, '').trim();
       salesData = JSON.parse(text);
     } catch (err) {
-      console.error(`[sales-agent] Error for ${product.id}: ${err.message}`);
+      console.error(`[sales-agent] JSON parse error for ${product.id}: ${err.message}`);
+      const idx0 = products.findIndex(p => p.id === product.id);
+      products[idx0].aiFailureCount = (products[idx0].aiFailureCount || 0) + 1;
+      products[idx0].lastError = 'invalid_response';
       continue;
     }
 
