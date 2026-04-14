@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T14:38:21.900Z",
+  "generatedAt": "2026-04-14T14:49:14.783Z",
   "products": [
     {
       "id": "product-1776176436218",
@@ -9,7 +9,8 @@
       "revenue": 0,
       "isPublished": false,
       "aiCostTotal": 0,
-      "aiCalls": 0
+      "aiCalls": 0,
+      "themeId": "themeC"
     }
   ]
 }

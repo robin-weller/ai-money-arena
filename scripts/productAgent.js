@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { callGemini } = require('./gemini.js');
+const { getBrand, pickRandomTheme, describeTheme } = require('./brand.js');
 
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 const OUTPUTS_DIR = path.join(__dirname, '../outputs/products');
@@ -45,16 +46,25 @@ function validateProduct(content) {
   return { valid: true, elementCount: elements };
 }
 
-function buildPrompt(productType, productLabel, existingContent) {
+function buildPrompt(productType, productLabel, existingContent, brandContext) {
   const expansion = existingContent
     ? `EXISTING DRAFT (expand this, do NOT restart):\n${existingContent}\n\n---\n\nExpand the above to be complete and fully usable.`
     : `Create a brand new ${productLabel} from scratch.`;
+
+  const brandSection = brandContext ? `BRAND REQUIREMENTS:
+- Brand: ${brandContext.brandName} — "${brandContext.tagline}"
+- Visual theme: ${brandContext.themeDesc}
+- Fonts: Primary ${brandContext.fontPrimary}, Secondary ${brandContext.fontSecondary}
+- Add a footer line: "A ${brandContext.brandName} productivity tool"
+- You must use the predefined brand and one of the allowed themes. Do not invent new styles or colors.
+
+` : '';
 
   return `You are a productivity product creator making printable digital downloads for an Etsy marketplace.
 
 ${expansion}
 
-PRODUCT REQUIREMENTS:
+${brandSection}PRODUCT REQUIREMENTS:
 - Type: ${productLabel}
 - Niche: productivity
 - Must be immediately printable and usable without any editing
@@ -107,6 +117,7 @@ async function run() {
       distributionAttempts: 0,
       revenue: 0,
       createdAt: new Date().toISOString(),
+      themeId: pickRandomTheme(),
     };
     products.push(product);
     saveProducts(products);
@@ -123,7 +134,25 @@ async function run() {
   }
 
   const typeInfo = PRODUCT_TYPES.find(t => t.type === product.productType) || { label: product.productType };
-  const prompt = buildPrompt(product.productType, typeInfo.label, existingContent);
+
+  // Load brand and build context — themeId is locked once assigned
+  const brand = getBrand();
+  const themeId = product.themeId || pickRandomTheme();
+  if (!product.themeId) {
+    const idx0 = products.findIndex(p => p.id === product.id);
+    products[idx0].themeId = themeId;
+    saveProducts(products);
+  }
+  const brandContext = {
+    brandName: brand.name,
+    tagline: brand.tagline,
+    themeId,
+    themeDesc: describeTheme(themeId),
+    fontPrimary: brand.fontPrimary,
+    fontSecondary: brand.fontSecondary,
+  };
+
+  const prompt = buildPrompt(product.productType, typeInfo.label, existingContent, brandContext);
 
   let content;
   let callCost = 0;

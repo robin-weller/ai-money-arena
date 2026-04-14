@@ -23,6 +23,19 @@
     return Number(value || 0).toFixed(5);
   }
 
+  const THEME_META = {
+    themeA: { label: 'Clean Minimal', bg: '#E5E7EB', color: '#1F2937' },
+    themeB: { label: 'Bold Focus',    bg: '#22C55E', color: '#0F172A' },
+    themeC: { label: 'Warm Calm',     bg: '#FFE8D6', color: '#344E41' },
+  };
+
+  function renderThemeBadge(themeId) {
+    if (!themeId) return '<span style="color:#999">—</span>';
+    const m = THEME_META[themeId];
+    if (!m) return escapeHtml(themeId);
+    return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75em;font-weight:600;background:${m.bg};color:${m.color}">${escapeHtml(m.label)}</span>`;
+  }
+
   function formatTimestamp(value) {
     if (!value) return 'Unknown';
     const date = new Date(value);
@@ -87,7 +100,7 @@
 
     const products = Array.isArray(data.products) ? data.products : [];
     if (!products.length) {
-      body.innerHTML = '<tr><td colspan="6" class="empty">No products yet.</td></tr>';
+      body.innerHTML = '<tr><td colspan="7" class="empty">No products yet.</td></tr>';
       return;
     }
 
@@ -96,6 +109,7 @@
       return `<tr>
         <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
+        <td>${renderThemeBadge(p.themeId)}</td>
         <td style="text-align:right">$${formatMoney(p.aiCostTotal)}</td>
         <td style="text-align:right">${p.aiCalls || 0}</td>
         <td style="text-align:right">${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>

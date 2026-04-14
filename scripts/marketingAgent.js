@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { callGemini } = require('./gemini.js');
+const { getBrand, describeTheme } = require('./brand.js');
 
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 
@@ -15,9 +16,22 @@ function saveProducts(products) {
 }
 
 function buildMarketingPrompt(product, salesData) {
+  let brandSection = '';
+  try {
+    const brand = getBrand();
+    const themeId = product.themeId || 'themeA';
+    const themeDesc = describeTheme(themeId);
+    brandSection = `BRAND: ${brand.name} — "${brand.tagline}"
+Visual theme for thumbnail suggestions: ${themeDesc}
+Use these exact colors in thumbnail text suggestions (e.g. "white background, blue accents" for themeA).
+You must use the predefined brand and theme. Do not invent new styles or colors.
+
+`;
+  } catch { /* non-fatal */ }
+
   return `You are a digital product marketing expert specialising in Etsy marketplace optimisation.
 
-Product: ${product.title}
+${brandSection}Product: ${product.title}
 Type: ${product.productType}
 Primary listing title: ${salesData.title}
 Tags: ${(salesData.tags || []).join(', ')}

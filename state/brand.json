@@ -1,0 +1,35 @@
+{
+  "brand": {
+    "name": "Lazy Whippet",
+    "tagline": "Simple tools for better productivity",
+    "logo": "/assets/logo.png",
+    "fontPrimary": "Inter, sans-serif",
+    "fontSecondary": "Playfair Display, serif",
+    "themes": {
+      "themeA": {
+        "name": "Clean Minimal",
+        "background": "#FFFFFF",
+        "primary": "#1F2937",
+        "secondary": "#3B82F6",
+        "accent": "#E5E7EB",
+        "text": "#111827"
+      },
+      "themeB": {
+        "name": "Bold Focus",
+        "background": "#0F172A",
+        "primary": "#22C55E",
+        "secondary": "#F59E0B",
+        "accent": "#1E293B",
+        "text": "#F8FAFC"
+      },
+      "themeC": {
+        "name": "Warm Calm",
+        "background": "#FDF6EC",
+        "primary": "#6B705C",
+        "secondary": "#A5A58D",
+        "accent": "#FFE8D6",
+        "text": "#344E41"
+      }
+    }
+  }
+}

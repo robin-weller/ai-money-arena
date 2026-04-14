@@ -136,6 +136,7 @@ async function run() {
         isPublished: p.isPublished || false,
         aiCostTotal: p.aiCostTotal || 0,
         aiCalls: p.aiCalls || 0,
+        themeId: p.themeId || null,
       })),
     }, null, 2)
   );

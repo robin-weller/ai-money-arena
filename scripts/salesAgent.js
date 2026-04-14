@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { callGemini } = require('./gemini.js');
+const { getBrand, describeTheme } = require('./brand.js');
 
 const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 
@@ -15,9 +16,20 @@ function saveProducts(products) {
 }
 
 function buildSalesPrompt(product, productContent) {
+  let brandSection = '';
+  try {
+    const brand = getBrand();
+    brandSection = `BRAND: ${brand.name} — "${brand.tagline}"
+Include the brand name "${brand.name}" naturally once in the description.
+Keep tone simple, clean, and benefit-focused.
+You must use the predefined brand. Do not invent new styles or brand names.
+
+`;
+  } catch { /* brand load failure is non-fatal */ }
+
   return `You are an Etsy SEO expert creating a product listing for a productivity printable digital download.
 
-Product type: ${product.productType}
+${brandSection}Product type: ${product.productType}
 Product title: ${product.title}
 Product content preview:
 ${productContent.slice(0, 1200)}
@@ -73,6 +85,14 @@ async function run() {
       console.log(`[sales-agent] Invalid sales data for ${product.id}, skipping`);
       continue;
     }
+
+    // Soft-validate brand name presence in description
+    try {
+      const brand = getBrand();
+      if (salesData.description && !salesData.description.includes(brand.name)) {
+        console.log(`[sales-agent] Warning: brand name "${brand.name}" missing from description for ${product.id}`);
+      }
+    } catch { /* non-fatal */ }
 
     const salesPath = path.join(__dirname, '..', product.salesOutputPath);
     fs.mkdirSync(path.dirname(salesPath), { recursive: true });
