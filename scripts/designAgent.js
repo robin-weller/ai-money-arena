@@ -144,6 +144,7 @@ async function run() {
       // Ensure output directory exists
       fs.mkdirSync(productDir, { recursive: true });
 
+      const relBase     = `outputs/products/${product.id}`;
       const htmlPath    = path.join(productDir, 'product.html');
       const pdfPath     = path.join(productDir, 'product.pdf');
       const coverPath   = path.join(productDir, 'cover.png');
@@ -190,10 +191,10 @@ async function run() {
           products[idx].status = 'design_ready';
           products[idx].designReady = true;
           products[idx].designOutputPaths = {
-            html: htmlPath,
-            pdf: pdfPath,
-            cover: coverPath,
-            mockup: mockupPath,
+            html: `${relBase}/product.html`,
+            pdf: `${relBase}/product.pdf`,
+            cover: `${relBase}/cover.png`,
+            mockup: `${relBase}/mockup-1.png`,
           };
           products[idx].designCompletedAt = new Date().toISOString();
         }

@@ -23,10 +23,10 @@
     "themeId": "themeC",
     "designReady": true,
     "designOutputPaths": {
-      "html": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/product.html",
-      "pdf": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/product.pdf",
-      "cover": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/cover.png",
-      "mockup": "/Users/robinweller/projects/ai-money-arena/outputs/products/product-1776176436218/mockup-1.png"
+      "html": "outputs/products/product-1776176436218/product.html",
+      "pdf": "outputs/products/product-1776176436218/product.pdf",
+      "cover": "outputs/products/product-1776176436218/cover.png",
+      "mockup": "outputs/products/product-1776176436218/mockup-1.png"
     },
     "designCompletedAt": "2026-04-14T15:04:01.843Z"
   }
