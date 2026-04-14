@@ -35,17 +35,17 @@ function defaultCompletedFields() {
 }
 
 const FALLBACK_INVALID_MODEL_OUTPUT = {
-  action: "retry_next_run",
+  action: "expand_existing_product",
   status: "completed",
-  reason: "Model failed to produce valid output, will retry next cycle",
+  reason: "Model failed to expand the existing product, continue the same draft next cycle",
   task: null,
   ...defaultCompletedFields()
 };
 
 const FALLBACK_RUNTIME_FAILURE = {
-  action: "retry_next_run",
+  action: "expand_existing_product",
   status: "completed",
-  reason: "Runtime failure, will retry next cycle",
+  reason: "Runtime failure while expanding the existing product, continue the same draft next cycle",
   task: null,
   ...defaultCompletedFields()
 };
@@ -95,7 +95,11 @@ function defaultAgentState(agentName) {
     successfulOutputs: 0,
     isProductComplete: false,
     productCompletenessIssues: [],
-    publishReady: false
+    publishReady: false,
+    workingFileContent: "",
+    workingWordCount: 0,
+    workingPromptCount: 0,
+    completionPercent: 0
   };
 }
 
@@ -220,7 +224,11 @@ function ensureAgentState(agentName, trace) {
       productCompletenessIssues: Array.isArray(state.productCompletenessIssues)
         ? state.productCompletenessIssues.map((item) => trimString(item, 120)).filter(Boolean)
         : [],
-      publishReady: Boolean(state.publishReady)
+      publishReady: Boolean(state.publishReady),
+      workingFileContent: trimString(state.workingFileContent || "", 12000),
+      workingWordCount: Number.isFinite(Number(state.workingWordCount)) ? Number(state.workingWordCount) : 0,
+      workingPromptCount: Number.isFinite(Number(state.workingPromptCount)) ? Number(state.workingPromptCount) : 0,
+      completionPercent: Number.isFinite(Number(state.completionPercent)) ? Number(state.completionPercent) : 0
     };
 
     writeJson(agentFile, normalized);
@@ -414,6 +422,9 @@ function validateDecision(decision, expectedStage, agentState) {
     if (trimString(decision.action || "", 280) === "none") {
       issues.push("action_none");
     }
+    if (normalizedStage === "content" && hasExistingProduct(agentState) && trimString(decision.action || "", 280) !== "expand_existing_product") {
+      issues.push("must_expand_existing_product");
+    }
     if (normalizedStage !== expectedStage) {
       issues.push("invalid_stage");
     }
@@ -443,6 +454,70 @@ function countWords(value) {
   return trimString(value || "", 8000)
     .split(/\s+/)
     .filter(Boolean).length;
+}
+
+function countListItems(value) {
+  return String(value || "")
+    .split("\n")
+    .filter((line) => /^\s*(?:[-*]|\d+\.)\s+/.test(line)).length;
+}
+
+function clampPercent(value) {
+  return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
+}
+
+function hasExistingProduct(agentState) {
+  return Boolean(
+    trimString(agentState?.lastProductTitle || "", 200) &&
+      trimString(agentState?.lastListingTitle || "", 220)
+  );
+}
+
+function readExistingDraft(agentState) {
+  const storedDraft = trimString(agentState?.workingFileContent || "", 12000);
+  if (storedDraft) {
+    return storedDraft;
+  }
+
+  const outputPath = trimString(agentState?.lastOutputPath || "", 260);
+  if (!outputPath) {
+    return "";
+  }
+
+  const absolutePath = path.join(ROOT_DIR, outputPath);
+  try {
+    return fs.existsSync(absolutePath) ? trimString(fs.readFileSync(absolutePath, "utf8"), 12000) : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function buildFallbackDecision(agentState, reason, confidence = 0) {
+  return {
+    action: "expand_existing_product",
+    status: "completed",
+    reason: trimString(reason, 500),
+    task: null,
+    productTitle: trimString(agentState?.lastProductTitle || "", 200),
+    productType: trimString(agentState?.lastProductType || "", 120),
+    niche: trimString(agentState?.lastNiche || "", 160),
+    targetBuyer: trimString(agentState?.lastTargetBuyer || "", 200),
+    listingTitle: trimString(agentState?.lastListingTitle || "", 220),
+    shortDescription: "",
+    priceSuggestion: "",
+    price: Number(agentState?.lastPrice || 0),
+    description: "",
+    bullets: [],
+    redditPosts: [],
+    commentReplies: [],
+    suggestedCommunities: [],
+    suggestedSearchQueries: [],
+    linksShared: Array.isArray(agentState?.linksShared) ? agentState.linksShared : [],
+    burnerFriendly: false,
+    publishInstructions: "",
+    fileContent: readExistingDraft(agentState),
+    confidence: Math.max(0, Math.min(1, confidence))
+  };
 }
 
 function containsOutlineMarker(value) {
@@ -501,13 +576,22 @@ function hasSectionWithoutContent(sections, minimumWords = 20) {
   return sections.some((section) => section.heading && section.wordCount < minimumWords);
 }
 
+function isBulletOnlySection(sectionContent) {
+  const lines = String(sectionContent || "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  return Boolean(lines.length) && lines.every((line) => /^\s*(?:[-*]|\d+\.)\s+/.test(line));
+}
+
 function validatePromptPackContent(fileContent) {
   const prompts = extractPromptCandidates(fileContent);
   const sections = extractStructuredSections(fileContent);
   const issues = [];
 
-  if (prompts.length < 20) {
-    issues.push("prompt_pack_needs_20_prompts");
+  if (prompts.length < 25) {
+    issues.push("prompt_pack_needs_25_prompts");
   }
   if (prompts.some((prompt) => countWords(prompt) < 6)) {
     issues.push("prompt_pack_has_thin_prompts");
@@ -537,6 +621,9 @@ function validateMiniGuideContent(fileContent) {
   }
   if (realSections.some((section) => section.wordCount < 100)) {
     issues.push("mini_guide_has_short_section");
+  }
+  if (realSections.some((section) => isBulletOnlySection(section.content))) {
+    issues.push("mini_guide_has_bullet_only_section");
   }
 
   return {
@@ -629,6 +716,48 @@ function validateProductCompleteness(decision) {
     issues: uniqueStrings(issues),
     details: typeValidation
   };
+}
+
+function summarizeProductMetrics(decision) {
+  const productType = normalizeComparisonText(decision?.productType || "");
+  const fileContent = trimString(decision?.fileContent || "", 12000);
+
+  return {
+    wordCount: countWords(fileContent),
+    promptCount: productType.includes("prompt") ? extractPromptCandidates(fileContent).length : 0,
+    checklistItemCount: productType.includes("checklist") ? countListItems(fileContent) : 0
+  };
+}
+
+function calculateCompletionPercent(decision, completeness = validateProductCompleteness(decision)) {
+  if (completeness.isComplete) {
+    return 100;
+  }
+
+  const productType = normalizeComparisonText(decision?.productType || "");
+  const metrics = summarizeProductMetrics(decision);
+  const details = completeness.details || {};
+
+  if (productType.includes("prompt")) {
+    return clampPercent((metrics.promptCount / 25) * 100);
+  }
+  if (productType.includes("guide")) {
+    const wordProgress = Math.min(1, metrics.wordCount / 800);
+    const sectionProgress = Math.min(1, Number(details.sectionCount || 0) / 4);
+    const qualityPenalty =
+      details.issues && details.issues.length
+        ? Math.max(0.4, 1 - details.issues.length * 0.15)
+        : 1;
+    return clampPercent(((wordProgress + sectionProgress) / 2) * 100 * qualityPenalty);
+  }
+  if (productType.includes("checklist")) {
+    return clampPercent((Number(details.itemCount || metrics.checklistItemCount || 0) / 15) * 100);
+  }
+  if (productType.includes("template")) {
+    return clampPercent((trimString(decision?.fileContent || "", 12000).length / 300) * 100);
+  }
+
+  return clampPercent((trimString(decision?.fileContent || "", 12000).length / 400) * 100);
 }
 
 function hasRequiredPublishSteps(value) {
@@ -755,7 +884,21 @@ function hasProgress(decision, agentState) {
   }
 
   const reason = normalizeComparisonText(decision.reason);
-  return !matchesPreviousRun(decision, agentState) || reason.includes("pivot") || reason.includes("build") || reason.includes("continue");
+  const previousDraftLength = trimString(agentState.workingFileContent || "", 12000).length;
+  const nextDraftLength = trimString(decision.fileContent || "", 12000).length;
+  const previousCompletionPercent = Number(agentState.completionPercent || 0);
+  const nextCompletionPercent = calculateCompletionPercent(decision);
+
+  return (
+    !matchesPreviousRun(decision, agentState) ||
+    nextDraftLength > previousDraftLength ||
+    nextCompletionPercent > previousCompletionPercent ||
+    reason.includes("pivot") ||
+    reason.includes("build") ||
+    reason.includes("continue") ||
+    reason.includes("expand") ||
+    normalizeComparisonText(decision.action).includes("expand existing product")
+  );
 }
 
 function shouldPivot(agentState) {
@@ -764,8 +907,11 @@ function shouldPivot(agentState) {
 
 function determineExpectedStage(agentState) {
   const currentStage = normalizeStage(agentState.stage || "idea");
-  if (!agentState.lastProductTitle || !agentState.lastListingTitle) {
+  if (!hasExistingProduct(agentState)) {
     return "idea";
+  }
+  if (!agentState.isProductComplete) {
+    return "content";
   }
   if (currentStage === "publish") {
     return shouldPivot(agentState) ? "idea" : "publish";
@@ -774,6 +920,9 @@ function determineExpectedStage(agentState) {
 }
 
 function stageProgressMode(agentState, expectedStage) {
+  if (expectedStage === "content" && hasExistingProduct(agentState)) {
+    return "expanding";
+  }
   return expectedStage === "idea" && agentState.lastProductTitle ? "pivoting" : "progressing";
 }
 
@@ -810,17 +959,31 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     .slice(-3)
     .map((task) => `- ${task.agent}: ${task.title || task.task}`)
     .join("\n") || "- none";
+  const mustExpandExistingProduct = Boolean(options.mustExpandExistingProduct);
+  const existingDraft = trimString(options.existingDraft || "", 2400);
+  const existingMetrics = options.existingMetrics || {};
+  const missingIssues = Array.isArray(options.completenessIssues) && options.completenessIssues.length
+    ? options.completenessIssues.join(", ")
+    : "none";
 
   const prompt = [
     "You are an autonomous agent whose goal is to generate money.",
     "Choose exactly ONE concrete monetisation action for this run.",
     "You must either build on your previous output with a concrete improvement or pivot with a clear reason.",
     "If you already have a product, you must improve or expand it. Do NOT generate a new idea unless explicitly pivoting.",
+    "You must complete the existing product. Do not retry or restart. Expand it until it is fully usable.",
+    mustExpandExistingProduct ? "You already have a product draft. Continue building the same product and preserve the strong parts." : "",
+    mustExpandExistingProduct ? "If stage = content, you MUST expand the existing product instead of retrying or proposing a new idea." : "",
+    mustExpandExistingProduct ? "If the product is incomplete, regenerate ONLY the missing or weak sections. Do not discard existing work." : "",
+    mustExpandExistingProduct ? "Return the full updated product in fileContent, including the existing strong material plus the repaired sections." : "",
     "A product is only valid if it is fully usable without human editing.",
     "Do not produce outlines, skeletons, placeholders, or partial drafts.",
-    'If productType is "mini guide", fileContent must be a finished guide with at least 800 words and section headings, and every main section must contain at least 100 words of real written content.',
-    'If productType is "prompt pack", fileContent must contain at least 20 directly usable prompts with no bracket placeholders like [topic] or [audience].',
+    'If productType is "mini guide", fileContent must be a finished guide with at least 800 words, full written sections, and no bullet-only sections.',
+    'If productType is "prompt pack", fileContent must contain at least 25 directly usable prompts with no bracket placeholders like [topic] or [audience].',
     "If fileContent would contain the word outline, placeholder brackets, or empty sections, regenerate it before responding.",
+    mustExpandExistingProduct && options.expectedStage === "content"
+      ? 'Set "action" to exactly "expand_existing_product".'
+      : "",
     options.expectedStage === "listing" || options.expectedStage === "publish"
       ? "For listing or publish stage, you MUST create a publish-ready Gumroad listing and include the required approval task."
       : "",
@@ -915,6 +1078,11 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     `Published URL: ${trimString(agentState.publishedUrl || "none", 500)}`,
     `Distribution attempts so far: ${Number(agentState.distributionAttempts || 0)}`,
     `Links already shared: ${Array.isArray(agentState.linksShared) && agentState.linksShared.length ? agentState.linksShared.join(", ") : "none"}`,
+    `Current draft completion: ${Number(existingMetrics.completionPercent || agentState.completionPercent || 0)}%`,
+    `Current draft word count: ${Number(existingMetrics.wordCount || agentState.workingWordCount || 0)}`,
+    `Current draft prompt count: ${Number(existingMetrics.promptCount || agentState.workingPromptCount || 0)}`,
+    `Current draft issues: ${missingIssues}`,
+    mustExpandExistingProduct ? `Current draft content:\n${existingDraft || "- none yet"}` : "",
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
@@ -947,6 +1115,7 @@ function extractPromptCandidates(text) {
     .map((line) => line.trim())
     .filter(Boolean);
   const candidates = lines
+    .filter((line) => /^\s*(?:[-*]|\d+\.)\s+/.test(line))
     .map((line) => line.replace(/^\s*(?:[-*]|\d+\.)\s+/, "").trim())
     .filter((line) => line.length >= 20);
 
@@ -1129,6 +1298,7 @@ function saveOutput(agentName, now, finalDecision) {
   const outputPath = path.join(agentOutputDir, fileName);
   const latestPath = path.join(agentOutputDir, "latest.json");
   const renderedAssets = renderPublishAssets(finalDecision);
+  const renderedMetrics = summarizeProductMetrics({ productType: finalDecision.productType, fileContent: renderedAssets.markdown });
   finalDecision.price = renderedAssets.price;
   finalDecision.priceSuggestion = String(renderedAssets.price.toFixed(2));
   finalDecision.publishInstructions = renderedAssets.publishInstructions;
@@ -1159,6 +1329,9 @@ function saveOutput(agentName, now, finalDecision) {
      fileContent: finalDecision.fileContent,
      productComplete: true,
      completenessIssues: [],
+     wordCount: Number(renderedMetrics.wordCount || 0),
+     promptCount: Number(renderedMetrics.promptCount || 0),
+     completionPercent: 100,
      markdownFile: path.relative(ROOT_DIR, markdownPath),
     textFile: path.relative(ROOT_DIR, textPath),
     confidence: finalDecision.confidence,
@@ -1192,6 +1365,8 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
   const latestTask = finalDecision.task ? finalDecision.task : null;
   const publishedUrl = trimString(agentState.publishedUrl || "", 500);
   const productCompleteness = validateProductCompleteness(finalDecision);
+  const productMetrics = summarizeProductMetrics(finalDecision);
+  const completionPercent = calculateCompletionPercent(finalDecision, productCompleteness);
   const hasUsableOutput = isUsableCompletedDecision(finalDecision);
   const isCompleteProduct = hasUsableOutput && productCompleteness.isComplete;
   const distributionUrls = uniqueStrings([
@@ -1252,6 +1427,12 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
         : Array.isArray(agentState.productCompletenessIssues)
           ? agentState.productCompletenessIssues
           : [],
+    workingFileContent: hasUsableOutput
+      ? trimString(finalDecision.fileContent || "", 12000)
+      : trimString(agentState.workingFileContent || "", 12000),
+    workingWordCount: hasUsableOutput ? Number(productMetrics.wordCount || 0) : Number(agentState.workingWordCount || 0),
+    workingPromptCount: hasUsableOutput ? Number(productMetrics.promptCount || 0) : Number(agentState.workingPromptCount || 0),
+    completionPercent: hasUsableOutput ? completionPercent : Number(agentState.completionPercent || 0),
     publishReady:
       hasUsableOutput
         ? Boolean(
@@ -1319,6 +1500,9 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     isPublished: Boolean(publishedUrl),
     productComplete: isCompleteProduct,
     productCompletenessIssues: productCompleteness.issues,
+    wordCount: Number(productMetrics.wordCount || 0),
+    promptCount: Number(productMetrics.promptCount || 0),
+    completionPercent,
     distributionAttempts: Number(nextAgentState.distributionAttempts || 0),
     burnerFriendly: Boolean(finalDecision.burnerFriendly),
     publishInstructions: finalDecision.publishInstructions || "",
@@ -1361,6 +1545,27 @@ async function runWorker(agentName) {
     const currentStage = normalizeStage(agentState.stage || "idea");
     const expectedStage = determineExpectedStage(agentState);
     const progressMode = stageProgressMode(agentState, expectedStage);
+    const mustExpandExistingProduct = Boolean(expectedStage === "content" && hasExistingProduct(agentState));
+    const existingDraft = readExistingDraft(agentState);
+    const existingDraftDecision = mustExpandExistingProduct
+      ? {
+          productType: agentState.lastProductType,
+          fileContent: existingDraft
+        }
+      : null;
+    const existingDraftCompleteness = existingDraftDecision
+      ? validateProductCompleteness(existingDraftDecision)
+      : { isComplete: false, issues: [] };
+    const existingDraftMetrics = existingDraftDecision
+      ? {
+          ...summarizeProductMetrics(existingDraftDecision),
+          completionPercent: calculateCompletionPercent(existingDraftDecision, existingDraftCompleteness)
+        }
+      : {
+          wordCount: Number(agentState.workingWordCount || 0),
+          promptCount: Number(agentState.workingPromptCount || 0),
+          completionPercent: Number(agentState.completionPercent || 0)
+        };
     const latestOutputs = collectLatestOutputs(agentName);
     const latestOutputsText =
       latestOutputs
@@ -1374,7 +1579,14 @@ async function runWorker(agentName) {
       currentStage,
       expectedStage,
       stageGoal: getStageGoal(expectedStage),
-      progressMode
+      progressMode,
+      mustExpandExistingProduct,
+      existingDraft,
+      completenessIssues:
+        mustExpandExistingProduct && existingDraftCompleteness.issues.length
+          ? existingDraftCompleteness.issues
+          : agentState.productCompletenessIssues,
+      existingMetrics: existingDraftMetrics
     });
     if (!prompt || !prompt.trim()) {
       throw new Error("Generated prompt is empty.");
@@ -1421,14 +1633,24 @@ async function runWorker(agentName) {
           expectedStage,
           stageGoal: getStageGoal(expectedStage),
           progressMode,
+          mustExpandExistingProduct,
+          existingDraft,
+          completenessIssues: validation.completeness?.issues?.length
+            ? validation.completeness.issues
+            : agentState.productCompletenessIssues,
+          existingMetrics: existingDraftMetrics,
           retryInstruction:
-            "Your previous response was invalid. You must return complete, valid JSON with all required fields."
+            mustExpandExistingProduct
+              ? "Your previous response was invalid. Keep the same product, preserve usable material, and expand only the missing sections until the draft is complete."
+              : "Your previous response was invalid. You must return complete, valid JSON with all required fields."
         });
         continue;
       }
 
       if (!validation.isValid) {
-        finalDecision = { ...FALLBACK_INVALID_MODEL_OUTPUT };
+        finalDecision = hasExistingProduct(agentState)
+          ? buildFallbackDecision(agentState, "The model returned invalid output while expanding the existing product. Keep the same draft and continue filling missing sections.")
+          : { ...FALLBACK_INVALID_MODEL_OUTPUT };
         duplicateStatus = "original";
         break;
       }
@@ -1439,7 +1661,9 @@ async function runWorker(agentName) {
       const stageOkay =
         finalDecision.status !== "completed" || (isValidStageTransition(expectedStage, expectedStage) && hasSubstantiveContentForStage(finalDecision, expectedStage));
       const duplicateCheck =
-        finalDecision.status === "completed" ? classifyDuplicate(finalDecision, latestOutputs) : { isDuplicate: false, duplicateWith: "" };
+        finalDecision.status === "completed" && !mustExpandExistingProduct
+          ? classifyDuplicate(finalDecision, latestOutputs)
+          : { isDuplicate: false, duplicateWith: "" };
 
       if (finalDecision.status === "completed" && progressOkay && stageOkay && !duplicateCheck.isDuplicate) {
         duplicateStatus = "original";
@@ -1455,7 +1679,13 @@ async function runWorker(agentName) {
           expectedStage,
           stageGoal: getStageGoal(expectedStage),
           progressMode,
-          retryInstruction: `Retry once. Your last output was too similar to ${duplicateCheck.duplicateWith || "another agent"}. Choose a different niche or product type and return a distinct sellable draft.`
+          mustExpandExistingProduct,
+          existingDraft,
+          completenessIssues: validation.completeness?.issues || agentState.productCompletenessIssues,
+          existingMetrics: existingDraftMetrics,
+          retryInstruction: mustExpandExistingProduct
+            ? "Your last response stayed too close to the current draft without materially improving it. Keep the same product and add the missing sections or missing prompts so completion percentage increases."
+            : `Your last output was too similar to ${duplicateCheck.duplicateWith || "another agent"}. Choose a different niche or product type and return a distinct sellable draft.`
         });
         continue;
       }
@@ -1465,7 +1695,9 @@ async function runWorker(agentName) {
         finalDecision.confidence = Math.min(finalDecision.confidence || 0.35, 0.35);
         finalDecision.reason = trimString(`${finalDecision.reason} Duplicate risk remained after retry.`, 500);
       } else if (finalDecision.status === "completed" && (!progressOkay || !stageOkay)) {
-        finalDecision = { ...FALLBACK_INVALID_MODEL_OUTPUT };
+        finalDecision = hasExistingProduct(agentState)
+          ? buildFallbackDecision(agentState, "The agent did not add enough new substance. Keep the same product and continue expanding the missing content.")
+          : { ...FALLBACK_INVALID_MODEL_OUTPUT };
         duplicateStatus = "original";
       }
       break;
@@ -1475,7 +1707,6 @@ async function runWorker(agentName) {
     trace.push("save");
     const shouldAdvanceStage = Boolean(
       finalDecision.status === "completed" &&
-        trimString(finalDecision.action || "", 280) !== "retry_next_run" &&
         trimString(finalDecision.productTitle || "", 200) &&
         trimString(finalDecision.listingTitle || "", 220) &&
         (expectedStage === "idea" || validateProductCompleteness(finalDecision).isComplete)
@@ -1508,6 +1739,12 @@ async function runWorker(agentName) {
     trace.push(`error:${stepReached}`);
 
     const fallbackDecision = { ...FALLBACK_RUNTIME_FAILURE };
+    if (hasExistingProduct(agentState)) {
+      Object.assign(
+        fallbackDecision,
+        buildFallbackDecision(agentState, "Runtime failure while expanding the existing product. Keep the same draft and continue next cycle.")
+      );
+    }
     try {
       stepReached = "save";
       trace.push("save");
@@ -1559,6 +1796,8 @@ module.exports = {
   extractJson,
   normalizeStage,
   validateProductCompleteness,
+  summarizeProductMetrics,
+  calculateCompletionPercent,
   hasSubstantiveContentForStage,
   isPublishReadyListing
 };

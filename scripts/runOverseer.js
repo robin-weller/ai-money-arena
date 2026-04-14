@@ -29,6 +29,99 @@ function writeJson(filePath, data) {
   fs.renameSync(tempPath, filePath);
 }
 
+function trimString(value, maxLength) {
+  return String(value || "").trim().replace(/^["']+|["']+$/g, "").slice(0, maxLength);
+}
+
+function normalizeComparisonText(value) {
+  return trimString(value || "", 240)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function countWords(value) {
+  return trimString(value || "", 12000)
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+function countPromptItems(value) {
+  return Array.from(
+    new Set(
+      String(value || "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => /^\s*(?:[-*]|\d+\.)\s+/.test(line))
+        .map((line) => line.replace(/^\s*(?:[-*]|\d+\.)\s+/, "").trim())
+        .filter(Boolean)
+    )
+  ).length;
+}
+
+function loadDraftContent(agent) {
+  const workingDraft = trimString(agent.workingFileContent || "", 12000);
+  if (workingDraft) {
+    return workingDraft;
+  }
+
+  const outputPath = trimString(agent.lastOutputPath || "", 260);
+  if (!outputPath) {
+    return "";
+  }
+
+  const absolutePath = path.join(ROOT_DIR, outputPath);
+  try {
+    return fs.existsSync(absolutePath) ? trimString(fs.readFileSync(absolutePath, "utf8"), 12000) : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function computeCompletionPercent(agent, draftContent, wordCount, promptCount) {
+  if (Number(agent.completionPercent || 0) > 0) {
+    return Number(agent.completionPercent || 0);
+  }
+  if (agent.isProductComplete) {
+    return 100;
+  }
+
+  const productType = normalizeComparisonText(agent.lastProductType || "");
+  if (productType.includes("prompt")) {
+    return Math.max(0, Math.min(100, Math.round((promptCount / 25) * 100)));
+  }
+  if (productType.includes("guide")) {
+    return Math.max(0, Math.min(100, Math.round((wordCount / 800) * 100)));
+  }
+  if (productType.includes("checklist")) {
+    const checklistItems = String(draftContent || "")
+      .split("\n")
+      .filter((line) => /^\s*(?:[-*]|\d+\.)\s+/.test(line)).length;
+    return Math.max(0, Math.min(100, Math.round((checklistItems / 15) * 100)));
+  }
+
+  return Math.max(0, Math.min(100, Math.round((trimString(draftContent || "", 12000).length / 400) * 100)));
+}
+
+function summarizeAgentProgress(agent) {
+  const draftContent = loadDraftContent(agent);
+  const wordCount = Number(agent.workingWordCount || 0) || countWords(draftContent);
+  const promptCount = Number(agent.workingPromptCount || 0) || countPromptItems(draftContent);
+  const completionPercent = computeCompletionPercent(agent, draftContent, wordCount, promptCount);
+
+  return {
+    wordCount,
+    promptCount,
+    completionPercent
+  };
+}
+
+function normalizeDisplayedAction(action) {
+  const normalized = trimString(action || "", 280);
+  return normalized === "retry_next_run" ? "expand_existing_product" : normalized;
+}
+
 function getAgentStates() {
   return fs
     .readdirSync(AGENTS_DIR)
@@ -70,6 +163,7 @@ function buildLeaderboard(agentStates) {
         const revenue = Number(agent.revenue || 0);
         const cost = Number(agent.cost || 0);
         const profit = Number((revenue - cost).toFixed(2));
+        const progress = summarizeAgentProgress(agent);
 
         return {
           name: agent.name,
@@ -78,7 +172,7 @@ function buildLeaderboard(agentStates) {
           cost,
           profit,
           status: agent.status,
-          lastAction: agent.lastAction || "",
+          lastAction: normalizeDisplayedAction(agent.lastAction || ""),
           lastRunAt: agent.lastRunAt || "",
           lastProductTitle: agent.lastProductTitle || "",
           lastListingTitle: agent.lastListingTitle || "",
@@ -97,7 +191,10 @@ function buildLeaderboard(agentStates) {
           lastDuplicateStatus: agent.lastDuplicateStatus || "original",
           stage: agent.stage || "idea",
           lastProgressMode: agent.lastProgressMode || "progressing",
-          publishReady: Boolean(agent.publishReady)
+          publishReady: Boolean(agent.publishReady),
+          completionPercent: progress.completionPercent,
+          wordCount: progress.wordCount,
+          promptCount: progress.promptCount
         };
       })
       .sort((a, b) => b.profit - a.profit)
@@ -113,7 +210,7 @@ function buildTelegramSummary(leaderboard, openTasks) {
     const readyFlag = agent.publishReady ? "READY TO PUBLISH" : "IN PROGRESS";
     const liveFlag = agent.publishedUrl ? "LIVE" : "NOT LIVE";
     lines.push(
-      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | file=${agent.lastOutputFile || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ready=${agent.assetReady ? "yes" : "no"} | ${readyFlag} | ${liveFlag} | distributionAttempts=${Number(agent.distributionAttempts || 0)} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
+      `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | file=${agent.lastOutputFile || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ready=${agent.assetReady ? "yes" : "no"} | ${readyFlag} | ${liveFlag} | progress=${Number(agent.completionPercent || 0)}% | words=${Number(agent.wordCount || 0)} | prompts=${Number(agent.promptCount || 0)} | distributionAttempts=${Number(agent.distributionAttempts || 0)} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
     );
   }
 
