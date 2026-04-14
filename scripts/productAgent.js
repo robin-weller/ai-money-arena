@@ -8,16 +8,26 @@ const PRODUCTS_PATH = path.join(__dirname, '../state/products.json');
 const OUTPUTS_DIR = path.join(__dirname, '../outputs/products');
 
 const PRODUCT_TYPES = [
-  { type: 'daily-planner', label: 'Daily Planner' },
-  { type: 'weekly-planner', label: 'Weekly Planner' },
-  { type: 'habit-tracker', label: '30-Day Habit Tracker' },
-  { type: 'goal-tracker', label: 'Goal Tracker & Action Planner' },
-  { type: 'time-blocking-template', label: 'Time Blocking Schedule Template' },
-  { type: 'task-priority-system', label: 'Task Priority & To-Do System' },
-  { type: 'morning-routine-checklist', label: 'Morning Routine Checklist' },
-  { type: 'meal-planner', label: 'Weekly Meal Planner' },
-  { type: 'study-planner', label: 'Study Schedule & Planner' },
-  { type: 'project-planner', label: 'Project Planning Template' },
+  { type: 'daily-planner', label: 'Daily Planner', keywords: ['daily', 'planner', 'schedule'] },
+  { type: 'weekly-planner', label: 'Weekly Planner', keywords: ['weekly', 'planner', 'week'] },
+  { type: 'habit-tracker', label: '30-Day Habit Tracker', keywords: ['habit', 'tracker', '30-day'] },
+  { type: 'goal-tracker', label: 'Goal Tracker & Action Planner', keywords: ['goal', 'tracker', 'action'] },
+  { type: 'time-blocking-template', label: 'Time Blocking Schedule Template', keywords: ['time', 'blocking', 'schedule'] },
+  { type: 'task-priority-system', label: 'Task Priority & To-Do System', keywords: ['task', 'priority', 'todo'] },
+  { type: 'morning-routine-checklist', label: 'Morning Routine Checklist', keywords: ['morning', 'routine', 'checklist'] },
+  { type: 'meal-planner', label: 'Weekly Meal Planner', keywords: ['meal', 'planner', 'weekly'] },
+  { type: 'study-planner', label: 'Study Schedule & Planner', keywords: ['study', 'schedule', 'student'] },
+  { type: 'project-planner', label: 'Project Planning Template', keywords: ['project', 'planning', 'template'] },
+  { type: 'fitness-habit-tracker', label: 'Fitness & Workout Habit Tracker', keywords: ['fitness', 'workout', 'habit'] },
+  { type: 'adhd-planner', label: 'ADHD-Friendly Daily Planner', keywords: ['adhd', 'daily', 'focus'] },
+  { type: 'student-study-tracker', label: 'Student Study & Grade Tracker', keywords: ['student', 'study', 'grade'] },
+  { type: 'morning-routine-habit-tracker', label: 'Morning Routine Habit Tracker', keywords: ['morning', 'habit', 'routine'] },
+  { type: 'budget-planner', label: 'Monthly Budget & Expense Tracker', keywords: ['budget', 'expense', 'monthly'] },
+  { type: 'reading-tracker', label: 'Reading Log & Book Tracker', keywords: ['reading', 'book', 'log'] },
+  { type: 'self-care-tracker', label: 'Self-Care & Wellness Tracker', keywords: ['self-care', 'wellness', 'health'] },
+  { type: 'work-from-home-planner', label: 'Work From Home Daily Planner', keywords: ['work', 'home', 'remote'] },
+  { type: 'content-creator-planner', label: 'Content Creator Weekly Planner', keywords: ['content', 'creator', 'social'] },
+  { type: 'gratitude-journal', label: 'Daily Gratitude Journal Template', keywords: ['gratitude', 'journal', 'mindset'] },
 ];
 
 function loadProducts() {
@@ -28,6 +38,37 @@ function loadProducts() {
 function saveProducts(products) {
   fs.mkdirSync(path.dirname(PRODUCTS_PATH), { recursive: true });
   fs.writeFileSync(PRODUCTS_PATH, JSON.stringify(products, null, 2));
+}
+
+// Returns a simple fingerprint string for a product type
+function makeFingerprint(type) {
+  const t = PRODUCT_TYPES.find(p => p.type === type);
+  return t ? t.keywords.slice().sort().join('|') : type;
+}
+
+// Check if a candidate type is too similar to any existing product
+function isTooSimilar(candidateType, existingProducts) {
+  const candidateFp = makeFingerprint(candidateType);
+  const candidateKws = new Set(candidateFp.split('|'));
+  for (const p of existingProducts) {
+    const existingFp = makeFingerprint(p.productType);
+    const existingKws = existingFp.split('|');
+    const overlap = existingKws.filter(k => candidateKws.has(k)).length;
+    // Same type or ≥2 overlapping keywords = too similar
+    if (p.productType === candidateType || overlap >= 2) return true;
+  }
+  return false;
+}
+
+function pickProductType(existingProducts) {
+  // Prefer types with no existing product at all
+  const notUsed = PRODUCT_TYPES.filter(t => !existingProducts.some(p => p.productType === t.type));
+  const dissimilar = notUsed.filter(t => !isTooSimilar(t.type, existingProducts));
+  const pool = dissimilar.length > 0 ? dissimilar
+    : notUsed.length > 0 ? notUsed
+    : PRODUCT_TYPES.filter(t => !isTooSimilar(t.type, existingProducts));
+  const fallback = pool.length > 0 ? pool : PRODUCT_TYPES;
+  return fallback[Math.floor(Math.random() * fallback.length)];
 }
 
 function countElements(content) {
@@ -95,10 +136,8 @@ async function run() {
   let product = products.find(p => p.status === 'building');
 
   if (!product) {
-    const usedTypes = products.map(p => p.productType);
-    const available = PRODUCT_TYPES.filter(t => !usedTypes.includes(t.type));
-    const pool = available.length > 0 ? available : PRODUCT_TYPES;
-    const chosen = pool[Math.floor(Math.random() * pool.length)];
+    const chosen = pickProductType(products);
+    console.log(`[product-agent] Selected type: ${chosen.type} (existing: ${products.map(p => p.productType).join(', ') || 'none'})`)
 
     const id = `product-${Date.now()}`;
     product = {

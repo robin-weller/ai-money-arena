@@ -43,8 +43,42 @@ function applyTheme(template, brand, theme) {
     .replace(/\{\{BRAND_NAME\}\}/g, escapeHtml(brand.name));
 }
 
+function wrapSections(html) {
+  // Wrap each h2 block in a .section div for page-break-inside: avoid
+  // Also insert explicit page breaks before large tables (>20 rows)
+  const lines = html.split('\n');
+  const out = [];
+  let inSection = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (/<h2[^>]*>/.test(line)) {
+      if (inSection) out.push('</div>'); // close previous section
+      out.push('<div class="section">');
+      inSection = true;
+    }
+    out.push(line);
+  }
+  if (inSection) out.push('</div>');
+  return out.join('\n');
+}
+
+function insertPageBreaksForLargeTables(html) {
+  // Find <table> elements with many <tr> rows and split them
+  return html.replace(/<table[\s\S]*?<\/table>/g, (tableHtml) => {
+    const rows = (tableHtml.match(/<tr/g) || []).length;
+    if (rows > 20) {
+      // Wrap in a page-break div
+      return `<div class="page-break"></div>${tableHtml}`;
+    }
+    return tableHtml;
+  });
+}
+
 function renderProductHtml(productContent, product, brand, theme) {
-  const contentHtml = marked.parse(productContent);
+  const rawHtml = marked.parse(productContent);
+  const sectioned = wrapSections(rawHtml);
+  const contentHtml = insertPageBreaksForLargeTables(sectioned);
   let html = loadTemplate('product.html');
   html = applyTheme(html, brand, theme);
   html = html.replace(/\{\{TITLE\}\}/g, escapeHtml(product.title));

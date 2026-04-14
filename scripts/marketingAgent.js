@@ -37,13 +37,13 @@ Primary listing title: ${salesData.title}
 Tags: ${(salesData.tags || []).join(', ')}
 Description: ${(salesData.description || '').slice(0, 300)}
 
-Create marketplace marketing materials. Return ONLY valid JSON (no markdown, no explanation):
+Create marketplace marketing materials using benefit-first positioning. Return ONLY valid JSON (no markdown, no explanation):
 
 {
   "alternativeTitles": [
-    "alternative Etsy title A for A/B testing (under 140 chars)",
-    "alternative Etsy title B for A/B testing (under 140 chars)",
-    "alternative Etsy title C for A/B testing (under 140 chars)"
+    "alternative Etsy title A — benefit-first, keyword-rich, under 140 chars",
+    "alternative Etsy title B — different benefit angle, under 140 chars",
+    "alternative Etsy title C — different audience angle, under 140 chars"
   ],
   "keywordVariations": ["kw1", "kw2", "kw3", "kw4", "kw5", "kw6", "kw7", "kw8", "kw9", "kw10"],
   "thumbnailTextSuggestions": [
@@ -52,15 +52,20 @@ Create marketplace marketing materials. Return ONLY valid JSON (no markdown, no 
     "Thumbnail text 3 under 30 chars"
   ],
   "positioningAngles": [
-    "positioning angle 1 in one sentence",
-    "positioning angle 2 in one sentence",
-    "positioning angle 3 in one sentence"
+    "benefit-first angle 1: lead with what the buyer gains",
+    "benefit-first angle 2: lead with the transformation or result",
+    "benefit-first angle 3: lead with who it's perfect for"
   ],
-  "targetBuyer": "one sentence: who is this for",
-  "mainBenefit": "single most compelling benefit in one sentence"
+  "targetBuyer": "one sentence: who is this for and what problem does it solve",
+  "mainBenefit": "single most compelling benefit in one sentence — start with a strong verb"
 }
 
-Focus on Etsy search and conversion. No social media posts. No placeholders.`;
+RULES:
+- All alternative titles must follow: [Keyword] | [Benefit] | [Format]
+- Format words: Printable, PDF, Digital Download, Instant Download PDF
+- Do NOT start any title with the brand name
+- Focus on Etsy search and conversion
+- No social media posts, no placeholders`;
 }
 
 async function run() {

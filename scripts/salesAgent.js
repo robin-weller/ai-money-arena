@@ -37,7 +37,7 @@ ${productContent.slice(0, 1200)}
 Create an Etsy-optimised listing. Return ONLY valid JSON with this exact structure (no markdown, no explanation):
 
 {
-  "title": "keyword-rich Etsy title under 140 chars, include words like printable, planner, digital download, instant download, PDF",
+  "title": "...",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "tag10", "tag11", "tag12", "tag13"],
   "description": "full Etsy product description 150-250 words: what it is, what's included, benefits, how to use, ideal for who",
   "category": "Paper & Party Supplies",
@@ -45,12 +45,26 @@ Create an Etsy-optimised listing. Return ONLY valid JSON with this exact structu
   "shortSummary": "one sentence under 80 chars"
 }
 
-RULES:
+TITLE RULES (critical — follow exactly):
+- Format: [Primary Keyword] | [Clear Benefit] | [Format]
+- Examples:
+    "Weekly Productivity Planner Printable | Plan Your Week in Minutes | Instant Download PDF"
+    "30-Day Habit Tracker Printable | Build Better Habits Fast | Digital Download"
+    "Daily Schedule Template | Stay Focused & Get More Done | Printable PDF"
+- The primary keyword must come FIRST (not the brand name)
+- Must include the main search keyword at the start
+- Must include a clear benefit (what the buyer gets/feels)
+- Must end with the format: Printable, PDF, Digital Download, or Instant Download PDF
+- Do NOT start the title with the brand name "${(brandSection.match(/Brand: ([^—]+)/) || [])[1] || 'Lazy Whippet'}}"
+- Under 140 characters
+
+OTHER RULES:
 - Exactly 13 tags, each under 20 characters
 - Price between 3.00 and 7.00
 - No placeholders
 - Tags should be common Etsy search terms for productivity printables
-- Description should be natural, benefit-focused language`;
+- Description should be natural, benefit-focused language
+- Brand name may appear once in the description only, not the title`;
 }
 
 async function run() {
@@ -86,9 +100,18 @@ async function run() {
       continue;
     }
 
-    // Soft-validate brand name presence in description
+    // Validate title format: must not start with brand name, must include format word
     try {
       const brand = getBrand();
+      const title = salesData.title;
+      const formatWords = ['printable', 'pdf', 'digital download', 'instant download'];
+      const hasFormat = formatWords.some(w => title.toLowerCase().includes(w));
+      if (title.toLowerCase().startsWith(brand.name.toLowerCase())) {
+        console.log(`[sales-agent] Warning: title starts with brand name for ${product.id} — "${title}"`);
+      }
+      if (!hasFormat) {
+        console.log(`[sales-agent] Warning: title missing format word for ${product.id} — "${title}"`);
+      }
       if (salesData.description && !salesData.description.includes(brand.name)) {
         console.log(`[sales-agent] Warning: brand name "${brand.name}" missing from description for ${product.id}`);
       }
