@@ -1,13 +1,24 @@
 {
-  "generatedAt": "2026-04-14T14:15:57.005Z",
-  "totalProducts": 0,
+  "generatedAt": "2026-04-14T14:20:46.899Z",
+  "totalProducts": 1,
   "totalRevenue": 0,
   "byStage": {
     "idea": [],
     "building": [],
     "ready_to_ship": [],
     "ready_to_market": [],
-    "ready_to_distribute": [],
+    "ready_to_distribute": [
+      {
+        "id": "product-1776176436218",
+        "title": "30-Day Productivity Power-Up Habit Tracker",
+        "productType": "habit-tracker",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 45,
+        "createdAt": "2026-04-14T14:20:36.218Z",
+        "completedAt": "2026-04-14T14:20:43.028Z"
+      }
+    ],
     "live": []
   }
 }

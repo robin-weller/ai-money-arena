@@ -1,4 +1,19 @@
 {
-  "generatedAt": "2026-04-14T14:15:57.006Z",
-  "products": []
+  "generatedAt": "2026-04-14T14:20:46.899Z",
+  "products": [
+    {
+      "id": "product-1776176436218",
+      "title": "30-Day Productivity Power-Up Habit Tracker",
+      "productType": "habit-tracker",
+      "status": "ready_to_distribute",
+      "price": 4.99,
+      "revenue": 0,
+      "elementCount": 45,
+      "isPublished": false,
+      "publishedUrl": "",
+      "createdAt": "2026-04-14T14:20:36.218Z",
+      "completedAt": "2026-04-14T14:20:43.028Z",
+      "salesTitle": "30-Day Productivity Power-Up Habit Tracker Printable | Digital Download PDF Planner | Instant Download Habit Journal"
+    }
+  ]
 }
