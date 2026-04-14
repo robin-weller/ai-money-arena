@@ -94,11 +94,43 @@ function defaultAgentState(agentName: string) {
     lastOutputPath: "",
     lastConfidence: 0,
     lastDuplicateStatus: "original",
+    stage: "idea",
+    lastProgressMode: "progressing",
     attempts: 0,
     uniqueNichesTried: [],
     duplicateHits: 0,
     successfulOutputs: 0
   };
+}
+
+function normalizeStage(stage: string): "idea" | "outline" | "content" | "listing" {
+  return ["idea", "outline", "content", "listing"].includes(stage) ? (stage as "idea" | "outline" | "content" | "listing") : "idea";
+}
+
+function nextStage(currentStage: "idea" | "outline" | "content" | "listing"): "idea" | "outline" | "content" | "listing" {
+  if (currentStage === "idea") {
+    return "outline";
+  }
+  if (currentStage === "outline") {
+    return "content";
+  }
+  if (currentStage === "content") {
+    return "listing";
+  }
+  return "listing";
+}
+
+function getStageGoal(stage: "idea" | "outline" | "content" | "listing"): string {
+  if (stage === "idea") {
+    return "Create a concrete product idea and draft listing title.";
+  }
+  if (stage === "outline") {
+    return "Expand the existing product into a clear outline with sections, components, or structure.";
+  }
+  if (stage === "content") {
+    return "Generate real usable product content with no placeholders.";
+  }
+  return "Create or improve the listing so it is close to publish-ready.";
 }
 
 function readJson<T>(filePath: string, fallback?: T): T {
@@ -169,6 +201,8 @@ function ensureAgentState(agentName: string, trace: string[]) {
       lastOutputPath: trimString(state.lastOutputPath || "", 260),
       lastConfidence: Number.isFinite(Number(state.lastConfidence)) ? Number(state.lastConfidence) : 0,
       lastDuplicateStatus: trimString(state.lastDuplicateStatus || "original", 40) || "original",
+      stage: normalizeStage(state.stage || fallback.stage),
+      lastProgressMode: trimString(state.lastProgressMode || "progressing", 40) || "progressing",
       attempts: Number.isFinite(Number(state.attempts)) ? Number(state.attempts) : 0,
       uniqueNichesTried: Array.isArray(state.uniqueNichesTried)
         ? state.uniqueNichesTried.map((item: unknown) => trimString(item, 160)).filter(Boolean)
@@ -343,6 +377,53 @@ function hasProgress(decision: WorkerDecision, agentState: any): boolean {
   return !matchesPreviousRun(decision, agentState) || reason.includes("pivot") || reason.includes("build") || reason.includes("continue");
 }
 
+function shouldPivot(agentState: any): boolean {
+  return Number(agentState.lastConfidence || 0) < 0.5 || Number(agentState.duplicateHits || 0) >= 2;
+}
+
+function determineExpectedStage(agentState: any): "idea" | "outline" | "content" | "listing" {
+  const currentStage = normalizeStage(agentState.stage || "idea");
+  if (!agentState.lastProductTitle || !agentState.lastListingTitle) {
+    return "idea";
+  }
+  if (currentStage === "listing") {
+    return shouldPivot(agentState) ? "idea" : "listing";
+  }
+  return nextStage(currentStage);
+}
+
+function stageProgressMode(agentState: any, expectedStage: "idea" | "outline" | "content" | "listing"): "progressing" | "pivoting" {
+  return expectedStage === "idea" && agentState.lastProductTitle ? "pivoting" : "progressing";
+}
+
+function hasSubstantiveContentForStage(decision: WorkerDecision, stage: "idea" | "outline" | "content" | "listing"): boolean {
+  const contentLength = trimString(decision.fileContent || "", 12000).length;
+  if (stage === "content") {
+    if (normalizeComparisonText(decision.productType).includes("prompt")) {
+      const promptLines = decision.fileContent.split("\n").filter((line) => /^\s*(\d+\.|-|\*)\s+/.test(line));
+      return promptLines.length >= 20;
+    }
+    if (normalizeComparisonText(decision.productType).includes("checklist")) {
+      const checklistLines = decision.fileContent.split("\n").filter((line) => /^\s*(\d+\.|-|\*)\s+/.test(line));
+      return checklistLines.length >= 15;
+    }
+    if (normalizeComparisonText(decision.productType).includes("guide")) {
+      return contentLength >= 500;
+    }
+    if (normalizeComparisonText(decision.productType).includes("template")) {
+      return contentLength >= 300;
+    }
+    return contentLength >= 400;
+  }
+  if (stage === "outline") {
+    return contentLength >= 150;
+  }
+  if (stage === "listing") {
+    return contentLength >= 200 && trimString(decision.shortDescription || "", 500).length >= 80;
+  }
+  return contentLength >= 80;
+}
+
 function classifyDuplicate(candidate: WorkerDecision, otherOutputs: any[]): { isDuplicate: boolean; duplicateWith: string } {
   const match = otherOutputs.find((other) => isSimilarToOutput(candidate, other));
   return {
@@ -356,7 +437,14 @@ function buildPrompt(
   messages: any[],
   tasks: any[],
   config: Record<string, any>,
-  options: { latestOutputsText?: string; retryInstruction?: string } = {}
+  options: {
+    latestOutputsText?: string;
+    retryInstruction?: string;
+    currentStage?: string;
+    expectedStage?: string;
+    stageGoal?: string;
+    progressMode?: string;
+  } = {}
 ): string {
   const recentMessages = messages.slice(-3).map((entry) => `- ${entry.agent}: ${entry.message}`).join("\n") || "- none";
   const openTasks = tasks
@@ -369,6 +457,7 @@ function buildPrompt(
     "You are an autonomous agent whose goal is to generate money.",
     "Choose exactly ONE concrete monetisation action for this run.",
     "You must either build on your previous output with a concrete improvement or pivot with a clear reason.",
+    "If you already have a product, you must improve or expand it. Do NOT generate a new idea unless explicitly pivoting.",
     "",
     "Allowed actions:",
     "- create a micro-product idea and draft listing title",
@@ -413,10 +502,15 @@ function buildPrompt(
     "",
     `Agent: ${trimString(agentState.name, 80) || "agent"}`,
     `Strategy: ${trimString(agentState.strategy, 200) || "generate digital products"}`,
+    `Current stage: ${options.currentStage || "idea"}`,
+    `Required next stage: ${options.expectedStage || "idea"}`,
+    `Current goal: ${options.stageGoal || getStageGoal("idea")}`,
+    `Progress mode: ${options.progressMode || "progressing"}`,
     `Previous product title: ${trimString(agentState.lastProductTitle || "none", 200)}`,
     `Previous product type: ${trimString(agentState.lastProductType || "none", 120)}`,
     `Previous niche: ${trimString(agentState.lastNiche || "none", 160)}`,
     `Previous target buyer: ${trimString(agentState.lastTargetBuyer || "none", 200)}`,
+    `Previous listing title: ${trimString(agentState.lastListingTitle || "none", 220)}`,
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
@@ -488,6 +582,8 @@ function persistRun(agentState: any, messages: any[], tasks: any[], finalDecisio
     lastOutputPath: outputPath,
     lastConfidence: finalDecision.confidence || 0,
     lastDuplicateStatus: metadata.duplicateStatus || "original",
+    stage: metadata.stage || normalizeStage(agentState.stage || "idea"),
+    lastProgressMode: metadata.progressMode || "progressing",
     lastRunAt: now,
     status: finalDecision.status,
     latestTask,
@@ -575,6 +671,9 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
     agentState = ensureAgentState(agentName, trace);
     messages = safeReadArray(MESSAGES_PATH);
     tasks = safeReadArray(TASKS_PATH);
+    const currentStage = normalizeStage(agentState.stage || "idea");
+    const expectedStage = determineExpectedStage(agentState);
+    const progressMode = stageProgressMode(agentState, expectedStage);
     const latestOutputs = collectLatestOutputs(agentName);
     const latestOutputsText =
       latestOutputs
@@ -583,7 +682,13 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
 
     stepReached = "prompt";
     trace.push("prompt");
-    let prompt = buildPrompt(agentState, messages, tasks, config, { latestOutputsText });
+    let prompt = buildPrompt(agentState, messages, tasks, config, {
+      latestOutputsText,
+      currentStage,
+      expectedStage,
+      stageGoal: getStageGoal(expectedStage),
+      progressMode
+    });
     if (!prompt || !prompt.trim()) {
       throw new Error("Generated prompt is empty.");
     }
@@ -607,10 +712,11 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
       const progressOkay =
         finalDecision.status !== "completed" ||
         (hasProgress(finalDecision, agentState) && !isVagueOutput(finalDecision) && !isPureBrainstorming(finalDecision));
+      const stageOkay = finalDecision.status !== "completed" || hasSubstantiveContentForStage(finalDecision, expectedStage);
       const duplicateCheck =
         finalDecision.status === "completed" ? classifyDuplicate(finalDecision, latestOutputs) : { isDuplicate: false, duplicateWith: "" };
 
-      if (finalDecision.status === "completed" && progressOkay && !duplicateCheck.isDuplicate) {
+      if (finalDecision.status === "completed" && progressOkay && stageOkay && !duplicateCheck.isDuplicate) {
         duplicateStatus = "original";
         break;
       }
@@ -619,6 +725,10 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
         duplicateStatus = "retry";
         prompt = buildPrompt(agentState, messages, tasks, config, {
           latestOutputsText,
+          currentStage,
+          expectedStage,
+          stageGoal: getStageGoal(expectedStage),
+          progressMode,
           retryInstruction: `Retry once. Your last output was too similar to ${duplicateCheck.duplicateWith || "another agent"}. Choose a different niche or product type and return a distinct sellable draft.`
         });
         continue;
@@ -628,7 +738,7 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
         duplicateStatus = "duplicate";
         finalDecision.confidence = Math.min(finalDecision.confidence || 0.35, 0.35);
         finalDecision.reason = trimString(`${finalDecision.reason} Duplicate risk remained after retry.`, 500);
-      } else if (finalDecision.status === "completed" && !progressOkay) {
+      } else if (finalDecision.status === "completed" && (!progressOkay || !stageOkay)) {
         finalDecision = {
           ...FALLBACK_INVALID_MODEL_OUTPUT,
           reason: "Invalid model output"
@@ -647,6 +757,8 @@ export async function runWorker(agentName: string): Promise<WorkerDecision> {
       rawGeminiText,
       parsedObject,
       duplicateStatus,
+      stage: expectedStage,
+      progressMode,
       error: null
     });
 

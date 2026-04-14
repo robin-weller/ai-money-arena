@@ -72,11 +72,43 @@ function defaultAgentState(agentName) {
     lastOutputPath: "",
     lastConfidence: 0,
     lastDuplicateStatus: "original",
+    stage: "idea",
+    lastProgressMode: "progressing",
     attempts: 0,
     uniqueNichesTried: [],
     duplicateHits: 0,
     successfulOutputs: 0
   };
+}
+
+function normalizeStage(stage) {
+  return ["idea", "outline", "content", "listing"].includes(stage) ? stage : "idea";
+}
+
+function nextStage(currentStage) {
+  if (currentStage === "idea") {
+    return "outline";
+  }
+  if (currentStage === "outline") {
+    return "content";
+  }
+  if (currentStage === "content") {
+    return "listing";
+  }
+  return "listing";
+}
+
+function getStageGoal(stage) {
+  if (stage === "idea") {
+    return "Create a concrete product idea and draft listing title.";
+  }
+  if (stage === "outline") {
+    return "Expand the existing product into a clear outline with sections, components, or structure.";
+  }
+  if (stage === "content") {
+    return "Generate real usable product content with no placeholders.";
+  }
+  return "Create or improve the listing so it is close to publish-ready.";
 }
 
 function readJson(filePath, fallback) {
@@ -147,6 +179,8 @@ function ensureAgentState(agentName, trace) {
       lastOutputPath: trimString(state.lastOutputPath || "", 260),
       lastConfidence: Number.isFinite(Number(state.lastConfidence)) ? Number(state.lastConfidence) : 0,
       lastDuplicateStatus: trimString(state.lastDuplicateStatus || "original", 40) || "original",
+      stage: normalizeStage(state.stage || fallback.stage),
+      lastProgressMode: trimString(state.lastProgressMode || "progressing", 40) || "progressing",
       attempts: Number.isFinite(Number(state.attempts)) ? Number(state.attempts) : 0,
       uniqueNichesTried: Array.isArray(state.uniqueNichesTried)
         ? state.uniqueNichesTried.map((item) => trimString(item, 160)).filter(Boolean)
@@ -321,6 +355,57 @@ function hasProgress(decision, agentState) {
   return !matchesPreviousRun(decision, agentState) || reason.includes("pivot") || reason.includes("build") || reason.includes("continue");
 }
 
+function shouldPivot(agentState) {
+  return Number(agentState.lastConfidence || 0) < 0.5 || Number(agentState.duplicateHits || 0) >= 2;
+}
+
+function determineExpectedStage(agentState) {
+  const currentStage = normalizeStage(agentState.stage || "idea");
+  if (!agentState.lastProductTitle || !agentState.lastListingTitle) {
+    return "idea";
+  }
+  if (currentStage === "listing") {
+    return shouldPivot(agentState) ? "idea" : "listing";
+  }
+  return nextStage(currentStage);
+}
+
+function stageProgressMode(agentState, expectedStage) {
+  return expectedStage === "idea" && agentState.lastProductTitle ? "pivoting" : "progressing";
+}
+
+function isValidStageTransition(actualStage, expectedStage) {
+  return actualStage === expectedStage;
+}
+
+function hasSubstantiveContentForStage(decision, stage) {
+  const contentLength = trimString(decision.fileContent || "", 12000).length;
+  if (stage === "content") {
+    if (normalizeComparisonText(decision.productType).includes("prompt")) {
+      const promptLines = decision.fileContent.split("\n").filter((line) => /^\s*(\d+\.|-|\*)\s+/.test(line));
+      return promptLines.length >= 20;
+    }
+    if (normalizeComparisonText(decision.productType).includes("checklist")) {
+      const checklistLines = decision.fileContent.split("\n").filter((line) => /^\s*(\d+\.|-|\*)\s+/.test(line));
+      return checklistLines.length >= 15;
+    }
+    if (normalizeComparisonText(decision.productType).includes("guide")) {
+      return contentLength >= 500;
+    }
+    if (normalizeComparisonText(decision.productType).includes("template")) {
+      return contentLength >= 300;
+    }
+    return contentLength >= 400;
+  }
+  if (stage === "outline") {
+    return contentLength >= 150;
+  }
+  if (stage === "listing") {
+    return contentLength >= 200 && trimString(decision.shortDescription || "", 500).length >= 80;
+  }
+  return contentLength >= 80;
+}
+
 function classifyDuplicate(candidate, otherOutputs) {
   const match = otherOutputs.find((other) => isSimilarToOutput(candidate, other));
   return {
@@ -341,6 +426,7 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     "You are an autonomous agent whose goal is to generate money.",
     "Choose exactly ONE concrete monetisation action for this run.",
     "You must either build on your previous output with a concrete improvement or pivot with a clear reason.",
+    "If you already have a product, you must improve or expand it. Do NOT generate a new idea unless explicitly pivoting.",
     "",
     "Allowed actions:",
     "- create a micro-product idea and draft listing title",
@@ -385,10 +471,15 @@ function buildPrompt(agentState, messages, tasks, config, options = {}) {
     "",
     `Agent: ${trimString(agentState.name, 80) || "agent"}`,
     `Strategy: ${trimString(agentState.strategy, 200) || "generate digital products"}`,
+    `Current stage: ${options.currentStage || "idea"}`,
+    `Required next stage: ${options.expectedStage || "idea"}`,
+    `Current goal: ${options.stageGoal || getStageGoal("idea")}`,
+    `Progress mode: ${options.progressMode || "progressing"}`,
     `Previous product title: ${trimString(agentState.lastProductTitle || "none", 200)}`,
     `Previous product type: ${trimString(agentState.lastProductType || "none", 120)}`,
     `Previous niche: ${trimString(agentState.lastNiche || "none", 160)}`,
     `Previous target buyer: ${trimString(agentState.lastTargetBuyer || "none", 200)}`,
+    `Previous listing title: ${trimString(agentState.lastListingTitle || "none", 220)}`,
     `Revenue: ${Number(agentState.revenue || 0)}`,
     `Cost: ${Number(agentState.cost || 0)}`,
     `Recent messages:\n${recentMessages}`,
@@ -460,6 +551,8 @@ function persistRun(agentState, messages, tasks, finalDecision, metadata) {
     lastOutputPath: outputPath,
     lastConfidence: finalDecision.confidence || 0,
     lastDuplicateStatus: metadata.duplicateStatus || "original",
+    stage: metadata.stage || normalizeStage(agentState.stage || "idea"),
+    lastProgressMode: metadata.progressMode || "progressing",
     lastRunAt: now,
     status: finalDecision.status,
     latestTask,
@@ -547,6 +640,9 @@ async function runWorker(agentName) {
     agentState = ensureAgentState(agentName, trace);
     messages = safeReadArray(MESSAGES_PATH);
     tasks = safeReadArray(TASKS_PATH);
+    const currentStage = normalizeStage(agentState.stage || "idea");
+    const expectedStage = determineExpectedStage(agentState);
+    const progressMode = stageProgressMode(agentState, expectedStage);
     const latestOutputs = collectLatestOutputs(agentName);
     const latestOutputsText =
       latestOutputs
@@ -555,7 +651,13 @@ async function runWorker(agentName) {
 
     stepReached = "prompt";
     trace.push("prompt");
-    let prompt = buildPrompt(agentState, messages, tasks, config, { latestOutputsText });
+    let prompt = buildPrompt(agentState, messages, tasks, config, {
+      latestOutputsText,
+      currentStage,
+      expectedStage,
+      stageGoal: getStageGoal(expectedStage),
+      progressMode
+    });
     if (!prompt || !prompt.trim()) {
       throw new Error("Generated prompt is empty.");
     }
@@ -579,10 +681,12 @@ async function runWorker(agentName) {
       const progressOkay =
         finalDecision.status !== "completed" ||
         (hasProgress(finalDecision, agentState) && !isVagueOutput(finalDecision) && !isPureBrainstorming(finalDecision));
+      const stageOkay =
+        finalDecision.status !== "completed" || (isValidStageTransition(expectedStage, expectedStage) && hasSubstantiveContentForStage(finalDecision, expectedStage));
       const duplicateCheck =
         finalDecision.status === "completed" ? classifyDuplicate(finalDecision, latestOutputs) : { isDuplicate: false, duplicateWith: "" };
 
-      if (finalDecision.status === "completed" && progressOkay && !duplicateCheck.isDuplicate) {
+      if (finalDecision.status === "completed" && progressOkay && stageOkay && !duplicateCheck.isDuplicate) {
         duplicateStatus = "original";
         break;
       }
@@ -591,6 +695,10 @@ async function runWorker(agentName) {
         duplicateStatus = "retry";
         prompt = buildPrompt(agentState, messages, tasks, config, {
           latestOutputsText,
+          currentStage,
+          expectedStage,
+          stageGoal: getStageGoal(expectedStage),
+          progressMode,
           retryInstruction: `Retry once. Your last output was too similar to ${duplicateCheck.duplicateWith || "another agent"}. Choose a different niche or product type and return a distinct sellable draft.`
         });
         continue;
@@ -600,7 +708,7 @@ async function runWorker(agentName) {
         duplicateStatus = "duplicate";
         finalDecision.confidence = Math.min(finalDecision.confidence || 0.35, 0.35);
         finalDecision.reason = trimString(`${finalDecision.reason} Duplicate risk remained after retry.`, 500);
-      } else if (finalDecision.status === "completed" && !progressOkay) {
+      } else if (finalDecision.status === "completed" && (!progressOkay || !stageOkay)) {
         finalDecision = {
           ...FALLBACK_INVALID_MODEL_OUTPUT,
           reason: "Invalid model output"
@@ -619,6 +727,8 @@ async function runWorker(agentName) {
       rawGeminiText,
       parsedObject,
       duplicateStatus,
+      stage: expectedStage,
+      progressMode,
       error: null
     });
 
