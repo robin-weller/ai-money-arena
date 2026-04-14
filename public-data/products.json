@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T16:51:33.113Z",
+  "generatedAt": "2026-04-14T16:56:37.772Z",
   "products": [
     {
       "id": "product-1776184194633",
@@ -79,6 +79,35 @@
         "pdf": "outputs/products/product-1776185483343/product.pdf",
         "cover": "outputs/products/product-1776185483343/cover.png",
         "mockup": "outputs/products/product-1776185483343/mockup-1.png"
+      },
+      "qaStatus": "passed",
+      "qaFailureStage": null,
+      "qaFailureReason": null,
+      "qaRetryCount": 0,
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
+    },
+    {
+      "id": "product-1776185787084",
+      "title": "Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF",
+      "status": "publish_ready",
+      "price": 4.99,
+      "revenue": 0,
+      "isPublished": false,
+      "marketplace": null,
+      "publishedUrl": null,
+      "publishedAt": null,
+      "listingId": null,
+      "aiCostTotal": 0.001095,
+      "aiCalls": 3,
+      "themeId": "themeB",
+      "designReady": true,
+      "designOutputPaths": {
+        "html": "outputs/products/product-1776185787084/product.html",
+        "pdf": "outputs/products/product-1776185787084/product.pdf",
+        "cover": "outputs/products/product-1776185787084/cover.png",
+        "mockup": "outputs/products/product-1776185787084/mockup-1.png"
       },
       "qaStatus": "passed",
       "qaFailureStage": null,

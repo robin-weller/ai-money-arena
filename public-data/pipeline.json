@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-14T16:51:33.113Z",
-  "totalProducts": 3,
+  "generatedAt": "2026-04-14T16:56:37.772Z",
+  "totalProducts": 4,
   "totalRevenue": 0,
-  "totalAiCost": 0.0028198,
-  "totalProfit": -0.0028198,
+  "totalAiCost": 0.0039147999999999995,
+  "totalProfit": -0.0039147999999999995,
   "byStage": {
     "idea": [],
     "building": [],
@@ -42,6 +42,16 @@
         "elementCount": 54,
         "createdAt": "2026-04-14T16:51:23.343Z",
         "completedAt": "2026-04-14T16:51:26.678Z"
+      },
+      {
+        "id": "product-1776185787084",
+        "title": "Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF",
+        "productType": "work-from-home-planner",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 55,
+        "createdAt": "2026-04-14T16:56:27.084Z",
+        "completedAt": "2026-04-14T16:56:32.384Z"
       }
     ],
     "live": []

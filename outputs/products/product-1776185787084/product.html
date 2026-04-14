@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @page landscape {
+      size: A4 landscape;
+      margin: 15mm 20mm;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, sans-serif;
+      color: #F8FAFC;
+      background: #0F172A;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover-page {
+      width: 210mm;
+      height: 297mm;
+      background: #0F172A;
+      display: flex;
+      flex-direction: column;
+      padding: 22mm 22mm 18mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8mm;
+      height: 100%;
+      background: #F59E0B;
+    }
+
+    .cover-top-rule {
+      height: 2px;
+      background: #F59E0B;
+      margin-bottom: 16mm;
+      opacity: 0.25;
+    }
+
+    .cover-category {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #F59E0B;
+      margin-bottom: 10mm;
+    }
+
+    .cover-title {
+      font-family: Playfair Display, serif;
+      font-size: 34pt;
+      font-weight: 700;
+      color: #22C55E;
+      line-height: 1.1;
+      margin: 0 0 8mm;
+      max-width: 155mm;
+    }
+
+    .cover-divider {
+      width: 18mm;
+      height: 3px;
+      background: #F59E0B;
+      border-radius: 2px;
+      margin-bottom: 8mm;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #F8FAFC;
+      opacity: 0.7;
+      line-height: 1.55;
+      max-width: 135mm;
+      margin-bottom: 14mm;
+      font-weight: 300;
+    }
+
+    .cover-instructions {
+      flex: 1;
+      background: #1E293B;
+      border-radius: 4px;
+      padding: 8mm 10mm;
+      margin-bottom: 10mm;
+    }
+
+    .cover-instructions h3 {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #F59E0B;
+      margin: 0 0 5mm;
+    }
+
+    .cover-instructions ul {
+      margin: 0;
+      padding-left: 4mm;
+      list-style: none;
+    }
+
+    .cover-instructions li {
+      font-size: 10pt;
+      color: #F8FAFC;
+      line-height: 1.6;
+      margin-bottom: 2.5mm;
+      padding-left: 4mm;
+      position: relative;
+    }
+
+    .cover-instructions li::before {
+      content: '→';
+      position: absolute;
+      left: -2mm;
+      color: #F59E0B;
+      font-weight: 600;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 5mm;
+      border-top: 1px solid #F59E0B;
+      opacity: 0.4;
+    }
+
+    .cover-footer-brand {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-footer-format {
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CONTENT PAGES ─── */
+    .content-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      page-break-before: always;
+      background: #0F172A;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+      padding-bottom: 3mm;
+      border-bottom: 1.5px solid #F59E0B;
+    }
+
+    .content-header-title {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #F59E0B;
+    }
+
+    .content-header-page {
+      font-size: 8pt;
+      color: #F8FAFC;
+      opacity: 0.4;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #22C55E;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.15;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-family: Inter, sans-serif;
+      color: #22C55E;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10mm 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1.5px solid #F59E0B;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #22C55E;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin: 7mm 0 2mm;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 4mm;
+    }
+
+    ul, ol {
+      margin: 0 0 4mm;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+      line-height: 1.6;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      margin: 5mm 0 8mm;
+      font-size: 9pt;
+      page-break-inside: avoid;
+      word-wrap: break-word;
+    }
+
+    th {
+      background: #22C55E;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+      padding: 2.5mm 3mm;
+      text-align: left;
+      border: none;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    td {
+      padding: 2.5mm 3mm;
+      min-height: 7mm;
+      border-bottom: 1px solid #1E293B;
+      border-right: none;
+      border-left: none;
+      vertical-align: middle;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Blank fill-in underlines: text like "______" rendered as a visible line */
+    td:empty::after,
+    td:has(> br:only-child)::after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid #F59E0B;
+      min-height: 5mm;
+    }
+
+    tr:nth-child(even) td {
+      background: #1E293B;
+    }
+
+    tr:nth-child(odd) td {
+      background: #0F172A;
+    }
+
+    /* ─── COMPRESS TABLE (6-9 cols) ─── */
+    .compress-table {
+      font-size: 7.5pt;
+    }
+    .compress-table th {
+      font-size: 7pt;
+      padding: 1.5mm 2mm;
+      letter-spacing: 0;
+    }
+    .compress-table td {
+      padding: 1.5mm 2mm;
+      font-size: 7.5pt;
+    }
+
+    /* ─── LANDSCAPE TABLE WRAP (10+ cols) ─── */
+    .landscape-table-wrap {
+      page: landscape;
+      page-break-before: always;
+      width: 257mm; /* A4 landscape content width */
+      margin: 0 auto;
+    }
+    .landscape-table-wrap table {
+      font-size: 8pt;
+    }
+    .landscape-table-wrap th,
+    .landscape-table-wrap td {
+      padding: 2mm 2.5mm;
+    }
+
+    /* ─── CHECKBOXES ─── */
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 4mm;
+      height: 4mm;
+      min-width: 4mm;
+      border: 1.5px solid #F59E0B;
+      border-radius: 1px;
+      margin-top: 0.8mm;
+      display: inline-block;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 8mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* ─── BLANK FILL-IN LINES ─── */
+    .fill-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1.2px solid #F59E0B;
+      margin: 0 1mm;
+      vertical-align: bottom;
+      opacity: 0.6;
+    }
+
+    /* ─── MISC ─── */
+    blockquote {
+      border-left: 3px solid #F59E0B;
+      margin: 5mm 0;
+      padding: 3mm 5mm;
+      background: #1E293B;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #1E293B;
+      margin: 6mm 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #1E293B;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #F8FAFC;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Convert ______ sequences to styled fill-in lines -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node) {
+        if (/_{3,}/.test(node.nodeValue)) {
+          const span = document.createElement('span');
+          span.innerHTML = node.nodeValue.replace(/_{3,}/g, function(m) {
+            return '<span class="fill-line">&nbsp;</span>';
+          });
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    });
+  </script>
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <div class="cover-page">
+    <div class="cover-accent-bar"></div>
+    <div class="cover-top-rule"></div>
+    <div class="cover-category">Productivity · Instant Download</div>
+    <h1 class="cover-title">Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle">Structure your remote workday for maximum efficiency.</p>
+
+    <div class="cover-instructions">
+      <h3>How to Use</h3>
+      <ul><li>Set Your Intentions: Start each day by defining your top priorities for remote work.</li><li>Block Your Time: Use the task sections to schedule your work, breaks, and personal time.</li><li>Stay Hydrated &amp; Mindful: Utilize the break reminders to step away and recharge.</li><li>Reflect &amp; Refine: End your day by reviewing your progress and planning for tomorrow.</li><li>Print &amp; Repeat: This reusable planner is designed to support your daily remote work routine.</li></ul>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-brand">Lazy Whippet</span>
+      <span class="cover-footer-format">Print-Ready PDF · Bold Focus</span>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 2+: CONTENT ═══ -->
+  <div class="content-page">
+    <div class="content-header">
+      <span class="content-header-title">Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF</span>
+      <span class="content-header-page">Lazy Whippet</span>
+    </div>
+
+    <h1>Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF</h1>
+<hr>
+<div class="section">
+<h2>Your Productive Workday Structure</h2>
+<p><strong>Date: ______</strong></p>
+<div class="page-break"></div><table class="data-table">
+<thead>
+<tr>
+<th align="left">Time Block</th>
+<th align="left">Focus / Task</th>
+<th align="left">Status</th>
+<th align="left">Notes / Outcome</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">______</td>
+<td align="left"><strong>Start Ritual:</strong> Morning Routine</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Deep Work Block 1:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Short Break:</strong> Hydrate / Stretch</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 1:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 2:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Lunch Break:</strong> Step Away from Workspace</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Focus Block 2:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 3:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 4:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Short Break:</strong> Quick Walk / Fresh Air</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Admin / Email / Planning for Tomorrow</strong></td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Wrap-Up Routine:</strong> Tidy Workspace / Log Out</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Personal Time / Recharge</strong></td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 5:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 6:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 7:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 8:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 9:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 10:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 11:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 12:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 13:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 14:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 15:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 16:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 17:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 18:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 19:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left"><strong>Task 20:</strong> ______</td>
+<td align="left">- [ ] Done</td>
+<td align="left">______</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Daily Focus &amp; Intentions</h2>
+<p><strong>Top 3 Priorities for Today:</strong></p>
+<ol>
+<li><hr>
+</li>
+<li><hr>
+</li>
+<li><hr>
+</li>
+</ol>
+<p><strong>Key Outcome to Achieve:</strong> ______</p>
+<hr>
+</div>
+<div class="section">
+<h2>Essential Habits &amp; Reminders</h2>
+<table class="data-table compress-table">
+<thead>
+<tr>
+<th align="left">Habit / Reminder</th>
+<th align="left">M</th>
+<th align="left">T</th>
+<th align="left">W</th>
+<th align="left">Th</th>
+<th align="left">F</th>
+<th align="left">Sa</th>
+<th align="left">Su</th>
+<th align="left">✓</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Drink Water</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">Move for 10 Minutes</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">Practice Deep Breathing</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">Tidy Workspace</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+<td align="left">- [ ]</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>End of Day Reflection</h2>
+<p><strong>What went well today?</strong> ______</p>
+<p><strong>What challenges did I face while working remotely?</strong> ______</p>
+<p><strong>What could I improve for tomorrow&#39;s productivity?</strong> ______</p>
+<p><strong>Did I achieve my key outcome?</strong> ______</p>
+<p><strong>One thing I learned today:</strong> ______</p>
+<hr>
+<p>A Lazy Whippet productivity tool</p>
+
+</div>
+
+    <div class="page-footer">
+      <span>Lazy Whippet &mdash; Work From Home Planner Printable | Structure Your Day for Peak Productivity | Instant Download PDF</span>
+      <span>Print &amp; Use · lazywh.com</span>
+    </div>
+  </div>
+
+</body>
+</html>
