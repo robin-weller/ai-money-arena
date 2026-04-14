@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T09:56:38.610Z",
+  "generatedAt": "2026-04-14T10:08:03.158Z",
   "agents": [
     {
       "name": "agent-a",
@@ -7,9 +7,9 @@
       "revenue": 0,
       "cost": 0,
       "profit": 0,
-      "status": "blocked_waiting_for_human",
-      "lastAction": "Paused due to API/runtime error",
-      "lastRunAt": "2026-04-14T09:13:23.964Z"
+      "status": "completed",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T10:07:53.033Z"
     },
     {
       "name": "agent-b",
@@ -17,9 +17,9 @@
       "revenue": 0,
       "cost": 0,
       "profit": 0,
-      "status": "blocked_waiting_for_human",
-      "lastAction": "Paused due to API/runtime error",
-      "lastRunAt": "2026-04-14T09:13:23.998Z"
+      "status": "completed",
+      "lastAction": "create a micro-product idea and draft listing title",
+      "lastRunAt": "2026-04-14T10:07:51.469Z"
     },
     {
       "name": "agent-c",
@@ -29,7 +29,7 @@
       "profit": 0,
       "status": "completed",
       "lastAction": "create a micro-product idea and draft listing title",
-      "lastRunAt": "2026-04-14T09:56:25.075Z"
+      "lastRunAt": "2026-04-14T10:07:52.038Z"
     }
   ]
 }
