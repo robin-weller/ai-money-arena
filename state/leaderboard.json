@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T13:08:22.266Z",
+  "generatedAt": "2026-04-14T13:21:49.380Z",
   "agents": [
     {
       "name": "agent-a",
@@ -15,7 +15,9 @@
       "lastPrice": 19.99,
       "lastOutputPath": "outputs/agent-a/ai-powered-social-media-post-generator-prompt-pack.md",
       "lastOutputFile": "ai-powered-social-media-post-generator-prompt-pack.md",
-      "assetReady": true,
+      "assetReady": false,
+      "productComplete": false,
+      "productCompletenessIssues": [],
       "isPublished": false,
       "publishedUrl": "",
       "distributionAttempts": 0,
@@ -24,7 +26,8 @@
       "lastConfidence": 0,
       "lastDuplicateStatus": "original",
       "stage": "listing",
-      "lastProgressMode": "progressing"
+      "lastProgressMode": "progressing",
+      "publishReady": false
     },
     {
       "name": "agent-b",
@@ -40,7 +43,9 @@
       "lastPrice": 19,
       "lastOutputPath": "outputs/agent-b/ai-email-subject-line-optimizer-mini-guide.md",
       "lastOutputFile": "ai-email-subject-line-optimizer-mini-guide.md",
-      "assetReady": true,
+      "assetReady": false,
+      "productComplete": false,
+      "productCompletenessIssues": [],
       "isPublished": false,
       "publishedUrl": "",
       "distributionAttempts": 1,
@@ -49,7 +54,8 @@
       "lastConfidence": 0.9,
       "lastDuplicateStatus": "original",
       "stage": "outline",
-      "lastProgressMode": "progressing"
+      "lastProgressMode": "progressing",
+      "publishReady": false
     },
     {
       "name": "agent-c",
@@ -65,7 +71,9 @@
       "lastPrice": 17,
       "lastOutputPath": "outputs/agent-c/ai-social-media-post-prompt-pack.md",
       "lastOutputFile": "ai-social-media-post-prompt-pack.md",
-      "assetReady": true,
+      "assetReady": false,
+      "productComplete": false,
+      "productCompletenessIssues": [],
       "isPublished": false,
       "publishedUrl": "",
       "distributionAttempts": 0,
@@ -74,7 +82,8 @@
       "lastConfidence": 0,
       "lastDuplicateStatus": "original",
       "stage": "publish",
-      "lastProgressMode": "progressing"
+      "lastProgressMode": "progressing",
+      "publishReady": false
     }
   ]
 }

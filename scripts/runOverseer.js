@@ -85,7 +85,9 @@ function buildLeaderboard(agentStates) {
           lastPrice: Number(agent.lastPrice || 0),
           lastOutputPath: agent.lastOutputPath || "",
           lastOutputFile: outputFileName(agent.lastOutputPath || ""),
-          assetReady: Boolean(agent.lastOutputPath),
+          assetReady: Boolean(agent.lastOutputPath) && Boolean(agent.isProductComplete),
+          productComplete: Boolean(agent.isProductComplete),
+          productCompletenessIssues: Array.isArray(agent.productCompletenessIssues) ? agent.productCompletenessIssues : [],
           isPublished: Boolean(agent.publishedUrl),
           publishedUrl: agent.publishedUrl || "",
           distributionAttempts: Number(agent.distributionAttempts || 0),
@@ -94,7 +96,8 @@ function buildLeaderboard(agentStates) {
           lastConfidence: Number(agent.lastConfidence || 0),
           lastDuplicateStatus: agent.lastDuplicateStatus || "original",
           stage: agent.stage || "idea",
-          lastProgressMode: agent.lastProgressMode || "progressing"
+          lastProgressMode: agent.lastProgressMode || "progressing",
+          publishReady: Boolean(agent.publishReady)
         };
       })
       .sort((a, b) => b.profit - a.profit)
@@ -107,7 +110,7 @@ function buildTelegramSummary(leaderboard, openTasks) {
   lines.push("");
 
   for (const agent of leaderboard.agents) {
-    const readyFlag = agent.stage === "listing" || agent.stage === "publish" ? "READY TO PUBLISH" : "IN PROGRESS";
+    const readyFlag = agent.publishReady ? "READY TO PUBLISH" : "IN PROGRESS";
     const liveFlag = agent.publishedUrl ? "LIVE" : "NOT LIVE";
     lines.push(
       `${agent.name}: ${agent.lastAction || "No action"} | product=${agent.lastProductTitle || "-"} | file=${agent.lastOutputFile || "-"} | price=$${Number(agent.lastPrice || 0).toFixed(2)} | ready=${agent.assetReady ? "yes" : "no"} | ${readyFlag} | ${liveFlag} | distributionAttempts=${Number(agent.distributionAttempts || 0)} | listing=${agent.lastListingTitle || "-"} | type=${agent.lastProductType || "-"} | niche=${agent.lastNiche || "-"} | stage=${agent.stage} | mode=${agent.lastProgressMode} | confidence=${agent.lastConfidence} | originality=${agent.lastDuplicateStatus} | revenue=${agent.revenue} | cost=${agent.cost} | profit=${agent.profit} | status=${agent.status}`
