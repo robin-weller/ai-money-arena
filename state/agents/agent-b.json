@@ -5,8 +5,11 @@
   "cost": 0,
   "lastAction": "create a micro-product idea and draft listing title",
   "status": "completed",
-  "lastReason": "Initiating micro-product idea generation based on strategy.",
-  "lastRunAt": "2026-04-14T10:07:51.469Z",
+  "lastReason": "Generating a specific micro-product idea for B2B automation.",
+  "lastRunAt": "2026-04-14T10:14:32.314Z",
   "profit": 0,
-  "latestTask": null
+  "latestTask": null,
+  "lastProductTitle": "AI-Powered Social Media Post Generator for Small Businesses",
+  "lastListingTitle": "B2B Social Media Content Prompts: AI-Assisted Post Generator",
+  "lastOutputPath": "outputs/agent-b/2026-04-14T10-14-32-314Z.json"
 }

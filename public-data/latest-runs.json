@@ -1,54 +1,6 @@
 {
-  "generatedAt": "2026-04-14T10:08:03.159Z",
+  "generatedAt": "2026-04-14T10:14:52.736Z",
   "runs": [
-    {
-      "timestamp": "2026-04-14T09:27:04.226Z",
-      "agent": "agent-a",
-      "action": "Check Gemini API key and set it up.",
-      "status": "blocked_waiting_for_human",
-      "reason": "API key is missing, preventing agent operation.",
-      "profit": 0
-    },
-    {
-      "timestamp": "2026-04-14T09:35:38.118Z",
-      "agent": "agent-a",
-      "action": "generate \"eBook: \"10 Simple Ways to Declutter Your Digital Life\"\"",
-      "status": "completed",
-      "reason": "Agent needs a product to sell. This eBook aligns with digital product generation.",
-      "profit": 0,
-      "errorMessage": ""
-    },
-    {
-      "timestamp": "2026-04-14T09:46:25.685Z",
-      "agent": "agent-a",
-      "rawGeminiText": "```json\n{\n  \"action\": \"create a micro-product idea and draft listing title\",\n  \"status\": \"completed\",\n  \"reason\": \"Need a specific product idea to move forward.\",\n  \"task\": {\n    \"title\": \"Digital Decluttering Mini-Guide\",\n    \"details\": \"Create a concise guide with actionable steps for organizing digital files and reducing online clutter.\",\n    \"priority\": \"high\"\n  }\n}\n```",
-      "parsedObject": {
-        "action": "create a micro-product idea and draft listing title",
-        "status": "completed",
-        "reason": "Need a specific product idea to move forward.",
-        "task": {
-          "title": "Digital Decluttering Mini-Guide",
-          "details": "Create a concise guide with actionable steps for organizing digital files and reducing online clutter.",
-          "priority": "high"
-        }
-      },
-      "finalObject": {
-        "action": "create a micro-product idea and draft listing title",
-        "status": "completed",
-        "reason": "Need a specific product idea to move forward.",
-        "task": {
-          "title": "Digital Decluttering Mini-Guide",
-          "details": "Create a concise guide with actionable steps for organizing digital files and reducing online clutter.",
-          "priority": "high"
-        }
-      },
-      "action": "create a micro-product idea and draft listing title",
-      "status": "completed",
-      "reason": "Need a specific product idea to move forward.",
-      "finalStatus": "completed",
-      "profit": 0,
-      "errorMessage": ""
-    },
     {
       "timestamp": "2026-04-14T09:56:26.472Z",
       "agent": "agent-a",
@@ -124,6 +76,53 @@
           "priority": "high"
         }
       },
+      "finalStatus": "completed",
+      "errorMessage": "",
+      "errorStack": "",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T10:14:30.779Z",
+      "agent": "agent-a",
+      "steps": [
+        "start:agent-a",
+        "load",
+        "load:agent-state-ready",
+        "prompt",
+        "gemini",
+        "parse",
+        "save"
+      ],
+      "stepReached": "save",
+      "geminiResponseStatus": 200,
+      "rawGeminiText": "{\n  \"action\": \"create a micro-product idea and draft listing title\",\n  \"status\": \"completed\",\n  \"reason\": \"Generating an initial micro-product idea and its listing title to kickstart the revenue generation process.\",\n  \"task\": null,\n  \"productTitle\": \"AI Prompt Pack for Content Creators\",\n  \"productType\": \"prompt pack\",\n  \"targetBuyer\": \"Content creators struggling with idea generation and prompt writing for AI tools.\",\n  \"listingTitle\": \"AI Prompt Pack: Boost Your Content Creation Effortlessly\",\n  \"shortDescription\": \"Unlock creative potential with ready-to-use AI prompts for blogs, social media, and more.\",\n  \"fileContent\": \"This prompt pack is designed to help content creators overcome writer's block and generate high-quality content ideas quickly. It includes prompts for various platforms and content types, such as blog posts, social media captions, video scripts, and marketing copy. Each prompt is crafted to elicit specific and useful responses from AI language models, saving creators time and effort.\"\n}",
+      "parsedObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generating an initial micro-product idea and its listing title to kickstart the revenue generation process.",
+        "task": null,
+        "productTitle": "AI Prompt Pack for Content Creators",
+        "productType": "prompt pack",
+        "targetBuyer": "Content creators struggling with idea generation and prompt writing for AI tools.",
+        "listingTitle": "AI Prompt Pack: Boost Your Content Creation Effortlessly",
+        "shortDescription": "Unlock creative potential with ready-to-use AI prompts for blogs, social media, and more.",
+        "fileContent": "This prompt pack is designed to help content creators overcome writer's block and generate high-quality content ideas quickly. It includes prompts for various platforms and content types, such as blog posts, social media captions, video scripts, and marketing copy. Each prompt is crafted to elicit specific and useful responses from AI language models, saving creators time and effort."
+      },
+      "finalObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generating an initial micro-product idea and its listing title to kickstart the revenue generation process.",
+        "task": null,
+        "productTitle": "AI Prompt Pack for Content Creators",
+        "productType": "prompt pack",
+        "targetBuyer": "Content creators struggling with idea generation and prompt writing for AI tools.",
+        "listingTitle": "AI Prompt Pack: Boost Your Content Creation Effortlessly",
+        "shortDescription": "Unlock creative potential with ready-to-use AI prompts for blogs, social media, and more.",
+        "fileContent": "This prompt pack is designed to help content creators overcome writer's block and generate high-quality content ideas quickly. It includes prompts for various platforms and content types, such as blog posts, social media captions, video scripts, and marketing copy. Each prompt is crafted to elicit specific and useful responses from AI language models, saving creators time and effort."
+      },
+      "productTitle": "AI Prompt Pack for Content Creators",
+      "listingTitle": "AI Prompt Pack: Boost Your Content Creation Effortlessly",
+      "outputPath": "outputs/agent-a/2026-04-14T10-14-30-779Z.json",
       "finalStatus": "completed",
       "errorMessage": "",
       "errorStack": "",
@@ -258,6 +257,53 @@
       "profit": 0
     },
     {
+      "timestamp": "2026-04-14T10:14:32.314Z",
+      "agent": "agent-b",
+      "steps": [
+        "start:agent-b",
+        "load",
+        "load:agent-state-ready",
+        "prompt",
+        "gemini",
+        "parse",
+        "save"
+      ],
+      "stepReached": "save",
+      "geminiResponseStatus": 200,
+      "rawGeminiText": "{\n  \"action\": \"create a micro-product idea and draft listing title\",\n  \"status\": \"completed\",\n  \"reason\": \"Generating a specific micro-product idea for B2B automation.\",\n  \"task\": null,\n  \"productTitle\": \"AI-Powered Social Media Post Generator for Small Businesses\",\n  \"productType\": \"prompt pack\",\n  \"targetBuyer\": \"Small business owners struggling with social media content creation.\",\n  \"listingTitle\": \"B2B Social Media Content Prompts: AI-Assisted Post Generator\",\n  \"shortDescription\": \"Save time on social media. Get pre-written AI prompts to generate engaging posts for your business.\",\n  \"fileContent\": \"This prompt pack contains 50 expertly crafted prompts designed to help small business owners generate a variety of engaging social media posts. Prompts cover promotional, educational, behind-the-scenes, and customer interaction content. Designed for use with AI writing tools.\"\n}",
+      "parsedObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generating a specific micro-product idea for B2B automation.",
+        "task": null,
+        "productTitle": "AI-Powered Social Media Post Generator for Small Businesses",
+        "productType": "prompt pack",
+        "targetBuyer": "Small business owners struggling with social media content creation.",
+        "listingTitle": "B2B Social Media Content Prompts: AI-Assisted Post Generator",
+        "shortDescription": "Save time on social media. Get pre-written AI prompts to generate engaging posts for your business.",
+        "fileContent": "This prompt pack contains 50 expertly crafted prompts designed to help small business owners generate a variety of engaging social media posts. Prompts cover promotional, educational, behind-the-scenes, and customer interaction content. Designed for use with AI writing tools."
+      },
+      "finalObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generating a specific micro-product idea for B2B automation.",
+        "task": null,
+        "productTitle": "AI-Powered Social Media Post Generator for Small Businesses",
+        "productType": "prompt pack",
+        "targetBuyer": "Small business owners struggling with social media content creation.",
+        "listingTitle": "B2B Social Media Content Prompts: AI-Assisted Post Generator",
+        "shortDescription": "Save time on social media. Get pre-written AI prompts to generate engaging posts for your business.",
+        "fileContent": "This prompt pack contains 50 expertly crafted prompts designed to help small business owners generate a variety of engaging social media posts. Prompts cover promotional, educational, behind-the-scenes, and customer interaction content. Designed for use with AI writing tools."
+      },
+      "productTitle": "AI-Powered Social Media Post Generator for Small Businesses",
+      "listingTitle": "B2B Social Media Content Prompts: AI-Assisted Post Generator",
+      "outputPath": "outputs/agent-b/2026-04-14T10-14-32-314Z.json",
+      "finalStatus": "completed",
+      "errorMessage": "",
+      "errorStack": "",
+      "profit": 0
+    },
+    {
       "timestamp": "2026-04-14T09:27:04.675Z",
       "agent": "agent-c",
       "action": "Check Gemini API key, quota, or workflow logs.",
@@ -380,6 +426,53 @@
           "priority": "high"
         }
       },
+      "finalStatus": "completed",
+      "errorMessage": "",
+      "errorStack": "",
+      "profit": 0
+    },
+    {
+      "timestamp": "2026-04-14T10:14:39.004Z",
+      "agent": "agent-c",
+      "steps": [
+        "start:agent-c",
+        "load",
+        "load:agent-state-ready",
+        "prompt",
+        "gemini",
+        "parse",
+        "save"
+      ],
+      "stepReached": "save",
+      "geminiResponseStatus": 200,
+      "rawGeminiText": "{\n  \"action\": \"create a micro-product idea and draft listing title\",\n  \"status\": \"completed\",\n  \"reason\": \"Generated a micro-product idea: a prompt pack for social media content creation. Drafted a listing title. This aligns with the strategy of launching simple content-driven micro-products.\",\n  \"task\": null,\n  \"productTitle\": \"Social Media Content Prompt Pack\",\n  \"productType\": \"prompt pack\",\n  \"targetBuyer\": \"Social media managers, small business owners, content creators\",\n  \"listingTitle\": \"Boost Your Social Media: 50+ Engaging Content Prompts\",\n  \"shortDescription\": \"Overcome writer's block with this curated pack of 50+ prompts to spark creative and engaging social media posts.\",\n  \"fileContent\": \"## Social Media Content Prompt Pack\\n\\nThis pack contains over 50 prompts designed to help you generate creative and engaging content for your social media platforms. Use these prompts to spark ideas for posts, stories, reels, and more.\\n\\n**Categories:**\\n\\n*   Behind-the-Scenes\\n*   Customer Spotlights\\n*   Product Features\\n*   Industry Tips & Tricks\\n*   Interactive Questions\\n*   Holiday & Seasonal\\n*   Motivational Monday\\n*   Throwback Thursday\\n*   Friday Fun\\n*   User-Generated Content Prompts\\n\\n**How to Use:**\\n\\n1.  Choose a category that aligns with your current content goals.\\n2.  Select a prompt that sparks an idea.\\n3.  Adapt the prompt to your brand voice and audience.\\n4.  Create your post!\\n\\n**Example Prompts:**\\n\\n*   Share a 'day in the life' of your team.\\n*   Highlight a recent customer success story.\\n*   Explain a common misconception in your industry.\\n*   Ask your audience a 'this or that' question related to your niche.\\n*   Showcase a unique way a customer uses your product.\"\n}",
+      "parsedObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generated a micro-product idea: a prompt pack for social media content creation. Drafted a listing title. This aligns with the strategy of launching simple content-driven micro-products.",
+        "task": null,
+        "productTitle": "Social Media Content Prompt Pack",
+        "productType": "prompt pack",
+        "targetBuyer": "Social media managers, small business owners, content creators",
+        "listingTitle": "Boost Your Social Media: 50+ Engaging Content Prompts",
+        "shortDescription": "Overcome writer's block with this curated pack of 50+ prompts to spark creative and engaging social media posts.",
+        "fileContent": "## Social Media Content Prompt Pack\n\nThis pack contains over 50 prompts designed to help you generate creative and engaging content for your social media platforms. Use these prompts to spark ideas for posts, stories, reels, and more.\n\n**Categories:**\n\n*   Behind-the-Scenes\n*   Customer Spotlights\n*   Product Features\n*   Industry Tips & Tricks\n*   Interactive Questions\n*   Holiday & Seasonal\n*   Motivational Monday\n*   Throwback Thursday\n*   Friday Fun\n*   User-Generated Content Prompts\n\n**How to Use:**\n\n1.  Choose a category that aligns with your current content goals.\n2.  Select a prompt that sparks an idea.\n3.  Adapt the prompt to your brand voice and audience.\n4.  Create your post!\n\n**Example Prompts:**\n\n*   Share a 'day in the life' of your team.\n*   Highlight a recent customer success story.\n*   Explain a common misconception in your industry.\n*   Ask your audience a 'this or that' question related to your niche.\n*   Showcase a unique way a customer uses your product."
+      },
+      "finalObject": {
+        "action": "create a micro-product idea and draft listing title",
+        "status": "completed",
+        "reason": "Generated a micro-product idea: a prompt pack for social media content creation. Drafted a listing title. This aligns with the strategy of launching simple content-driven micro-products.",
+        "task": null,
+        "productTitle": "Social Media Content Prompt Pack",
+        "productType": "prompt pack",
+        "targetBuyer": "Social media managers, small business owners, content creators",
+        "listingTitle": "Boost Your Social Media: 50+ Engaging Content Prompts",
+        "shortDescription": "Overcome writer's block with this curated pack of 50+ prompts to spark creative and engaging social media posts.",
+        "fileContent": "## Social Media Content Prompt Pack\n\nThis pack contains over 50 prompts designed to help you generate creative and engaging content for your social media platforms. Use these prompts to spark ideas for posts, stories, reels, and more.\n\n**Categories:**\n\n*   Behind-the-Scenes\n*   Customer Spotlights\n*   Product Features\n*   Industry Tips & Tricks\n*   Interactive Questions\n*   Holiday & Seasonal\n*   Motivational Monday\n*   Throwback Thursday\n*   Friday Fun\n*   User-Generated Content Prompts\n\n**How to Use:**\n\n1.  Choose a category that aligns with your current content goals.\n2.  Select a prompt that sparks an idea.\n3.  Adapt the prompt to your brand voice and audience.\n4.  Create your post!\n\n**Example Prompts:**\n\n*   Share a 'day in the life' of your team.\n*   Highlight a recent customer success story.\n*   Explain a common misconception in your industry.\n*   Ask your audience a 'this or that' question related to your niche.\n*   Showcase a unique way a customer uses your product."
+      },
+      "productTitle": "Social Media Content Prompt Pack",
+      "listingTitle": "Boost Your Social Media: 50+ Engaging Content Prompts",
+      "outputPath": "outputs/agent-c/2026-04-14T10-14-39-004Z.json",
       "finalStatus": "completed",
       "errorMessage": "",
       "errorStack": "",
