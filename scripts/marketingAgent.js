@@ -69,8 +69,10 @@ async function run() {
     const prompt = buildMarketingPrompt(product, salesData);
 
     let marketingData;
+    let callCost = 0;
     try {
       const result = await callGemini(prompt, { timeoutMs: 30000 });
+      callCost = result.usage?.cost || 0;
       const text = result.text.replace(/```json\n?|\n?```/g, '').trim();
       marketingData = JSON.parse(text);
     } catch (err) {
@@ -87,8 +89,10 @@ async function run() {
       ...product,
       status: 'ready_to_distribute',
       marketingCompletedAt: new Date().toISOString(),
+      aiCostTotal: (product.aiCostTotal || 0) + callCost,
+      aiCalls: (product.aiCalls || 0) + 1,
     };
-    console.log(`[marketing-agent] Done: ${product.id} → ready_to_distribute`);
+    console.log(`[marketing-agent] Done: ${product.id} cost=$${callCost.toFixed(5)} → ready_to_distribute`);
   }
 
   saveProducts(products);

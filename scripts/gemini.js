@@ -1,6 +1,9 @@
 const DEFAULT_MODEL = "gemini-2.5-flash-lite";
 const DEFAULT_TIMEOUT_MS = 20000;
 
+const INPUT_COST_PER_TOKEN = 0.0000001;
+const OUTPUT_COST_PER_TOKEN = 0.0000004;
+
 function buildGeminiUrl(model) {
   return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 }
@@ -69,7 +72,14 @@ async function callGemini(prompt, options = {}) {
 
     return {
       text: extractTextResponse(payload),
-      status: response.status
+      status: response.status,
+      usage: (function () {
+        const meta = payload?.usageMetadata || {};
+        const promptTokens = meta.promptTokenCount || 0;
+        const outputTokens = meta.candidatesTokenCount || 0;
+        const cost = (promptTokens * INPUT_COST_PER_TOKEN) + (outputTokens * OUTPUT_COST_PER_TOKEN);
+        return { promptTokens, outputTokens, cost };
+      })(),
     };
   } catch (error) {
     if (error.name === "AbortError") {

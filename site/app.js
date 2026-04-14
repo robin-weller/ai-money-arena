@@ -19,6 +19,10 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  function formatMoney(value) {
+    return Number(value || 0).toFixed(5);
+  }
+
   function formatTimestamp(value) {
     if (!value) return 'Unknown';
     const date = new Date(value);
@@ -41,7 +45,10 @@
   const STAGES = ['building', 'ready_to_ship', 'ready_to_market', 'ready_to_distribute', 'live', 'idea'];
 
   async function loadPipeline() {
-    const data = await fetchJson('pipeline.json');
+    const [data, dash] = await Promise.all([
+      fetchJson('pipeline.json'),
+      fetchJson('dashboard.json').catch(() => ({})),
+    ]);
     setUpdatedText('pipeline-updated', data.generatedAt);
 
     const body = document.getElementById('pipeline-body');
@@ -58,10 +65,15 @@
 
     const summary = document.getElementById('pipeline-summary');
     if (summary) {
+      const rev = Number(dash.totalRevenue || 0);
+      const cost = Number(dash.totalAiCost || 0);
+      const profit = Number(dash.totalProfit || 0);
       summary.innerHTML = `
-        <p>Total products: <strong>${data.totalProducts || 0}</strong></p>
-        <p>Live: <strong>${((data.byStage || {}).live || []).length}</strong></p>
-        <p>Total revenue: <strong>$${Number(data.totalRevenue || 0).toFixed(2)}</strong></p>
+        <p>Total products: <strong>${dash.totalProducts || data.totalProducts || 0}</strong></p>
+        <p>Live: <strong>${dash.liveProducts || ((data.byStage || {}).live || []).length}</strong></p>
+        <p>Revenue: <strong>$${rev.toFixed(2)}</strong></p>
+        <p>AI Cost: <strong>$${formatMoney(cost)}</strong></p>
+        <p>Profit: <strong>$${formatMoney(profit)}</strong></p>
       `;
     }
   }
@@ -75,7 +87,7 @@
 
     const products = Array.isArray(data.products) ? data.products : [];
     if (!products.length) {
-      body.innerHTML = '<tr><td colspan="4" class="empty">No products yet.</td></tr>';
+      body.innerHTML = '<tr><td colspan="6" class="empty">No products yet.</td></tr>';
       return;
     }
 
@@ -84,6 +96,8 @@
       return `<tr>
         <td>${escapeHtml(p.title || p.id)}</td>
         <td><span class="status ${statusClass}">${escapeHtml(STAGE_LABELS[p.status] || p.status)}</span></td>
+        <td style="text-align:right">$${formatMoney(p.aiCostTotal)}</td>
+        <td style="text-align:right">${p.aiCalls || 0}</td>
         <td style="text-align:right">${p.price ? '$' + Number(p.price).toFixed(2) : '—'}</td>
         <td style="text-align:right">${p.revenue ? '$' + Number(p.revenue).toFixed(2) : '$0.00'}</td>
       </tr>`;

@@ -1,7 +1,9 @@
 {
-  "generatedAt": "2026-04-14T14:28:49.498Z",
+  "generatedAt": "2026-04-14T14:38:21.900Z",
   "totalProducts": 1,
   "totalRevenue": 0,
+  "totalAiCost": 0,
+  "totalProfit": 0,
   "byStage": {
     "idea": [],
     "building": [],

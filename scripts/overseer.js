@@ -16,6 +16,10 @@ const STAGE_LABELS = {
   live: 'Live',
 };
 
+function formatMoney(value) {
+  return Number(value || 0).toFixed(5);
+}
+
 function loadProducts() {
   if (!fs.existsSync(PRODUCTS_PATH)) return [];
   try { return JSON.parse(fs.readFileSync(PRODUCTS_PATH, 'utf8')); } catch { return []; }
@@ -38,7 +42,7 @@ function buildPipelineData(products) {
   return byStage;
 }
 
-function buildTelegramSummary(products) {
+function buildTelegramSummary(products, totalAiCost) {
   const byStage = buildPipelineData(products);
   const totalRevenue = products.reduce((sum, p) => sum + (p.revenue || 0), 0);
   const liveCount = (byStage.live || []).length;
@@ -73,7 +77,9 @@ function buildTelegramSummary(products) {
   lines.push(`\n📊 Summary:`);
   lines.push(`  Total products: ${products.length}`);
   lines.push(`  Live: ${liveCount}`);
-  lines.push(`  Total revenue: $${totalRevenue.toFixed(2)}`);
+  lines.push(`  Revenue: $${totalRevenue.toFixed(2)}`);
+  lines.push(`  AI cost: $${formatMoney(totalAiCost)}`);
+  lines.push(`  Profit: $${formatMoney(totalRevenue - totalAiCost)}`);
 
   return lines.join('\n');
 }
@@ -85,6 +91,22 @@ async function run() {
 
   const byStage = buildPipelineData(products);
   const totalRevenue = products.reduce((sum, p) => sum + (p.revenue || 0), 0);
+  const totalAiCost = products.reduce((sum, p) => sum + (p.aiCostTotal || 0), 0);
+  const totalProfit = totalRevenue - totalAiCost;
+
+  // Write public-data/dashboard.json
+  fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(PUBLIC_DATA_DIR, 'dashboard.json'),
+    JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      totalProducts: products.length,
+      liveProducts: (byStage.live || []).length,
+      totalRevenue,
+      totalAiCost,
+      totalProfit,
+    }, null, 2)
+  );
 
   // Write public-data/pipeline.json
   fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true });
@@ -94,6 +116,8 @@ async function run() {
       generatedAt: new Date().toISOString(),
       totalProducts: products.length,
       totalRevenue,
+      totalAiCost,
+      totalProfit,
       byStage,
     }, null, 2)
   );
@@ -110,6 +134,8 @@ async function run() {
         price: p.price || 0,
         revenue: p.revenue || 0,
         isPublished: p.isPublished || false,
+        aiCostTotal: p.aiCostTotal || 0,
+        aiCalls: p.aiCalls || 0,
       })),
     }, null, 2)
   );
@@ -157,7 +183,7 @@ async function run() {
   );
 
   // Send Telegram summary
-  const summary = buildTelegramSummary(products);
+  const summary = buildTelegramSummary(products, totalAiCost);
   console.log('[overseer] Telegram summary:');
   console.log(summary);
   try {

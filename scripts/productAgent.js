@@ -126,14 +126,21 @@ async function run() {
   const prompt = buildPrompt(product.productType, typeInfo.label, existingContent);
 
   let content;
+  let callCost = 0;
   try {
     const result = await callGemini(prompt, { timeoutMs: 90000 });
     content = result.text;
-    console.log(`[product-agent] Generated: ${content.length} chars`);
+    callCost = result.usage?.cost || 0;
+    console.log(`[product-agent] Generated: ${content.length} chars cost=$${callCost.toFixed(5)}`);
   } catch (err) {
     console.error(`[product-agent] Gemini error: ${err.message}`);
     process.exit(1);
   }
+
+  // Always persist cost regardless of validation outcome
+  const idx = products.findIndex(p => p.id === product.id);
+  products[idx].aiCostTotal = (products[idx].aiCostTotal || 0) + callCost;
+  products[idx].aiCalls = (products[idx].aiCalls || 0) + 1;
 
   const validation = validateProduct(content);
   console.log(`[product-agent] Validation: valid=${validation.valid} reason=${validation.reason || 'ok'} elements=${validation.elementCount || 0}`);
@@ -150,16 +157,15 @@ async function run() {
   const titleMatch = content.match(/^#\s+(.+)/m);
   const title = titleMatch ? titleMatch[1].trim() : typeInfo.label;
 
-  const idx = products.findIndex(p => p.id === product.id);
   products[idx] = {
-    ...product,
+    ...products[idx],
     title,
     status: 'ready_to_ship',
     elementCount: validation.elementCount,
     completedAt: new Date().toISOString(),
   };
   saveProducts(products);
-  console.log(`[product-agent] Complete: title="${title}" elements=${validation.elementCount} → ready_to_ship`);
+  console.log(`[product-agent] Complete: title="${title}" elements=${validation.elementCount} cost=$${callCost.toFixed(5)} → ready_to_ship`);
 }
 
 run().catch(err => { console.error('[product-agent] Fatal:', err.message); process.exit(1); });

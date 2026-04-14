@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T14:28:49.500Z",
+  "generatedAt": "2026-04-14T14:38:21.900Z",
   "products": [
     {
       "id": "product-1776176436218",
@@ -7,7 +7,9 @@
       "status": "ready_to_distribute",
       "price": 4.99,
       "revenue": 0,
-      "isPublished": false
+      "isPublished": false,
+      "aiCostTotal": 0,
+      "aiCalls": 0
     }
   ]
 }
