@@ -1,1 +1,40 @@
-[]
+[
+  {
+    "id": "product-1776179802088",
+    "title": "Lazy Whippet Weekly Planner",
+    "productType": "weekly-planner",
+    "niche": "productivity",
+    "status": "publish_ready",
+    "owner": "product-agent",
+    "isPublished": false,
+    "publishedUrl": "",
+    "price": 4.99,
+    "productOutputPath": "outputs/products/product-1776179802088/product.md",
+    "salesOutputPath": "outputs/products/product-1776179802088/sales.json",
+    "marketingOutputPath": "outputs/products/product-1776179802088/marketing.json",
+    "distributionAttempts": 0,
+    "revenue": 0,
+    "createdAt": "2026-04-14T15:16:42.088Z",
+    "themeId": "themeC",
+    "aiCostTotal": 0.0007604999999999999,
+    "aiCalls": 3,
+    "elementCount": 21,
+    "completedAt": "2026-04-14T15:16:48.393Z",
+    "salesTitle": "Weekly Planner Printable PDF | Lazy Whippet Digital Download | Instant Download Productivity Tool",
+    "salesCompletedAt": "2026-04-14T15:16:53.501Z",
+    "marketingCompletedAt": "2026-04-14T15:16:54.842Z",
+    "designReady": true,
+    "designOutputPaths": {
+      "html": "outputs/products/product-1776179802088/product.html",
+      "pdf": "outputs/products/product-1776179802088/product.pdf",
+      "cover": "outputs/products/product-1776179802088/cover.png",
+      "mockup": "outputs/products/product-1776179802088/mockup-1.png"
+    },
+    "designCompletedAt": "2026-04-14T15:16:55.597Z",
+    "qaStatus": "passed",
+    "qaFailureStage": "",
+    "qaFailureReason": "",
+    "nextOwner": "human",
+    "publishReadyAt": "2026-04-14T15:16:55.663Z"
+  }
+]

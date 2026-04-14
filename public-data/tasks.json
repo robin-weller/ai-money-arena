@@ -1,4 +1,10 @@
 {
-  "generatedAt": "2026-04-14T15:15:08.817Z",
-  "tasks": []
+  "generatedAt": "2026-04-14T15:16:55.702Z",
+  "tasks": [
+    {
+      "agent": "Pipeline",
+      "title": "1 product(s) in Publish Ready",
+      "priority": "medium"
+    }
+  ]
 }
