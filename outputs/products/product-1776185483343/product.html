@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @page landscape {
+      size: A4 landscape;
+      margin: 15mm 20mm;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, sans-serif;
+      color: #111827;
+      background: #FFFFFF;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover-page {
+      width: 210mm;
+      height: 297mm;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      padding: 22mm 22mm 18mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8mm;
+      height: 100%;
+      background: #3B82F6;
+    }
+
+    .cover-top-rule {
+      height: 2px;
+      background: #3B82F6;
+      margin-bottom: 16mm;
+      opacity: 0.25;
+    }
+
+    .cover-category {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #3B82F6;
+      margin-bottom: 10mm;
+    }
+
+    .cover-title {
+      font-family: Playfair Display, serif;
+      font-size: 34pt;
+      font-weight: 700;
+      color: #1F2937;
+      line-height: 1.1;
+      margin: 0 0 8mm;
+      max-width: 155mm;
+    }
+
+    .cover-divider {
+      width: 18mm;
+      height: 3px;
+      background: #3B82F6;
+      border-radius: 2px;
+      margin-bottom: 8mm;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #111827;
+      opacity: 0.7;
+      line-height: 1.55;
+      max-width: 135mm;
+      margin-bottom: 14mm;
+      font-weight: 300;
+    }
+
+    .cover-instructions {
+      flex: 1;
+      background: #E5E7EB;
+      border-radius: 4px;
+      padding: 8mm 10mm;
+      margin-bottom: 10mm;
+    }
+
+    .cover-instructions h3 {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3B82F6;
+      margin: 0 0 5mm;
+    }
+
+    .cover-instructions ul {
+      margin: 0;
+      padding-left: 4mm;
+      list-style: none;
+    }
+
+    .cover-instructions li {
+      font-size: 10pt;
+      color: #111827;
+      line-height: 1.6;
+      margin-bottom: 2.5mm;
+      padding-left: 4mm;
+      position: relative;
+    }
+
+    .cover-instructions li::before {
+      content: '→';
+      position: absolute;
+      left: -2mm;
+      color: #3B82F6;
+      font-weight: 600;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 5mm;
+      border-top: 1px solid #3B82F6;
+      opacity: 0.4;
+    }
+
+    .cover-footer-brand {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cover-footer-format {
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CONTENT PAGES ─── */
+    .content-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      page-break-before: always;
+      background: #FFFFFF;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+      padding-bottom: 3mm;
+      border-bottom: 1.5px solid #3B82F6;
+    }
+
+    .content-header-title {
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3B82F6;
+    }
+
+    .content-header-page {
+      font-size: 8pt;
+      color: #111827;
+      opacity: 0.4;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1 {
+      font-family: Playfair Display, serif;
+      color: #1F2937;
+      font-size: 22pt;
+      margin: 0 0 6mm;
+      line-height: 1.15;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-family: Inter, sans-serif;
+      color: #1F2937;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10mm 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1.5px solid #3B82F6;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-family: Inter, sans-serif;
+      color: #1F2937;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin: 7mm 0 2mm;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 4mm;
+    }
+
+    ul, ol {
+      margin: 0 0 4mm;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+      line-height: 1.6;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      margin: 5mm 0 8mm;
+      font-size: 9pt;
+      page-break-inside: avoid;
+      word-wrap: break-word;
+    }
+
+    th {
+      background: #1F2937;
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+      padding: 2.5mm 3mm;
+      text-align: left;
+      border: none;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    td {
+      padding: 2.5mm 3mm;
+      min-height: 7mm;
+      border-bottom: 1px solid #E5E7EB;
+      border-right: none;
+      border-left: none;
+      vertical-align: middle;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Blank fill-in underlines: text like "______" rendered as a visible line */
+    td:empty::after,
+    td:has(> br:only-child)::after {
+      content: '';
+      display: block;
+      border-bottom: 1px solid #3B82F6;
+      min-height: 5mm;
+    }
+
+    tr:nth-child(even) td {
+      background: #E5E7EB;
+    }
+
+    tr:nth-child(odd) td {
+      background: #FFFFFF;
+    }
+
+    /* ─── COMPRESS TABLE (6-9 cols) ─── */
+    .compress-table {
+      font-size: 7.5pt;
+    }
+    .compress-table th {
+      font-size: 7pt;
+      padding: 1.5mm 2mm;
+      letter-spacing: 0;
+    }
+    .compress-table td {
+      padding: 1.5mm 2mm;
+      font-size: 7.5pt;
+    }
+
+    /* ─── LANDSCAPE TABLE WRAP (10+ cols) ─── */
+    .landscape-table-wrap {
+      page: landscape;
+      page-break-before: always;
+      width: 257mm; /* A4 landscape content width */
+      margin: 0 auto;
+    }
+    .landscape-table-wrap table {
+      font-size: 8pt;
+    }
+    .landscape-table-wrap th,
+    .landscape-table-wrap td {
+      padding: 2mm 2.5mm;
+    }
+
+    /* ─── CHECKBOXES ─── */
+    .task-list-item {
+      list-style: none;
+      margin-left: -4mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      margin-bottom: 2mm;
+    }
+
+    .task-list-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 4mm;
+      height: 4mm;
+      min-width: 4mm;
+      border: 1.5px solid #3B82F6;
+      border-radius: 1px;
+      margin-top: 0.8mm;
+      display: inline-block;
+    }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 8mm;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* ─── BLANK FILL-IN LINES ─── */
+    .fill-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1.2px solid #3B82F6;
+      margin: 0 1mm;
+      vertical-align: bottom;
+      opacity: 0.6;
+    }
+
+    /* ─── MISC ─── */
+    blockquote {
+      border-left: 3px solid #3B82F6;
+      margin: 5mm 0;
+      padding: 3mm 5mm;
+      background: #E5E7EB;
+      border-radius: 0 3px 3px 0;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 6mm 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 12mm;
+      padding-top: 3mm;
+      border-top: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #111827;
+      opacity: 0.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Convert ______ sequences to styled fill-in lines -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function(node) {
+        if (/_{3,}/.test(node.nodeValue)) {
+          const span = document.createElement('span');
+          span.innerHTML = node.nodeValue.replace(/_{3,}/g, function(m) {
+            return '<span class="fill-line">&nbsp;</span>';
+          });
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    });
+  </script>
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <div class="cover-page">
+    <div class="cover-accent-bar"></div>
+    <div class="cover-top-rule"></div>
+    <div class="cover-category">Productivity · Instant Download</div>
+    <h1 class="cover-title">Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle">Plan your week and master your goals with this printable planner.</p>
+
+    <div class="cover-instructions">
+      <h3>How to Use</h3>
+      <ul><li>Define Your Week: At the start of your week, identify your single most important goal for the next seven days in the &quot;Weekly Goal&quot; section.</li><li>Prioritize Ruthlessly: Use the &quot;Top Priorities&quot; section to list the 3-5 critical tasks that will move you closest to your weekly goal.</li><li>Detail Your Days: For each day, allocate your time by listing specific tasks in the &quot;Daily Tasks&quot; table. Use checkboxes to track completion.</li><li>Track Key Habits: Utilize the &quot;Weekly Habit Tracker&quot; to monitor consistent progress on habits that support your productivity.</li><li>Reflect &amp; Refine: At week&#39;s end, use the &quot;Weekly Review&quot; prompts to assess your progress, identify wins, and plan for the next cycle.</li></ul>
+    </div>
+
+    <div class="cover-footer">
+      <span class="cover-footer-brand">Lazy Whippet</span>
+      <span class="cover-footer-format">Print-Ready PDF · Clean Minimal</span>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 2+: CONTENT ═══ -->
+  <div class="content-page">
+    <div class="content-header">
+      <span class="content-header-title">Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF</span>
+      <span class="content-header-page">Lazy Whippet</span>
+    </div>
+
+    <h1>Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF</h1>
+<div class="section">
+<h2>Weekly Goal</h2>
+<p><strong>My Top Goal for This Week:</strong> ______</p>
+<hr>
+</div>
+<div class="section">
+<h2>Top Priorities</h2>
+<ul>
+<li>Priority 1: ______</li>
+<li>Priority 2: ______</li>
+<li>Priority 3: ______</li>
+<li>Priority 4: ______</li>
+<li>Priority 5: ______</li>
+</ul>
+<hr>
+</div>
+<div class="section">
+<h2>Daily Tasks</h2>
+<div class="page-break"></div><table class="data-table">
+<thead>
+<tr>
+<th align="left">Day ______</th>
+<th align="left">Date: ______</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+<tr>
+<td align="left">Task: ______</td>
+<td align="left">- [ ] ______</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Weekly Habit Tracker</h2>
+<table class="data-table compress-table">
+<thead>
+<tr>
+<th align="left">Habit/Activity</th>
+<th align="center">M</th>
+<th align="center">T</th>
+<th align="center">W</th>
+<th align="center">Th</th>
+<th align="center">F</th>
+<th align="center">Sa</th>
+<th align="center">Su</th>
+<th align="center">✓</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+<tr>
+<td align="left">______</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">- [ ]</td>
+<td align="center">______</td>
+</tr>
+</tbody></table>
+<hr>
+</div>
+<div class="section">
+<h2>Weekly Review</h2>
+<ul>
+<li>What was the most significant accomplishment this week? ______</li>
+<li>What was the biggest challenge faced? ______</li>
+<li>What did I learn this week that can improve future planning? ______</li>
+<li>What one thing can I do next week to be more effective? ______</li>
+<li>What are my top 3 priorities for the upcoming week? ______<ol>
+<li><hr>
+</li>
+<li><hr>
+</li>
+<li><hr>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<p>A Lazy Whippet productivity tool</p>
+
+</div>
+
+    <div class="page-footer">
+      <span>Lazy Whippet &mdash; Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF</span>
+      <span>Print &amp; Use · lazywh.com</span>
+    </div>
+  </div>
+
+</body>
+</html>

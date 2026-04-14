@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-14T16:38:37.801Z",
-  "totalProducts": 2,
+  "generatedAt": "2026-04-14T16:51:33.113Z",
+  "totalProducts": 3,
   "totalRevenue": 0,
-  "totalAiCost": 0.001931,
-  "totalProfit": -0.001931,
+  "totalAiCost": 0.0028198,
+  "totalProfit": -0.0028198,
   "byStage": {
     "idea": [],
     "building": [],
@@ -32,6 +32,16 @@
         "elementCount": 55,
         "createdAt": "2026-04-14T16:38:30.756Z",
         "completedAt": "2026-04-14T16:38:33.908Z"
+      },
+      {
+        "id": "product-1776185483343",
+        "title": "Weekly Priority Planner Printable | Conquer Your Week, Master Your Goals | Instant Download PDF",
+        "productType": "weekly-planner",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 54,
+        "createdAt": "2026-04-14T16:51:23.343Z",
+        "completedAt": "2026-04-14T16:51:26.678Z"
       }
     ],
     "live": []
