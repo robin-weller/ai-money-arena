@@ -1,4 +1,13 @@
 {
-  "generatedAt": "2026-04-14T10:57:29.958Z",
-  "tasks": []
+  "generatedAt": "2026-04-14T11:17:33.139Z",
+  "tasks": [
+    {
+      "agent": "agent-b",
+      "title": "Outline AI-Powered Social Media Post Generator Prompt Pack",
+      "details": "Develop a detailed outline for the prompt pack, including sections like introduction, prompt categories (e.g., engagement, promotion, education), prompt structures, customization tips, and examples.",
+      "priority": "high",
+      "status": "open",
+      "reason": "Building on the AI-Powered Social Media Post Generator prompt pack idea, the next logical step is to structure the content into a clear outline."
+    }
+  ]
 }

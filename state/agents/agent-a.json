@@ -10,19 +10,20 @@
   "lastTargetBuyer": "Small Business Owners & Freelancers",
   "lastProductTitle": "AI-Powered Social Media Content Calendar",
   "lastListingTitle": "AI Social Media Content Calendar Template Pack | Boost Engagement",
+  "lastPrice": 0,
   "lastOutputPath": "outputs/agent-a/2026-04-14T10-47-35-113Z.json",
   "lastConfidence": 0,
   "lastDuplicateStatus": "original",
-  "stage": "listing",
+  "stage": "publish",
   "lastProgressMode": "progressing",
-  "attempts": 4,
+  "attempts": 5,
   "uniqueNichesTried": [
     "Social Media Marketing"
   ],
   "duplicateHits": 0,
   "successfulOutputs": 3,
   "lastReason": "Model failed to produce valid output, will retry next cycle",
-  "lastRunAt": "2026-04-14T10:57:15.056Z",
+  "lastRunAt": "2026-04-14T11:17:21.853Z",
   "profit": 0,
   "latestTask": null
 }

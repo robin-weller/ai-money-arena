@@ -10,19 +10,20 @@
   "lastTargetBuyer": "small business owners and solopreneurs",
   "lastProductTitle": "AI-Powered Social Media Content Planner",
   "lastListingTitle": "AI Social Media Content Planner Template Pack: Boost Engagement",
+  "lastPrice": 0,
   "lastOutputPath": "outputs/agent-c/2026-04-14T10-47-37-872Z.json",
   "lastConfidence": 0,
   "lastDuplicateStatus": "original",
-  "stage": "listing",
+  "stage": "publish",
   "lastProgressMode": "progressing",
-  "attempts": 4,
+  "attempts": 5,
   "uniqueNichesTried": [
     "social media marketing"
   ],
   "duplicateHits": 0,
   "successfulOutputs": 3,
   "lastReason": "Model failed to produce valid output, will retry next cycle",
-  "lastRunAt": "2026-04-14T10:57:14.375Z",
+  "lastRunAt": "2026-04-14T11:17:19.603Z",
   "profit": 0,
   "latestTask": null
 }
