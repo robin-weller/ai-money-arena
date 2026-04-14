@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-14T16:30:08.135Z",
-  "totalProducts": 1,
+  "generatedAt": "2026-04-14T16:38:37.801Z",
+  "totalProducts": 2,
   "totalRevenue": 0,
-  "totalAiCost": 0.0010327,
-  "totalProfit": -0.0010327,
+  "totalAiCost": 0.001931,
+  "totalProfit": -0.001931,
   "byStage": {
     "idea": [],
     "building": [],
@@ -22,6 +22,16 @@
         "elementCount": 55,
         "createdAt": "2026-04-14T16:29:54.633Z",
         "completedAt": "2026-04-14T16:30:01.151Z"
+      },
+      {
+        "id": "product-1776184710756",
+        "title": "Lazy Whippet Task Priority & To-Do System",
+        "productType": "task-priority-system",
+        "price": 4.99,
+        "revenue": 0,
+        "elementCount": 55,
+        "createdAt": "2026-04-14T16:38:30.756Z",
+        "completedAt": "2026-04-14T16:38:33.908Z"
       }
     ],
     "live": []

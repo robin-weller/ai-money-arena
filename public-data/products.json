@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T16:30:08.135Z",
+  "generatedAt": "2026-04-14T16:38:37.801Z",
   "products": [
     {
       "id": "product-1776184194633",
@@ -21,6 +21,35 @@
         "pdf": "outputs/products/product-1776184194633/product.pdf",
         "cover": "outputs/products/product-1776184194633/cover.png",
         "mockup": "outputs/products/product-1776184194633/mockup-1.png"
+      },
+      "qaStatus": "passed",
+      "qaFailureStage": null,
+      "qaFailureReason": null,
+      "qaRetryCount": 0,
+      "needsHumanReview": false,
+      "aiFailureCount": 0,
+      "lastError": null
+    },
+    {
+      "id": "product-1776184710756",
+      "title": "Lazy Whippet Task Priority & To-Do System",
+      "status": "publish_ready",
+      "price": 4.99,
+      "revenue": 0,
+      "isPublished": false,
+      "marketplace": null,
+      "publishedUrl": null,
+      "publishedAt": null,
+      "listingId": null,
+      "aiCostTotal": 0.0008983,
+      "aiCalls": 3,
+      "themeId": "themeA",
+      "designReady": true,
+      "designOutputPaths": {
+        "html": "outputs/products/product-1776184710756/product.html",
+        "pdf": "outputs/products/product-1776184710756/product.pdf",
+        "cover": "outputs/products/product-1776184710756/cover.png",
+        "mockup": "outputs/products/product-1776184710756/mockup-1.png"
       },
       "qaStatus": "passed",
       "qaFailureStage": null,
