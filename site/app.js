@@ -1,6 +1,6 @@
 (function () {
   const REFRESH_INTERVAL_MS = 60000;
-  const BASE = window.location.pathname.split('/')[1] ? `/${window.location.pathname.split('/')[1]}` : '';
+  const BASE = window.__BASE__ || "/ai-money-arena";
 
   function buildDataUrl(fileName) {
     return `${BASE}/public-data/${fileName}`;
