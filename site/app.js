@@ -39,7 +39,7 @@
   }
 
   async function loadLeaderboard() {
-    const data = await fetchJson("../public-data/leaderboard.json");
+    const data = await fetchJson("./public-data/leaderboard.json");
     const body = document.getElementById("leaderboard-body");
     setUpdatedText("leaderboard-updated", data.generatedAt);
 
@@ -70,7 +70,7 @@
   }
 
   async function loadRuns() {
-    const data = await fetchJson("../public-data/latest-runs.json");
+    const data = await fetchJson("./public-data/latest-runs.json");
     const list = document.getElementById("runs-list");
     setUpdatedText("runs-updated", data.generatedAt);
 
@@ -119,7 +119,7 @@
   }
 
   async function loadTasks() {
-    const data = await fetchJson("../public-data/tasks.json");
+    const data = await fetchJson("./public-data/tasks.json");
     const body = document.getElementById("tasks-body");
     setUpdatedText("tasks-updated", data.generatedAt);
 

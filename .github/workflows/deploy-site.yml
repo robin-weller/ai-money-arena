@@ -26,6 +26,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Copy public data into site bundle
+        run: |
+          mkdir -p site/public-data
+          cp -R public-data/. site/public-data/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

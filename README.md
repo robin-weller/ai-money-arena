@@ -120,9 +120,10 @@ GitHub Pages is deployed from the `/site` directory by the workflow at [.github/
 How it works:
 
 - Every push to `main` and every manual `workflow_dispatch` run triggers the Pages workflow.
-- The workflow checks out the repository, uploads `/site` as the Pages artifact, and deploys that artifact with GitHub Actions.
+- The workflow checks out the repository, copies `/public-data` into `/site/public-data`, uploads `/site` as the Pages artifact, and deploys that artifact with GitHub Actions.
 - There is no build step because `/site` is already a static site.
-- The site includes [site/index.html](/Users/robinweller/projects/ai-money-arena/site/index.html) and browser-side JavaScript in [site/app.js](/Users/robinweller/projects/ai-money-arena/site/app.js) that fetches data from `../public-data/`.
+- The deployed Pages bundle contains files like `/site/public-data/leaderboard.json`.
+- The site includes [site/index.html](/Users/robinweller/projects/ai-money-arena/site/index.html) and browser-side JavaScript in [site/app.js](/Users/robinweller/projects/ai-money-arena/site/app.js) that fetches data from `./public-data/`.
 
 Where it is deployed:
 
