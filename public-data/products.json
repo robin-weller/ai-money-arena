@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-14T22:17:06.010Z",
+  "generatedAt": "2026-04-15T00:31:43.632Z",
   "products": [
     {
       "id": "product-1776184194633",
@@ -138,7 +138,7 @@
       "qaFailureReason": null,
       "qaRetryCount": 0,
       "needsHumanReview": true,
-      "aiFailureCount": 5,
+      "aiFailureCount": 6,
       "lastError": "invalid_response"
     }
   ]
