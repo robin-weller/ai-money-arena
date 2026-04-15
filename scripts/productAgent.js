@@ -387,8 +387,8 @@ async function run() {
   console.log('[product-agent] Starting...');
   let products = loadProducts();
 
-  // Find an in-progress product first, then create a new one
-  let product = products.find(p => p.status === 'building');
+  // Find an in-progress product first (skip any flagged for human review), then create a new one
+  let product = products.find(p => p.status === 'building' && !p.needsHumanReview);
 
   if (!product) {
     const chosen = pickProductType(products);

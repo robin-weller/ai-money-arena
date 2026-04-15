@@ -71,7 +71,7 @@ RULES:
 async function run() {
   console.log('[marketing-agent] Starting...');
   let products = loadProducts();
-  const ready = products.filter(p => p.status === 'ready_to_market');
+  const ready = products.filter(p => p.status === 'ready_to_market' && !p.needsHumanReview);
 
   if (!ready.length) { console.log('[marketing-agent] No products to process. Exiting.'); return; }
   console.log(`[marketing-agent] Processing ${ready.length} product(s)`);

@@ -197,7 +197,7 @@ function renderMockupHtml(product, salesData, brand, theme) {
 async function run() {
   console.log('[design-agent] Starting...');
   const products = loadProducts();
-  const eligible = products.filter(p => p.status === 'ready_to_distribute');
+  const eligible = products.filter(p => p.status === 'ready_to_distribute' && !p.needsHumanReview);
 
   if (!eligible.length) {
     console.log('[design-agent] No products in ready_to_distribute state. Exiting.');

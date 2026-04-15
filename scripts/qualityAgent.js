@@ -156,7 +156,7 @@ function writeQaResult(productId, result) {
 async function run() {
   console.log('[quality-agent] Starting...');
   let products = loadProducts();
-  const pending = products.filter(p => p.status === 'qa_pending');
+  const pending = products.filter(p => p.status === 'qa_pending' && !p.needsHumanReview);
 
   if (!pending.length) {
     console.log('[quality-agent] No products pending QA. Exiting.');

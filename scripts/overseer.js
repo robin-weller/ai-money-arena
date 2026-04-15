@@ -101,7 +101,7 @@ function processManualPublishes(products) {
 function buildPipelineData(products) {
   const byStage = {};
   for (const stage of STAGES) {
-    byStage[stage] = products.filter(p => p.status === stage).map(p => ({
+    byStage[stage] = products.filter(p => p.status === stage && !p.needsHumanReview).map(p => ({
       id: p.id,
       title: p.title || p.productType,
       productType: p.productType,
@@ -164,15 +164,30 @@ function buildTelegramSummary(products, totalAiCost) {
     qaFailed.forEach(p => lines.push(`  • ${p.title} → ${p.qaFailureStage || '?'} (${p.qaFailureReason || '?'})`));
   }
 
-  // AI/Gemini errors
-  const errored = products.filter(p => p.lastError && p.status !== 'live');
+  // Flagged for human review — clearly separated from retrying errors
+  const humanReview = products.filter(p => p.needsHumanReview);
+  if (humanReview.length) {
+    lines.push('\n⚠️ Failed (needs human review):');
+    humanReview.forEach(p => lines.push(`  • ${p.title} → ${p.lastError || 'unknown error'}`));
+  }
+
+  // AI/Gemini errors still retrying (not yet flagged)
+  const errored = products.filter(p => p.lastError && !p.needsHumanReview && p.status !== 'live');
   if (errored.length) {
-    lines.push('\n🔴 Gemini Errors:');
+    lines.push('\n🔴 Gemini Errors (retrying):');
     errored.forEach(p => {
       const retries = p.aiFailureCount || 1;
-      const humanFlag = p.needsHumanReview ? ' ⚠️ needs human review' : ` (attempt ${retries}/3)`;
-      lines.push(`  • ${p.title} → ${p.lastError}${humanFlag}`);
+      lines.push(`  • ${p.title} → ${p.lastError} (attempt ${retries}/3)`);
     });
+  }
+
+  // Active builds (excluding failed)
+  const activeBuilds = products.filter(p => p.status === 'building' && !p.needsHumanReview);
+  if (activeBuilds.length) {
+    lines.push('\n🚀 Active builds:');
+    activeBuilds.forEach(p => lines.push(`  • ${p.title}`));
+  } else if (!byStage.building.length) {
+    lines.push('\n🚀 New build will be spawned next run');
   }
 
   const liveProducts = products.filter(p => p.status === 'live');
@@ -221,6 +236,7 @@ async function run() {
       publishReady: (byStage.publish_ready || []).length,
       uploadReady: (byStage.publish_ready || []).length,
       qaFailed: products.filter(p => p.qaStatus === 'failed').length,
+      needsHumanReview: products.filter(p => p.needsHumanReview).length,
       totalRevenue,
       totalAiCost,
       totalProfit,
