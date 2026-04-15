@@ -173,6 +173,8 @@
     "themeId": "themeA",
     "aiFailureCount": 7,
     "lastError": "invalid_response",
-    "needsHumanReview": true
+    "needsHumanReview": true,
+    "aiCostTotal": 0.0011712,
+    "aiCalls": 1
   }
 ]
