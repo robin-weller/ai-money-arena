@@ -195,7 +195,8 @@
     "revenue": 0,
     "createdAt": "2026-04-18T06:27:40.374Z",
     "themeId": "themeC",
-    "aiFailureCount": 3,
-    "lastError": "invalid_response"
+    "aiFailureCount": 4,
+    "lastError": "invalid_response",
+    "needsHumanReview": true
   }
 ]

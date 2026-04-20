@@ -1,22 +1,12 @@
 {
-  "generatedAt": "2026-04-19T20:11:09.726Z",
+  "generatedAt": "2026-04-20T20:16:18.913Z",
   "totalProducts": 6,
   "totalRevenue": 0,
   "totalAiCost": 0.005085999999999999,
   "totalProfit": -0.005085999999999999,
   "byStage": {
     "idea": [],
-    "building": [
-      {
-        "id": "product-1776493660374",
-        "title": "Morning Routine Tracker Printable | Build Your Perfect Morning | Instant Download PDF",
-        "productType": "morning-routine-habit-tracker",
-        "price": 0,
-        "revenue": 0,
-        "elementCount": 0,
-        "createdAt": "2026-04-18T06:27:40.374Z"
-      }
-    ],
+    "building": [],
     "ready_to_ship": [],
     "ready_to_market": [],
     "ready_to_distribute": [],
