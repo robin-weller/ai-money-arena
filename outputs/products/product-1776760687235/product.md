@@ -11,7 +11,7 @@
 
 ---
 
-<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Movement Tracker**</p>
+<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;"><strong>Weekly Movement Tracker</strong></p>
 <p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Your dedicated space to build consistent movement, one day at a time.</p>
 
 | Habit/Activity | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Notes/Wins |
@@ -44,7 +44,7 @@
 
 ---
 
-<p style="background-color: #0F172A; color: #F59E0B; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Movement Goal Setting**</p>
+<p style="background-color: #0F172A; color: #F59E0B; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;"><strong>Movement Goal Setting</strong></p>
 <p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Define your movement objectives for the week and track your success.</p>
 
 | Goal | Target | Achieved | Notes |
@@ -62,7 +62,7 @@
 
 ---
 
-<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Progress Reflection**</p>
+<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;"><strong>Weekly Progress Reflection</strong></p>
 <p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">What insights did you gain this week on your fitness journey?</p>
 
 1.  What was your biggest win this week regarding your movement habits?
