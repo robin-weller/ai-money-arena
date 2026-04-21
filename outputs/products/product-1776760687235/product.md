@@ -1,18 +1,18 @@
-# Fitness Habit Tracker Printable | Build Your Workout Habit | Instant Download PDF
+# Fitness Habit Tracker Printable | Start Your Workout Journey | Instant Download PDF
 
 ---
 
 ### How to Use
 
-*   **Fill in Your Habits:** Write down the fitness activities or movement goals you want to achieve each week in the "Habit/Activity" column.
-*   **Track Daily:** For each day, simply put a checkmark (✓) in the corresponding box if you complete your habit.
-*   **Note Your Progress:** Use the "Notes/Wins" section to jot down how you felt, any achievements, or challenges.
-*   **Review Weekly:** At the end of the week, look back at your completed habits and reflections to see your progress.
+*   **List Your Movement Goals:** Write down the fitness activities or movement goals you want to achieve each week in the "Habit/Activity" column. Keep it simple when you're starting!
+*   **Mark Your Progress Daily:** For each day you complete a habit, place a checkmark (□) in the corresponding box. Celebrate every check!
+*   **Jot Down Your Journey:** Use the "Notes/Wins" section to briefly mention how you felt, any small victories, or what felt tough.
+*   **Review Your Week:** At the end of the week, take a moment to look back at your completed habits and reflections. See how far you've come!
 
 ---
 
-<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Fitness Habit Tracker**</p>
-<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Your space to build consistent movement.</p>
+<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Movement Tracker**</p>
+<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Your dedicated space to build consistent movement, one day at a time.</p>
 
 | Habit/Activity | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Notes/Wins |
 | :------------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :------------------------------------------------------------------------------------------ |
@@ -36,11 +36,16 @@
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 
 ---
 
-<p style="background-color: #0F172A; color: #F59E0B; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Movement Goals**</p>
-<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Set your movement targets and track your success.</p>
+<p style="background-color: #0F172A; color: #F59E0B; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Movement Goal Setting**</p>
+<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Define your movement objectives for the week and track your success.</p>
 
 | Goal | Target | Achieved | Notes |
 | :--- | :----- | :------- | :---- |
@@ -57,10 +62,10 @@
 
 ---
 
-<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Reflection**</p>
-<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">What did you learn this week on your fitness journey?</p>
+<p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;">**Weekly Progress Reflection**</p>
+<p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">What insights did you gain this week on your fitness journey?</p>
 
-1.  What was your biggest win this week regarding your fitness habits?
+1.  What was your biggest win this week regarding your movement habits?
     ______
 2.  What was the most challenging part of sticking to your habits?
     ______
@@ -70,9 +75,11 @@
     ______
 5.  How did you feel overall this week with your movement?
     ______
+6.  What is one thing you'll celebrate about your progress?
+    ______
 
 ---
 
-<p style="text-align: center; font-family: 'Playfair Display', serif; color: #F59E0B; font-size: 0.8em; margin-top: 20px;">Keep moving forward, one day at a time.</p>
+<p style="text-align: center; font-family: 'Playfair Display', serif; color: #F59E0B; font-size: 0.8em; margin-top: 20px;">Keep moving forward, one step at a time.</p>
 
 <p style="text-align: center; font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.7em; margin-top: 5px;">A Lazy Whippet productivity tool</p>
