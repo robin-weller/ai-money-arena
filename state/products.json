@@ -198,5 +198,26 @@
     "aiFailureCount": 4,
     "lastError": "invalid_response",
     "needsHumanReview": true
+  },
+  {
+    "id": "product-1776760687235",
+    "title": "Fitness Habit Tracker Printable | Build Your Workout Habit | Instant Download PDF",
+    "productType": "fitness-habit-tracker",
+    "audience": "people starting a fitness routine",
+    "niche": "productivity",
+    "status": "building",
+    "owner": "product-agent",
+    "isPublished": false,
+    "publishedUrl": "",
+    "price": 0,
+    "productOutputPath": "outputs/products/product-1776760687235/product.md",
+    "salesOutputPath": "outputs/products/product-1776760687235/sales.json",
+    "marketingOutputPath": "outputs/products/product-1776760687235/marketing.json",
+    "distributionAttempts": 0,
+    "revenue": 0,
+    "createdAt": "2026-04-21T08:38:07.235Z",
+    "themeId": "themeB",
+    "aiCostTotal": 0.0007869,
+    "aiCalls": 1
   }
 ]
