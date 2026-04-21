@@ -4,10 +4,10 @@
 
 ### How to Use
 
-*   **Choose Your Movement:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats." Keep it achievable!
-*   **Mark Your Progress:** Every time you complete a habit for the day, put a checkmark (□) in the corresponding box. Celebrate each little success!
-*   **Jot Down Your Journey:** Use the "Notes/Wins" section to write down how you felt, a small victory, or if something was a bit challenging. This helps you learn.
-*   **See Your Momentum:** At the end of the week, look back at your checked habits and notes. You'll see how much progress you've made and build confidence!
+*   **Choose Your Movement:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats." Keep it achievable and focus on consistency!
+*   **Mark Your Progress:** Every time you complete a habit for the day, put a checkmark (□) in the corresponding box. Celebrate each little success – it all adds up!
+*   **Jot Down Your Journey:** Use the "Notes/Wins" section to write down how you felt, a small victory, or if something was a bit challenging. This helps you learn and stay motivated.
+*   **See Your Momentum:** At the end of the week, look back at your checked habits and notes. You'll see how much progress you've made and build confidence for the next week!
 
 ---
 
@@ -16,6 +16,11 @@
 
 | Habit/Activity | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Notes/Wins |
 | :------------- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :------------------------------------------------------------------------------------------ |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
+| ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
 | ______         |  □    |  □    |  □    |  □    |  □    |  □    |  □    | ______                                                                                      |
@@ -76,6 +81,14 @@
 5.  How did you feel overall this week with your movement?
     ______
 6.  What is one thing you'll celebrate about your progress?
+    ______
+7.  What is one new habit you'd like to try next week?
+    ______
+8.  How did your energy levels change this week with your activities?
+    ______
+9.  Were there any unexpected benefits from your movement this week?
+    ______
+10. What can you do to make your workouts more enjoyable next week?
     ______
 
 ---
