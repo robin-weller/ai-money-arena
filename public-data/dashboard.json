@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-21T10:31:20.030Z",
+  "generatedAt": "2026-04-21T12:23:40.659Z",
   "totalProducts": 7,
   "liveProducts": 0,
   "publishReady": 4,
@@ -7,6 +7,6 @@
   "qaFailed": 0,
   "needsHumanReview": 2,
   "totalRevenue": 0,
-  "totalAiCost": 0.006931999999999999,
-  "totalProfit": -0.006931999999999999
+  "totalAiCost": 0.0080214,
+  "totalProfit": -0.0080214
 }

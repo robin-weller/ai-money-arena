@@ -1,13 +1,13 @@
-# Fitness Habit Tracker Printable | Start Your Workout Journey | Instant Download PDF
+# Fitness Habit Tracker Printable | Build Your Workout Habit | Instant Download PDF
 
 ---
 
 ### How to Use
 
-*   **List Your Movement Goals:** Write down the fitness activities or movement goals you want to achieve each week in the "Habit/Activity" column. Keep it simple when you're starting!
-*   **Mark Your Progress Daily:** For each day you complete a habit, place a checkmark (□) in the corresponding box. Celebrate every check!
-*   **Jot Down Your Journey:** Use the "Notes/Wins" section to briefly mention how you felt, any small victories, or what felt tough.
-*   **Review Your Week:** At the end of the week, take a moment to look back at your completed habits and reflections. See how far you've come!
+*   **Pick Your Movement Habits:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats."
+*   **Check Off Your Wins:** Every time you complete a habit for the day, put a checkmark (□) in the box. Celebrate each little success!
+*   **Note Your Experience:** Use the "Notes/Wins" section to jot down how you felt, a small victory, or if something was a bit tricky.
+*   **See Your Progress:** At the end of the week, look back at your checked habits and notes. You'll see how much you've accomplished!
 
 ---
 
