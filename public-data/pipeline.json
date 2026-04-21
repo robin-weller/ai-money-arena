@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-21T12:23:40.659Z",
+  "generatedAt": "2026-04-21T14:36:15.327Z",
   "totalProducts": 7,
   "totalRevenue": 0,
-  "totalAiCost": 0.0080214,
-  "totalProfit": -0.0080214,
+  "totalAiCost": 0.009117799999999999,
+  "totalProfit": -0.009117799999999999,
   "byStage": {
     "idea": [],
     "building": [

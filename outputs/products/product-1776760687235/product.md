@@ -4,10 +4,10 @@
 
 ### How to Use
 
-*   **Pick Your Movement Habits:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats."
-*   **Check Off Your Wins:** Every time you complete a habit for the day, put a checkmark (□) in the box. Celebrate each little success!
-*   **Note Your Experience:** Use the "Notes/Wins" section to jot down how you felt, a small victory, or if something was a bit tricky.
-*   **See Your Progress:** At the end of the week, look back at your checked habits and notes. You'll see how much you've accomplished!
+*   **Choose Your Movement:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats." Keep it achievable!
+*   **Mark Your Progress:** Every time you complete a habit for the day, put a checkmark (□) in the corresponding box. Celebrate each little success!
+*   **Jot Down Your Journey:** Use the "Notes/Wins" section to write down how you felt, a small victory, or if something was a bit challenging. This helps you learn.
+*   **See Your Momentum:** At the end of the week, look back at your checked habits and notes. You'll see how much progress you've made and build confidence!
 
 ---
 
