@@ -4,10 +4,10 @@
 
 ### How to Use
 
-*   **Start Small & Simple:** In the "Habit/Activity" column, write down one or two easy fitness actions you want to try this week. Think "5-minute walk," "10 jumping jacks," or "Stretch after waking up." The goal is to build momentum with achievable steps!
-*   **Check Off Your Wins:** Each day you complete a chosen activity, mark the box with a checkmark (□). Celebrate every single checkbox – they are proof of your commitment!
-*   **Note Your Feelings:** Use the "Notes/Wins" section to jot down how you felt, what went well, or if something was tough. This is your personal log to understand your journey.
-*   **See Your Progress Grow:** At the end of the week, look back at your filled-in grid. Seeing your consistent effort will boost your confidence and inspire you for the next week!
+*   **Start with "Easy Wins":** In the "Habit/Activity" column, write down one or two simple fitness actions you want to try this week. Think "5-minute walk," "10 jumping jacks," or "Stretch after waking up." The goal is to build momentum with achievable steps!
+*   **Mark Your Progress:** Each day you complete a chosen activity, mark the box with a checkmark (□). Celebrate every single checkbox – they are proof of your commitment!
+*   **Jot Down Your Thoughts:** Use the "Notes/Wins" section to briefly note how you felt, what went well, or if something was a challenge. This is your personal log to understand your journey.
+*   **Visualize Your Success:** At the end of the week, look back at your filled-in grid. Seeing your consistent effort will boost your confidence and inspire you for the next week!
 
 ---
 
