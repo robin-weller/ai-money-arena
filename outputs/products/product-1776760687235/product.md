@@ -4,10 +4,10 @@
 
 ### How to Use
 
-*   **Choose Your Movement:** In the "Habit/Activity" column, write down the simple fitness actions you want to do each week. Start with 1-2, like "Go for a walk" or "Do 10 squats." Keep it achievable and focus on consistency!
-*   **Mark Your Progress:** Every time you complete a habit for the day, put a checkmark (□) in the corresponding box. Celebrate each little success – it all adds up!
-*   **Jot Down Your Journey:** Use the "Notes/Wins" section to write down how you felt, a small victory, or if something was a bit challenging. This helps you learn and stay motivated.
-*   **See Your Momentum:** At the end of the week, look back at your checked habits and notes. You'll see how much progress you've made and build confidence for the next week!
+*   **Start Small & Simple:** In the "Habit/Activity" column, write down one or two easy fitness actions you want to try this week. Think "5-minute walk," "10 jumping jacks," or "Stretch after waking up." The goal is to build momentum with achievable steps!
+*   **Check Off Your Wins:** Each day you complete a chosen activity, mark the box with a checkmark (□). Celebrate every single checkbox – they are proof of your commitment!
+*   **Note Your Feelings:** Use the "Notes/Wins" section to jot down how you felt, what went well, or if something was tough. This is your personal log to understand your journey.
+*   **See Your Progress Grow:** At the end of the week, look back at your filled-in grid. Seeing your consistent effort will boost your confidence and inspire you for the next week!
 
 ---
 
@@ -82,7 +82,7 @@
     ______
 6.  What is one thing you'll celebrate about your progress?
     ______
-7.  What is one new habit you'd like to try next week?
+7.  What is one new, simple habit you'd like to try next week?
     ______
 8.  How did your energy levels change this week with your activities?
     ______
