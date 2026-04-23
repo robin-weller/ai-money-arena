@@ -4,66 +4,66 @@
 
 ### How to Use
 
-*   **Start with "Easy Wins":** In the "Habit/Activity" column, write down one or two simple fitness actions you want to try this week. Think "5-minute walk," "10 jumping jacks," or "Stretch after waking up." The goal is to build momentum with achievable steps!
-*   **Mark Your Progress:** Each day you complete a chosen activity, mark the box with a checkmark (□). Celebrate every single checkbox – they are proof of your commitment!
-*   **Jot Down Your Thoughts:** Use the "Notes/Wins" section to briefly note how you felt, what went well, or if something was a challenge. This is your personal log to understand your journey.
-*   **Visualize Your Success:** At the end of the week, look back at your filled-in grid. Seeing your consistent effort will boost your confidence and inspire you for the next week!
+*   **Start Small & Simple:** In the "Habit/Activity" column, write down just one or two super easy fitness actions you can do this week. Think "5-minute walk," "10 jumping jacks," or "Stretch when you wake up." The goal is to build momentum with actions you *know* you can complete!
+*   **Mark Your Wins:** Each day you complete an activity, place a checkmark (□) in the corresponding box. Celebrate every single checkmark – they are proof you're building your habit!
+*   **Jot Down Your Feelings:** Use the "Notes/Wins" section to quickly write how you felt after your activity, what went well, or if something was a bit tricky. This is your personal log to understand what works for you.
+*   **See Your Progress:** At the end of the week, look back at your filled-in grid. Seeing your consistent effort is a powerful motivator and will inspire you to keep going!
 
 ---
 
 <p style="background-color: #0F172A; color: #22C55E; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;"><strong>Weekly Movement Tracker</strong></p>
 <p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Your dedicated space to build consistent movement, one day at a time.</p>
 
-| Habit/Activity | Day 1 □ | Day 2 □ | Day 3 □ | Day 4 □ | Day 5 □ | Day 6 □ | Day 7 □ | Notes/Wins |
-| :------------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :------------------------------------------------------------------------------------------ |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
-| ______         |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| Habit/Activity     | Day 1 □ | Day 2 □ | Day 3 □ | Day 4 □ | Day 5 □ | Day 6 □ | Day 7 □ | Notes/Wins                                                                                      |
+| :----------------- | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :------------------------------------------------------------------------------------------ |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
+| ______             |  □      |  □      |  □      |  □      |  □      |  □      |  □      | ______                                                                                      |
 
 ---
 
 <p style="background-color: #0F172A; color: #F59E0B; padding: 10px; font-size: 1.2em; font-family: 'Inter', sans-serif; text-align: center;"><strong>Movement Goal Setting</strong></p>
 <p style="font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.9em; margin-top: -5px; text-align: center;">Define your movement objectives for the week and track your success.</p>
 
-| Goal | Target | Achieved □ | Notes |
-| :----- | :----- | :--------: | :---- |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
-| ______ | ______ | □          | ______ |
+| Goal                                      | Target          | Achieved □ | Notes                                     |
+| :---------------------------------------- | :-------------- | :--------: | :---------------------------------------- |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
+| ______                                    | ______          | □          | ______                                    |
 
 ---
 
