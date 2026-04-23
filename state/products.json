@@ -218,6 +218,8 @@
     "createdAt": "2026-04-21T08:38:07.235Z",
     "themeId": "themeB",
     "aiCostTotal": 0.0162867,
-    "aiCalls": 14
+    "aiCalls": 14,
+    "aiFailureCount": 1,
+    "lastError": "invalid_response"
   }
 ]
