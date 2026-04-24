@@ -217,8 +217,8 @@
     "revenue": 0,
     "createdAt": "2026-04-21T08:38:07.235Z",
     "themeId": "themeB",
-    "aiCostTotal": 0.030428900000000005,
-    "aiCalls": 25,
+    "aiCostTotal": 0.031730400000000006,
+    "aiCalls": 26,
     "aiFailureCount": 1,
     "lastError": "invalid_response"
   }
