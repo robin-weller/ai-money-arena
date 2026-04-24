@@ -219,7 +219,7 @@
     "themeId": "themeB",
     "aiCostTotal": 0.031730400000000006,
     "aiCalls": 26,
-    "aiFailureCount": 1,
+    "aiFailureCount": 2,
     "lastError": "invalid_response"
   }
 ]
