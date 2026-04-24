@@ -96,5 +96,3 @@
 <p style="text-align: center; font-family: 'Playfair Display', serif; color: #F59E0B; font-size: 0.8em; margin-top: 20px;">Keep moving forward, one step at a time.</p>
 
 <p style="text-align: center; font-family: 'Inter', sans-serif; color: #F8FAFC; font-size: 0.7em; margin-top: 5px;">A Lazy Whippet productivity tool</p>
-
----
