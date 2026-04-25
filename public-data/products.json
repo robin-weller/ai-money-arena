@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-24T22:16:20.366Z",
+  "generatedAt": "2026-04-25T00:28:47.666Z",
   "products": [
     {
       "id": "product-1776184194633",
@@ -176,8 +176,8 @@
       "publishedUrl": null,
       "publishedAt": null,
       "listingId": null,
-      "aiCostTotal": 0.031730400000000006,
-      "aiCalls": 26,
+      "aiCostTotal": 0.03303570000000001,
+      "aiCalls": 27,
       "themeId": "themeB",
       "designReady": false,
       "designOutputPaths": null,
